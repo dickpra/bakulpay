@@ -1,8 +1,10 @@
 import 'package:bakulpay/src/controller/controller.dart';
+import 'package:bakulpay/src/model/rate_model.dart';
 import 'package:bakulpay/src/model/test_model.dart';
 import 'package:bakulpay/src/page/topUp/topup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ratePage extends StatefulWidget {
   const ratePage({super.key});
@@ -54,7 +56,7 @@ class _ratePageState extends State<ratePage> {
             child: Container(
               // color: Colors.blue,
               child: Obx(() {
-                final data = payController.jsonDataTransaksi;
+                final data = payController.jsonDataRate;
                 // print('daasdasdasdsa $data');
                 if (data.isEmpty) {
                   return Center(
@@ -63,13 +65,13 @@ class _ratePageState extends State<ratePage> {
                           child: const Text('Belum Ada Transaksi')));
                 } else {
                   return RefreshIndicator(
-                      onRefresh: payController.getDataTransak,
+                      onRefresh: payController.getDataRate,
                       child: ListView.builder(
                         itemCount: data.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              if(data[index].produk!.contains('produk 1')){
+                              if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Paypal')){
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => topupPaypal(),
@@ -91,7 +93,9 @@ class _ratePageState extends State<ratePage> {
   }
 }
 
-Container ListRate(RxList<test_model> data, index) {
+Container ListRate(RxList<rate_model> data, index) {
+  final currencyFormat = NumberFormat.decimalPattern('en_US');
+  final myInt = int.parse(data[index].price);
   return Container(
     padding: EdgeInsets.all(8),
     margin: EdgeInsets.all(8),
@@ -108,17 +112,26 @@ Container ListRate(RxList<test_model> data, index) {
             /// Ikon
             Row(
               children: [
-                // if(data[index].produk!.contains('produk 3'))
+                // if(data[index].namaBank!.contains('Paypal'))
+                // CircleAvatar(
+                //   radius: 36,
+                //   child: Image(image: AssetImage('assets/images/payp.png')),
+                // ),
+                // if(data[index].namaBank!.contains('Dana'))
+                // CircleAvatar(
+                //   radius: 36,
+                //   child: Image(image: AssetImage('assets/images/dana.png')),
+                // ),
                 CircleAvatar(
                   radius: 36,
-                  child: Image(image: AssetImage('assets/images/busd-logo.png')),
+                  child: Image.network('${data[index].icons}'),
                 ),
                 SizedBox(width: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),'BUSD'),
-                    Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].produk}'),
+                    Text(style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),'${data[index].namaBank}'),
+                    Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].type}'),
                   ],
                 ),
 
@@ -145,7 +158,7 @@ Container ListRate(RxList<test_model> data, index) {
                 //     ),
                 //   ),
                 // ),
-                Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),'Rp.33.798,00'),
+                Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),'Rp.${currencyFormat.format(myInt)}'),
               ],
             ),
           ],

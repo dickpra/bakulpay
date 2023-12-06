@@ -6,7 +6,7 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   List<String> newsList = [
     "Berita 1",
     "Berita 2",

@@ -14,15 +14,15 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'home_widget/home.dart';
 
-class DashBoard extends StatefulWidget {
-  const DashBoard({super.key});
+class DashBoard2 extends StatefulWidget {
+  const DashBoard2({super.key});
 
   @override
-  State<DashBoard> createState() => _DashBoardState();
+  State<DashBoard2> createState() => _DashBoard2State();
 }
 
 
-class _DashBoardState extends State<DashBoard> {
+class _DashBoard2State extends State<DashBoard2> {
   int currentPageIndex = 0;
   PayController payController = Get.put(PayController());
 
@@ -108,45 +108,39 @@ class _DashBoardState extends State<DashBoard> {
           body: <Widget>[
             /// Dashboard
              SingleChildScrollView(
-               child: Container(
-                 decoration: const BoxDecoration(
-                   // color: Colors.lightGreen,
-                 ),
-                 // padding: EdgeInsets.symmetric(vertical: 1),
-                   child: Column(
-                     children: [
-                       profilDashboard(),
-                       Align(
-                         alignment: Alignment.topLeft,
-                         child: Padding(
-                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                           child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Promo'),
-                         ),
-                       ),
-                       PromoBanner(),
-                       SizedBox(height: 20),
-                       Align(
-                         alignment: Alignment.topLeft,
-                         child: Padding(
-                           padding: const EdgeInsets.all(16.0),
-                           child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Top Up/Beli'),
-                         ),
-                       ),
-                       beliTopup(),
-                       Align(
-                         alignment: Alignment.topLeft,
-                         child: Padding(
-                           padding: const EdgeInsets.all(16.0),
-                           child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Berita Terkini'),
-                         ),
-                       ),
-                       Container(
-                         // height: 180,
-                         child: NewsPage(),
-                       )
-
-                     ],
+               child: Column(
+                 children: [
+                   profilDashboard(),
+                   Align(
+                     alignment: Alignment.topLeft,
+                     child: Padding(
+                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                       child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Promo'),
+                     ),
+                   ),
+                   PromoBanner(),
+                   SizedBox(height: 20),
+                   Align(
+                     alignment: Alignment.topLeft,
+                     child: Padding(
+                       padding: const EdgeInsets.all(16.0),
+                       child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Top Up/Beli'),
+                     ),
+                   ),
+                   beliTopup(),
+                   Align(
+                     alignment: Alignment.topLeft,
+                     child: Padding(
+                       padding: const EdgeInsets.all(16.0),
+                       child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Berita Terkini'),
+                     ),
+                   ),
+                   Container(
+                     // height: 180,
+                     child: NewsPage(),
                    )
+
+                 ],
                ),
              ),
 

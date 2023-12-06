@@ -170,6 +170,14 @@ class _transaksiState extends State<transaksi> {
                     ],
                   );
                 }),
+                SizedBox(height: 10),
+
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text('Produk',style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18
+                  )),
+                ),
                 Obx(() {
                   return Padding(
                     padding: EdgeInsets.all(20),

@@ -116,7 +116,7 @@ class textForm extends StatelessWidget {
         if (value!.isEmpty) {
           return warningText;
         } else if (!value.contains(emailWarning)) {
-          return 'Harus mengandung simbol @';
+          return 'Masukkan email yang benar!!';
         }
         return null;
       },

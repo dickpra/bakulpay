@@ -658,6 +658,35 @@ class _pembayaranPaypalState extends State<pembayaranPaypal> {
                                       ],
                                     )
                                 ),
+                              if(selectedPaymentMethod!=null)
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    print(widget.email);
+                                    print(widget.amount);
+                                    print(totalPayment);
+                                    print(selectedPaymentMethod.toString());
+                                    print(selectedPaymentMethod.toString());
+                                    print(_image);
+
+                                    // Lakukan sesuatu dengan informasi yang telah terkumpul
+                                    // Misalnya, kirim data ke server atau lakukan transaksi pembayaran
+                                    // ...
+
+                                    // Tampilkan pesan konfirmasi atau navigasi ke halaman lain jika diperlukan
+                                    // ScaffoldMessenger.of(context).showSnackBar(
+                                    //   SnackBar(
+                                    //     content: Text('Pemesanan berhasil!'),
+                                    //   ),
+                                    // );
+                                    //
+                                    // // Contoh navigasi ke halaman lain setelah pemesanan berhasil
+                                    // Navigator.pushReplacementNamed(context, '/home');
+                                  },
+                                  child: Text('Bayar'),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -667,29 +696,8 @@ class _pembayaranPaypalState extends State<pembayaranPaypal> {
                 ),
 
                 SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                    onPressed: () {
 
-                      print(_image);
-                      // Lakukan sesuatu dengan informasi yang telah terkumpul
-                      // Misalnya, kirim data ke server atau lakukan transaksi pembayaran
-                      // ...
 
-                      // Tampilkan pesan konfirmasi atau navigasi ke halaman lain jika diperlukan
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   SnackBar(
-                      //     content: Text('Pemesanan berhasil!'),
-                      //   ),
-                      // );
-                      //
-                      // // Contoh navigasi ke halaman lain setelah pemesanan berhasil
-                      // Navigator.pushReplacementNamed(context, '/home');
-                    },
-                    child: Text('Bayar'),
-                  ),
-                ),
               ],
             ),
           ),

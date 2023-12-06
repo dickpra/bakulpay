@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 //   _topupPaypalState createState() => _topupPaypalState();
 // }
 
-class topupPaypal extends StatelessWidget {
+class TopupPaypal extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 

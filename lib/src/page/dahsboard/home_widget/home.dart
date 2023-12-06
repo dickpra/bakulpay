@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ffi';
-
+import 'package:bakulpay/src/controller/controller.dart';
+import 'package:bakulpay/src/page/berita.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:bakulpay/src/page/dahsboard/more_page.dart';
 import 'package:bakulpay/src/page/dahsboard/transaksi_widget/transaksi.dart';
 import 'package:bakulpay/src/page/test.dart';
@@ -194,68 +198,284 @@ class PromoItem extends StatelessWidget {
 
 
 class beliTopup extends StatelessWidget {
+  PayController payController = Get.put(PayController());
+  final RxList<Map<String, dynamic>> jsonData = <Map<String, dynamic>>[].obs;
+
+  // Future<void> fetchData() async {
+  //   try {
+  //     final response = await http.get(Uri.parse('http://192.168.18.33/api/payment/top%20up'));
+  //
+  //     if (response.statusCode == 200) {
+  //       final Map<String, dynamic> parsedData = json.decode(response.body);
+  //       jsonData.assignAll(List<Map<String, dynamic>>.from(parsedData['data']));
+  //     } else {
+  //       throw Exception('Gagal memuat data dari API');
+  //     }
+  //   } catch (error) {
+  //     print('Error: $error');
+  //   }
+  // }
   @override
   Widget build(BuildContext context) {
     return Column(
 
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                // padding: EdgeInsets.symmetric(horizontal: 120),
-                // margin: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  // color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: topupButton("assets/images/payp.png","Paypal",(){
+        // ElevatedButton(
+        //   onPressed: payController.getDataMenu,
+        //   child: Text('Ambil Data API'),
+        // ),
+        // buildCircularMenuList()
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Obx(() {
+            final data = payController.jsonDataMenu;
+            List<Widget> menuButtons = [];
+
+            for (int i = 0; i < data.length; i += 4) {
+              List<Widget> rowItems = [];
+
+              for (int j = i; j < i + 4 && j < data.length; j++) {
+                rowItems.add(
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        // if (jsonData[j]["data"])
+                          print('Menu ${j + 1} tapped');
+                          print('Menu ${j} tapped');
+
+                          if(data[j].namaBank!.contains('Paypal')){
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => topupPaypal(),
                               ),
                             );
-                          }),
-                        ),
-                        Expanded(child: topupButton("assets/images/jasabayar.png","JasaBayar",(){})),
-                        Expanded(child: topupButton("assets/images/perfectmoney.png","PerfectMoney",(){})),
-                      ],
+                          }
+                      },
+                      child: menuButtonTopup(
+                        data[j].icons as String,
+                        data[j].namaBank.toString(),
+                      ),
                     ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(child: topupButton("assets/images/nett.png","Pay Owner",(){})),
-                        Expanded(child: topupButton("assets/images/skrill.png","Skrill",(){})),
-                        Expanded(
-                          child: topupButton("assets/images/more_horiz.png","More",(){
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => wasuuu(),
-                              ),
-                            );
-                          }),
-                        ),
+                  ),
+                );
+              }
 
-                      ],
-                    ),
-                    SizedBox(height: 20),
-
-
-                  ],
+              menuButtons.add(
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // Atur properti ini agar widget sejajar di atas
+                    children: rowItems,
+                  ),
                 ),
-              ),
-            ),
-          ],
+              );
+            }
+
+            return Column(
+              children: menuButtons,
+            );
+          }),
         )
 
+
+
+
+
+      ],
+    );
+
+
+  }
+
+  Widget buildCircularMenuList() {
+    return Obx(
+          () => GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 120.0,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+        ),
+        itemCount: jsonData.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              if (jsonData[index]["data"])
+                print('Menu ${index + 1} tapped');
+            },
+            child: menuButtonTopup(jsonData[index]["icons"] as String, jsonData[index]["nama_bank"]),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget menuButtonTopup(String imagePath, String jdulText) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.white,
+                child: Image(
+                  image: NetworkImage(imagePath),
+                ),
+              ),
+              SizedBox(height: 1),
+            ],
+          ),
+        ),
+        Text(
+          jdulText,
+          style: TextStyle(
+            fontSize: 12.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
   }
 }
+
+class HomeWidget extends StatefulWidget {
+  const HomeWidget({super.key});
+
+  @override
+  State<HomeWidget> createState() => _HomeWidgetState();
+}
+
+class _HomeWidgetState extends State<HomeWidget> {
+  final RxList<Map<String, dynamic>> jsonData = <Map<String, dynamic>>[].obs;
+
+  Future<void> fetchData() async {
+    try {
+      final response = await http.get(Uri.parse('http://192.168.18.33/api/payment/top%20up'));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> parsedData = json.decode(response.body);
+        jsonData.assignAll(List<Map<String, dynamic>>.from(parsedData['data']));
+      } else {
+        throw Exception('Gagal memuat data dari API');
+      }
+    } catch (error) {
+      print('Error: $error');
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        profilDashboard(),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Promo'),
+          ),
+        ),
+        PromoBanner(),
+        ElevatedButton(
+          onPressed: fetchData,
+          child: Text('Ambil Data API'),
+        ),
+        Expanded(
+          child: buildCircularMenuList(),
+        ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Top Up/Beli'),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Berita Terkini'),
+          ),
+        ),
+        Container(
+          // height: 180,
+          child: NewsPage(),
+        )
+      ],
+    );
+  }
+
+  Widget buildCircularMenuList() {
+    return Obx(
+          () => GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 120.0,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+        ),
+        itemCount: jsonData.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              if (jsonData[index]["data"]) print('Menu ${index + 1} tapped');
+            },
+            child: menuButtonTopup(jsonData[index]["icons"] as String, jsonData[index]["nama_bank"]),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget menuButtonTopup(String imagePath, String jdulText) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.white,
+                child: Image(
+                  image: NetworkImage(imagePath),
+                ),
+              ),
+              SizedBox(height: 1),
+            ],
+          ),
+        ),
+        Text(
+          jdulText,
+          style: TextStyle(
+            fontSize: 12.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 

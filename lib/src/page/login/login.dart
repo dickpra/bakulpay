@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:bakulpay/src/page/dahsboard/dashboard.dart';
+import 'package:bakulpay/src/page/dahsboard/dashboard2.dart';
 import 'package:bakulpay/src/page/login/signup.dart';
 import 'package:bakulpay/src/widget/widget.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +140,7 @@ class _LoginState extends State<Login> {
                         }
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => dashBoard(),
+                            builder: (context) => DashBoard(),
                           ),
                         );
                       },

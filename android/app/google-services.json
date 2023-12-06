@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1093350320864",
+    "project_id": "login-app-c7d98",
+    "storage_bucket": "login-app-c7d98.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093350320864:android:cd906713115f6fc04f3e85",
+        "android_client_info": {
+          "package_name": "com.jongjava.bakulpay.bakulpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093350320864-jgqlu0mdurdr11itrd9unvcnvasumr7f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjL6e1fZ-LnDvxg1L-GKKYO3C2cFzse8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093350320864-jgqlu0mdurdr11itrd9unvcnvasumr7f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
