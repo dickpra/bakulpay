@@ -74,7 +74,7 @@ class _ratePageState extends State<ratePage> {
                               if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Paypal')){
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => topupPaypal(),
+                                    builder: (context) => TopupPaypal(),
                                   ),
                                 );
                               }

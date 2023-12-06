@@ -246,7 +246,7 @@ class beliTopup extends StatelessWidget {
                           if(data[j].namaBank!.contains('Paypal')){
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => topupPaypal(),
+                                builder: (context) => TopupPaypal(),
                               ),
                             );
                           }
