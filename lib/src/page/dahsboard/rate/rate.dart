@@ -100,7 +100,7 @@ Container ListRate(RxList<rate_model> data, index) {
     padding: EdgeInsets.all(8),
     margin: EdgeInsets.all(8),
     decoration: BoxDecoration(
-      color: Colors.cyan,
+      color: Colors.white60,
       border: Border.all(),
     ),
     child: Column(
@@ -123,8 +123,9 @@ Container ListRate(RxList<rate_model> data, index) {
                 //   child: Image(image: AssetImage('assets/images/dana.png')),
                 // ),
                 CircleAvatar(
+                  backgroundColor: Colors.white,
                   radius: 36,
-                  child: Image.network('${data[index].icons}'),
+                  child: Image.network('${data[index].icons}',fit: BoxFit.contain,),
                 ),
                 SizedBox(width: 5),
                 Column(

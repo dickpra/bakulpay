@@ -13,9 +13,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'home_widget/home.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 
 class DashBoard extends StatefulWidget {
-  const DashBoard({super.key});
+  // final User user;
+  // const DashBoard({super.key, required this.user});
 
   @override
   State<DashBoard> createState() => _DashBoardState();
@@ -26,12 +32,17 @@ class _DashBoardState extends State<DashBoard> {
   int currentPageIndex = 0;
   PayController payController = Get.put(PayController());
 
+
+
   @override
   void initState() {
     super.initState();
     payController.getDataTransak();
     payController.getDataRate();
     payController.getDataMenu();
+    payController.getDataRateTopup();
+    payController.getPayment();
+    payController.getWithdraw();
   }
 
   @override
@@ -109,12 +120,13 @@ class _DashBoardState extends State<DashBoard> {
             /// Dashboard
              SingleChildScrollView(
                child: Container(
-                 decoration: const BoxDecoration(
+                 decoration: BoxDecoration(
                    // color: Colors.lightGreen,
                  ),
                  // padding: EdgeInsets.symmetric(vertical: 1),
                    child: Column(
                      children: [
+                       // profilDashboard(user: widget.user.displayName),
                        profilDashboard(),
                        Align(
                          alignment: Alignment.topLeft,

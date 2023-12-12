@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "1093350320864-jgqlu0mdurdr11itrd9unvcnvasumr7f.apps.googleusercontent.com",
+          "client_id": "1093350320864-spcjg9j2b0su1n32pvg7ovbkcbn2u8se.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jongjava.bakulpay.bakulpay",
+            "certificate_hash": "f9080e39eae0c5ae4770f8ed34017b9b53aa1c0f"
+          }
+        },
+        {
+          "client_id": "1093350320864-gki4ubjmp7e9vvrc55lfj85nehm3p5k2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1093350320864-jgqlu0mdurdr11itrd9unvcnvasumr7f.apps.googleusercontent.com",
+              "client_id": "1093350320864-gki4ubjmp7e9vvrc55lfj85nehm3p5k2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

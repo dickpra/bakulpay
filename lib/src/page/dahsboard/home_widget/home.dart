@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/page/berita.dart';
 import 'package:get/get.dart';
@@ -15,6 +19,9 @@ import 'package:flutter/material.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 
 class profilDashboard extends StatelessWidget {
+  // final String? user;
+  // profilDashboard({super.key, required this.user});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,6 +49,10 @@ class profilDashboard extends StatelessWidget {
                   'Shila2207!',
                   style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold), // Tambahkan warna teks
                 ),
+                // Text(
+                //   user?? 'User',
+                //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                // ),
               ],
             ),
           ),
@@ -250,6 +261,13 @@ class beliTopup extends StatelessWidget {
                               ),
                             );
                           }
+                          if(data[j].namaBank!.contains('Perfect Money')){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => TopupPerfectMoney(),
+                              ),
+                            );
+                          }
                       },
                       child: menuButtonTopup(
                         data[j].icons as String,
@@ -329,9 +347,10 @@ class beliTopup extends StatelessWidget {
           child: Column(
             children: [
               CircleAvatar(
-                radius: 30,
+                radius: 35,
                 backgroundColor: Colors.white,
                 child: Image(
+                  fit: BoxFit.contain,
                   image: NetworkImage(imagePath),
                 ),
               ),
@@ -379,7 +398,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        profilDashboard(),
+        // profilDashboard(User),
         Align(
           alignment: Alignment.topLeft,
           child: Padding(

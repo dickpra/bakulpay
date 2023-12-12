@@ -110,7 +110,7 @@ class _DashBoard2State extends State<DashBoard2> {
              SingleChildScrollView(
                child: Column(
                  children: [
-                   profilDashboard(),
+                   // profilDashboard(),
                    Align(
                      alignment: Alignment.topLeft,
                      child: Padding(

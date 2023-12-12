@@ -1,9 +1,10 @@
+import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/pembayaran_wd.dart';
 import 'package:bakulpay/src/widget/widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:get/get.dart';
 
 class SelectionPage extends StatefulWidget {
   @override
@@ -11,6 +12,8 @@ class SelectionPage extends StatefulWidget {
 }
 
 class _SelectionPageState extends State<SelectionPage> {
+
+  PayController payController = Get.put(PayController());
   List<String> pilihanInstansi = ['Paypal','Skrill', 'Perfect Money', 'Payeer', 'USDT', 'BUSD'];
   String? pilihInstansi;
   final _formKey = GlobalKey<FormState>();
@@ -32,6 +35,11 @@ class _SelectionPageState extends State<SelectionPage> {
   String? bankPilihan;
   List<String> pilihanBlockchain = ['BEP20', 'ERC20', 'TRC20', 'Polygon', 'Solana'];
   String? pilihBlockChain;
+
+
+  String selectedPaymentWd = '';
+
+
 
   TextEditingController dollarController = TextEditingController();
   TextEditingController nomorController = TextEditingController();
@@ -67,28 +75,64 @@ class _SelectionPageState extends State<SelectionPage> {
                 Container(
                   // width: 200,
                   decoration: const BoxDecoration(),
-                  child: DropdownButton<String>(
-                    hint: const Text('Pilih Jenis Produk'),
-                    isExpanded: true,
-                    value: pilihInstansi,
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          pilihInstansi = newValue;
-                        });
-                      }
-                    },
-                    items: pilihanInstansi.map<DropdownMenuItem<String>>(
-                          (String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      },
-                    ).toList(),
-                  ),
+                  child: Obx(() {
+                    final data = payController.jsonWithdraw;
+                    // print('daasdasdasdsa $data');
+                    if (data.isEmpty) {
+                      return Center(
+                        child:  Text('Belum Ada Metode Pembayaran'),
+                      );
+                    } else {
+                      return DropdownButtonFormField<String>(
+                        hint: Text('Pilih Metode Pencairan'),
+                        value: pilihInstansi, // Gunakan selectedPaymentMethod dari payController
+                        // onChanged: (newValue) {
+                        //   pilihInstansi = newValue;
+                        // },
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            setState(() {
+                              pilihInstansi = newValue;
+                            });
+                          }
+                        },
+
+                        items: payController.jsonWithdraw.map<DropdownMenuItem<String>>(
+                              (paymentModel) {
+
+                            String value = paymentModel.namaBank.toString();
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Row(
+                                children: [
+                                  // Sesuaikan dengan struktur objek model Anda
+                                  Image.network(
+                                    paymentModel.icons,
+                                    height: 30,
+                                    width: 30,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(value),
+                                ],
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      );
+                    }
+                  },),
                 ),
                 SizedBox(height: 16),
+                // Obx(() {
+                //   var data = payController.selectedPaymentWd;
+                //
+                //   // selectedPaymentWd = data;
+                //   if(data.isEmpty){
+                //     return Text('data');
+                //   }else
+                //   // Tidak perlu lagi menggunakan if karena myValue diinisialisasi dengan nilai default.
+                //   return Text(data.toString());
+                // }),
                 if (pilihInstansi != null)
                   textForm(dollarController,"Masukkan Jumlah \$",[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -123,26 +167,49 @@ class _SelectionPageState extends State<SelectionPage> {
                 SizedBox(height: 20),
                 if (pilihInstansi != null)
                   Container(
-                    child: DropdownButton<String>(
-                      hint: Text('Pilih Bank'),
-                      isExpanded: true,
-                      value: bankPilihan,
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          setState(() {
-                            bankPilihan = newValue;
-                          });
-                        }
-                      },
-                      items: pilihanBank.map<DropdownMenuItem<String>>(
-                            (String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        },
-                      ).toList(),
-                    ),
+                    child: Obx(() {
+                      final data = payController.jsonPembayaran;
+                      // print('daasdasdasdsa $data');
+                      if (data.isEmpty) {
+                        return Center(
+                          child:  Text('Belum Ada Metode Pembayaran'),
+                        );
+                      } else {
+                        return DropdownButtonFormField<String>(
+                          hint: const Text('Pilih Metode Pencairan'),
+                          value: bankPilihan, // Gunakan selectedPaymentMethod dari payController
+                          onChanged: (newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                bankPilihan = newValue;
+                              });
+                            }
+                          },
+                          items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
+                                (paymentModel) {
+                              // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
+                              String value = paymentModel.namaBank.toString();
+
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Row(
+                                  children: [
+                                    // Sesuaikan dengan struktur objek model Anda
+                                    Image.network(
+                                      paymentModel.icons,
+                                      height: 30,
+                                      width: 30,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(value),
+                                  ],
+                                ),
+                              );
+                            },
+                          ).toList(),
+                        );
+                      }
+                    },)
                   ),
                 SizedBox(height: 20),
                 if (bankPilihan != null)

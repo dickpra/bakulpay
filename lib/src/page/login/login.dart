@@ -1,12 +1,20 @@
 import 'dart:convert';
+import 'package:bakulpay/src/controller/controller.dart';
+import 'package:bakulpay/src/controller/login_controller.dart';
 import 'package:bakulpay/src/page/dahsboard/dashboard.dart';
 import 'package:bakulpay/src/page/dahsboard/dashboard2.dart';
+import 'package:bakulpay/src/page/login/goolgeLogin.dart';
+import 'package:bakulpay/src/page/login/login2.dart';
 import 'package:bakulpay/src/page/login/signup.dart';
 import 'package:bakulpay/src/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
@@ -21,96 +29,19 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _usernameController = TextEditingController();
+
   final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  // LoginController loginController = Get.put(LoginController());
+  LoginController loginController = Get.put(LoginController());
 
-  // void postData() async{
-  //
-  //   dynamic data = {
-  //     'email' : emailController.text,
-  //     'pass' : passwordController.text,
-  //   };
-  //
-  //   var res = await _postService.loginSales(data);
-  //
-  //
-  //   if (res.statusCode == 201) {
-  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => dsSales(title: '')));
-  //   } else {
-  //
-  //     print('Gagal mengambil data dari API');
-  //   }
-  // }
-
-  // Future<void> _login() async {
-  //   final email = emailController.text;
-  //   final password = passwordController.text;
-  //
-  //
-  //   final response = await http.post(
-  //     Uri.parse('http://192.168.18.33/api/login'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: jsonEncode(<String, String>{'email': email, 'password': password}),
-  //   );
-  //
-  //   print('Response status: ${response.statusCode}');
-  //   print('Response body: ${response.body}');
-  //   if (response.statusCode == 200) {
-  //     final jsonResponse = json.decode(response.body);
-  //     final accessToken = jsonResponse['access_token'];
-  //     final sharedPreferences = await SharedPreferences.getInstance();
-  //     sharedPreferences.setString('authToken', accessToken);
-  //     print('Response status: ${response.statusCode}');
-  //     print('Response body: ${response.body}');
-  //     Get.offAllNamed(dashboardSalesRoute);
-  //     // final sharedPreferences = await SharedPreferences.getInstance();
-  //     // sharedPreferences.setString('authToken', 'yourAuthTokenHere'); // Gantilah dengan token autentikasi yang sesuai
-  //   } else {
-  //     // Gagal masuk, tampilkan pesan kesalahan
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: Text('Gagal Masuk'),
-  //           content: Text('Email atau kata sandi salah. Silakan coba lagi.'),
-  //           actions: [
-  //             TextButton(
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //               child: Text('OK'),
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
-        // child: Scaffold(
-        //   appBar: AppBar(
-        //     title: const Text('Login Teknisi'),
-        //     centerTitle: true,
-        //     backgroundColor: const Color(0xff69cf9d),
-        //   ),
-        // bottom: true,
-        // left: true,
-        // right: true,
-        // top: true,
 
           child: Scaffold(
 
@@ -137,15 +68,35 @@ class _LoginState extends State<Login> {
                         if (_formKey.currentState!.validate()) {
                           // TODO: Implement sign in logic
 
+                          loginController.loginUserSales(_emailController.text, _passwordController.text);
                         }
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DashBoard(),
-                          ),
-                        );
+
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DashBoard(user: user),
+                        //   ),
+                        // );
                       },
                       child: Text('Sign in'),
                     ),
+
+                    ElevatedButton(
+                      onPressed: () async {
+                        User? user = await signInWithGoogle();
+                        if (user != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DashBoard(),
+                            ),
+                          );
+                        } else {
+                          print('Login gagal');
+                        }
+                      },
+                      child: Text('Login dengan Google'),
+                    ),
+
                     SizedBox(height: 20),
                     Row(
                       children: [

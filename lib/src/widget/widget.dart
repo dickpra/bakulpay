@@ -1,5 +1,7 @@
 import 'dart:ffi';
-
+import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'package:bakulpay/src/model/rate_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -122,4 +124,10 @@ class textForm extends StatelessWidget {
       },
     );
   }
+}
+
+Widget TextRate(RxList<rate_model> data, index) {
+  final currencyFormat = NumberFormat.decimalPattern('en_US');
+  final myInt = int.parse(data[index].price);
+  return Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].price}');
 }
