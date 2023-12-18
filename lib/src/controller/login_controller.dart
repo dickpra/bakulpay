@@ -16,7 +16,7 @@ class LoginController extends GetxController {
 
   Future<void> loginUserSales(String email, String password) async {
     isLoading.value = true;
-    final response = await ApiService().login(email, password);
+    final response = await ApiService().loginApi(email, password);
 
 
     if (response != null) {

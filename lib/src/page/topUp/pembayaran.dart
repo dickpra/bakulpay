@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/model/payment_model.dart';
+import 'package:bakulpay/src/model/pembayaran_model.dart';
 import 'package:bakulpay/src/page/topUp/bayar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:bakulpay/src/widget/widget.dart';
@@ -1291,7 +1292,7 @@ class _pembayaranPaypalState extends State<pembayaranPaypal> {
                       print(totalTagihan);
                       print(selectedPaymentMethod.toString());
                       print(_image);
-                      confirmPayment(context);
+                      // confirmPayment(context);
                     },
                     child: Text('Bayar'),
                   ),
@@ -1318,20 +1319,20 @@ class _pembayaranPaypalState extends State<pembayaranPaypal> {
     );
   }
 
-  void confirmPayment(context){
-    Navigator.push(
-        context,
-    MaterialPageRoute(
-      builder: (context) => BuatPesanan(
-        email: widget.email.toString(),
-        jumlah: widget.amount.toString(),
-        total_pembayaran: totalTagihan.toString(),
-        kode_bank_client: widget.email.toString(),
-        nama_bank: selectedPaymentMethod.toString(),
-      ),
-    )
-    );
-  }
+  // void confirmPayment(context){
+  //   Navigator.push(
+  //       context,
+  //   MaterialPageRoute(
+  //     builder: (context) => BuatPesanan(
+  //       email: widget.email.toString(),
+  //       jumlah: widget.amount.toString(),
+  //       total_pembayaran: totalTagihan.toString(),
+  //       kode_bank_client: widget.email.toString(),
+  //       nama_bank: selectedPaymentMethod.toString(),
+  //     ),
+  //   )
+  //   );
+  // }
 
 }
 
@@ -1680,7 +1681,7 @@ class _pembayaranPerfectMState extends State<pembayaranPerfectM> {
                                   fontWeight: FontWeight.bold
                               )),
 
-                              /// Rate PayPal API
+                              /// Rate PayPal API x Total jumlah dollar
                               Obx(() {
                                 final data = payController.jsonRate;
                                 final bank = data['data'];
@@ -1745,13 +1746,14 @@ class _pembayaranPerfectMState extends State<pembayaranPerfectM> {
                           onChanged: (newValue) {
                             selectedPaymentMethod = newValue;
                           },
-                          items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
+                          items: data.map<DropdownMenuItem<String>>(
                                 (paymentModel) {
                               // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
-                              String value = paymentModel.namaBank.toString();
-
+                              String value = paymentModel.namaBank.toString(); // + paymentModel.namaBank.toString()
+                              String value2 = paymentModel.nama.toString();
+                              var banknama = value ;
                               return DropdownMenuItem<String>(
-                                value: value,
+                                value: value, // + value2
                                 child: Row(
                                   children: [
                                     // Sesuaikan dengan struktur objek model Anda
@@ -1762,6 +1764,13 @@ class _pembayaranPerfectMState extends State<pembayaranPerfectM> {
                                     ),
                                     SizedBox(width: 10),
                                     Text(value),
+                                    Visibility(
+                                      child: Text(value2),
+                                      maintainSize: true,
+                                      maintainAnimation: true,
+                                      maintainState: true,
+                                      visible: false,
+                                    ),
                                   ],
                                 ),
                               );
@@ -1818,8 +1827,9 @@ class _pembayaranPerfectMState extends State<pembayaranPerfectM> {
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
                   onPressed: () {
-                    var data = payController.responPembayaran;
-                    print(data);
+                    var data = selectedPaymentMethod;
+
+                    print(selectedPaymentMethod);
 
                   },
                   child: Text('Tes'),
@@ -1834,33 +1844,36 @@ class _pembayaranPerfectMState extends State<pembayaranPerfectM> {
     );
   }
 
-  void confirmPayment(context){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BuatPesanan(
-            email: widget.email.toString(),
-            jumlah: widget.amount.toString(),
-            total_pembayaran: totalTagihan.toString(),
-            kode_bank_client: widget.email.toString(),
-            nama_bank: selectedPaymentMethod.toString(),
-          ),
-        )
-    );
-  }
+  // void confirmPayment(context){
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => BuatPesanan(
+  //           email: widget.email.toString(),
+  //           jumlah: widget.amount.toString(),
+  //           total_pembayaran: totalTagihan.toString(),
+  //           kode_bank_client: widget.email.toString(),
+  //           nama_bank: selectedPaymentMethod.toString(),
+  //         ),
+  //       )
+  //   );
+  // }
 
   void kirimData(){
-      Map<String, dynamic> data = {
-        "user_id": "50",
-        "jumlah": widget.amount,
-        "total_pembayaran": totalTagihan,
-        "nama_bank": selectedPaymentMethod,
-        "rek_client": widget.email
-      };
+    pembayaran_model data = pembayaran_model(
+        userId: 50,
+        jumlah: widget.amount,
+        totalPembayaran: totalTagihan,
+        namaBank: selectedPaymentMethod,
+        // nama: ,
+        rekClient: widget.email
+    );
 
       // Mengirim data ke API
       print('$data');
       payController.KirimTopup(data);
+
+
 
     }
 

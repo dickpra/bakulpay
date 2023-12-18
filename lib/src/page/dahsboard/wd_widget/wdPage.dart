@@ -176,7 +176,7 @@ class _SelectionPageState extends State<SelectionPage> {
                         );
                       } else {
                         return DropdownButtonFormField<String>(
-                          hint: const Text('Pilih Metode Pencairan'),
+                          hint: const Text('Pilih Bank Pencairan'),
                           value: bankPilihan, // Gunakan selectedPaymentMethod dari payController
                           onChanged: (newValue) {
                             if (newValue != null) {
@@ -185,7 +185,7 @@ class _SelectionPageState extends State<SelectionPage> {
                               });
                             }
                           },
-                          items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
+                          items: payController.jsonPembayaranWd.map<DropdownMenuItem<String>>(
                                 (paymentModel) {
                               // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
                               String value = paymentModel.namaBank.toString();

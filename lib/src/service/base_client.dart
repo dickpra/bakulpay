@@ -77,22 +77,22 @@ class BaseClient {
     var request = http.MultipartRequest("POST", uri);
     request.headers.addAll(headers);
     try {
-      request.fields['patrol_at'] = payload['patrol_at'];
-      request.fields['code'] = payload['code'];
-      // request.fields['type'] = payload['type'];
-      request.fields['status'] = payload['status'];
-      // request.fields['latitude'] = payload['latitude'];
-      // request.fields['longitude'] = payload['longitude'];
-      request.fields['note'] = payload['note'];
+      request.fields['nama'] = payload['nama'];
+      // request.fields['code'] = payload['code'];
+      // // request.fields['type'] = payload['type'];
+      // request.fields['status'] = payload['status'];
+      // // request.fields['latitude'] = payload['latitude'];
+      // // request.fields['longitude'] = payload['longitude'];
+      // request.fields['note'] = payload['note'];
       if (file != null) {
         request.files.add(http.MultipartFile(
-            "image",
+            "bukti_pembayaran",
             // ignore: deprecated_member_use
             http.ByteStream(file.openRead()).cast(),
             await file.length(),
             filename: path.basename(file.path)));
       } else {
-        request.fields['image'] = "";
+        request.fields['bukti_pembayaran'] = "";
       }
       dynamic statusResponse;
       await request

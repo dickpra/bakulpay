@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:bakulpay/src/controller/controller.dart';
+import 'package:bakulpay/src/model/pembayaran_model.dart';
+import 'package:bakulpay/src/page/dahsboard/dashboard.dart';
+import 'package:bakulpay/src/setting/env.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/pembayaran_wd.dart';
 import 'package:bakulpay/src/widget/widget.dart';
@@ -8,21 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
-
+import 'package:http/http.dart' as http;
 
 
 class BuatPesanan extends StatefulWidget {
-  final dynamic email;
-  final dynamic jumlah;
-  final dynamic total_pembayaran;
-  final dynamic nama_bank;
-  final dynamic kode_bank_client;
-  final dynamic nama_pengirim;
-  final dynamic bukti_pembayaran;
+  final pembayaran_model data;
 
 
 
-  BuatPesanan({required this.email, this.jumlah, this.total_pembayaran, this.nama_bank, this.kode_bank_client, this.nama_pengirim, this.bukti_pembayaran});
+  BuatPesanan({required this.data});
 
   @override
   State<BuatPesanan> createState() => _BuatPesananState();
@@ -97,23 +94,63 @@ class _BuatPesananState extends State<BuatPesanan> {
                 child: Container(
                   decoration: BoxDecoration(
                     // color: Colors.blue,
-                      border: Border.all(
-                          color: Colors.grey
-                      )
+                    //   border: Border.all(
+                    //       color: Colors.grey
+                    //   )
                   ),
                   child: Column(
                     children: [
                       SizedBox(height: 20),
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.center,
                         child: Padding(
                           padding: EdgeInsets.all(0),
-                          child: Row(
+                          child: Column(
                             children: [
-          
-                              Text(
-                                  'Bank ${widget.nama_bank}',
-                                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.normal,color: Colors.black)),
+                              if(widget.data.namaBank.toString().contains('BNI'))
+                              Image.asset('assets/images/bni_logo.png',scale: 5,),
+                              if(widget.data.namaBank.toString().contains('Dana'))
+                                Image.asset('assets/images/dana.png',scale: 10,),
+                              SizedBox(height: 10),
+                              // Obx(() {
+                              //   final data = payController.jsonPembayaran;
+                              //   // final bank = data;
+                              //   // print(data);
+                              //
+                              //   final topUpData = data
+                              //       .where((item) => item.namaBank == widget.data.namaBank)
+                              //       .toList();
+                              //
+                              //   // print('dasdasdsa $data');
+                              //   if (topUpData.isEmpty) {
+                              //     return Center(
+                              //       child: RefreshIndicator(
+                              //         onRefresh: payController.getDataRateTopup,
+                              //         child:  Text('Belum Ada Transaksi'),
+                              //       ),
+                              //     );
+                              //   } else {
+                              //     for  (var item in topUpData) {
+                              //       kodebank = item.noRekening;
+                              //
+                              //     }
+                              //     return Column(
+                              //       children: [
+                              //         // for (var item in topUpData)
+                              //         // Text('${item['price']}')
+                              //         TextButton(
+                              //
+                              //            onPressed: () { Clipboard.setData(ClipboardData(text: kodebank)); },
+                              //           child: Text(kodebank,style: TextStyle(color: Colors.grey[800],
+                              //           fontWeight: FontWeight.bold,
+                              //           fontSize: 20,
+                              //         ),),
+                              //         ),
+                              //       ],
+                              //     );
+                              //   }
+                              // }),
+
                             ],
                           ),
                         ),
@@ -150,8 +187,9 @@ class _BuatPesananState extends State<BuatPesanan> {
                         child: Padding(
                           padding: EdgeInsets.all(3),
                           child: Text(
-                              widget.total_pembayaran,
-                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                              '${widget.data.totalPembayaran}',
+                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.orange)
+                          ),
                         ),
                       ),
                     ],
@@ -173,7 +211,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Rekening ${widget.nama_bank}'),
+                            Text('Rekening ${widget.data.namaBank}'),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -192,7 +230,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                                   // print(data);
           
                                   final topUpData = data
-                                      .where((item) => item.namaBank == widget.nama_bank)
+                                      .where((item) => item.namaBank == widget.data.namaBank)
                                       .toList();
                                   // print('meki $topUpData');
                                   // print('dasdasdsa $data');
@@ -234,13 +272,64 @@ class _BuatPesananState extends State<BuatPesanan> {
                             ),
                           ],
                         ),
+                        // SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Atas Nama'),
-                            Text('Jong Java',style: TextStyle(
-                                fontWeight: FontWeight.bold
-                            )),
+                            Obx(() {
+                              final data = payController.jsonPembayaran;
+                              // final bank = data;
+                              // print(data);
+
+                              final topUpData = data
+                                  .where((item) => item.namaBank == widget.data.namaBank)
+                                  .toList();
+                              // print('meki $topUpData');
+                              // print('dasdasdsa $data');
+                              if (topUpData.isEmpty) {
+                                return Center(
+                                  child: RefreshIndicator(
+                                    onRefresh: payController.getDataRateTopup,
+                                    child:  Text('Belum Ada Transaksi'),
+                                  ),
+                                );
+                              } else {
+                                for  (var item in topUpData) {
+                                  kodebank = item.nama!;
+
+                                }
+                                return Column(
+                                  children: [
+                                    // for (var item in topUpData)
+                                    // Text('${item['price']}')
+                                    Text(
+                                      kodebank,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            }),
+                            // Text('Jong Java',style: TextStyle(
+                            //     fontWeight: FontWeight.bold
+                            // )),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('id Pembayaran'),
+                            Obx(() {
+                              final data = payController.responPembayaran;
+                              return Text('$data',style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              ));
+                            }),
                           ],
                         ),
                         SizedBox(height: 20),
@@ -262,6 +351,16 @@ class _BuatPesananState extends State<BuatPesanan> {
                           alignment: Alignment.topLeft,
                           child: Padding(
                             padding: const EdgeInsets.all(5),
+                            child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Nama Pengirim'),
+                          ),
+                        ),
+                        Form(key: _formKey,child: textForm(namaPengirim, 'Masukkan Nama Pengirim', [FilteringTextInputFormatter.deny(RegExp(' '))], TextInputType.text, 'Masukkan Nama Pengirim', '', false)),
+
+                        SizedBox(height: 20),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
                             child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Upload Bukti Pembayaran'),
                           ),
                         ),
@@ -277,6 +376,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                                     child: Text('Kamera'),
                                     onPressed: () {
                                       Navigator.pop(context);
+                                      // payController.pickImageKamera();
                                       pickKamera();
                                       // Navigator.pop(context);
                                     },
@@ -285,24 +385,16 @@ class _BuatPesananState extends State<BuatPesanan> {
                                     child: Text('Gallery'),
                                     onPressed: () {
                                       pickGallery();
+                                      // payController.pickImageGallery();
                                       Navigator.pop(context);
                                     },
                                   ),
                                 ],
                               );
                             });
-
-                            // if(_image != null){
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => FullScreenImage(imageFile: _image),
-                            //     ),
-                            //   );
-                            // }
                           },
-                          child: _image == null
-                              ? Container(
+                          child: _image == null ?
+                          Container(
                             padding: EdgeInsets.all(5),
                             child: Column(
                               children: [
@@ -333,26 +425,43 @@ class _BuatPesananState extends State<BuatPesanan> {
                           }, child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Lihat Bukti')),
                         SizedBox(height: 20),
                         Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Nama Pengirim Dana'),
-                          ),
-                        ),
-                        Form(key: _formKey,child: textForm(namaPengirim, 'Masukkan Nama Pengirim', [FilteringTextInputFormatter.deny(RegExp(' '))], TextInputType.text, 'Masukkan Nama Pengirim', '', false)),
-                        Align(
                           alignment: Alignment.bottomCenter,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               primary: CupertinoColors.activeBlue, // warna latar belakang
                             ),
                             onPressed: () {
+                              if(_image != null && namaPengirim.text.isNotEmpty){
+                                payController.KirimBukti(namaPengirim.text, _image!);
+                                // Get.offAllNamed();
+                              }else{
+                                showDialog(context: context,builder: (context) {
+                                  return AlertDialog(
+                                    title: Center(child: Text('Masukkan Nama Pengirim')),
+                                    // content: Text('Bank Harus Dipilih'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('ok'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },);
+                              }
+                              print(_image);
+                              // kirimData();
+                              // _sendData();
 
                               // _confirmWithdraw(context);
                             },
-                            child: Text(style: TextStyle(
+                            child: Obx(() =>
+                            payController.isLoading.value ? CircularProgressIndicator():
+                            Text(style: TextStyle(
                                 color: Colors.white
-                            ),'Selanjutnya'),
+                            ),'Bayar'),
+                            ),
                           ),
                         ),
                       ],
@@ -365,11 +474,57 @@ class _BuatPesananState extends State<BuatPesanan> {
       ),
     );
   }
+  Future<void> _sendData() async {
+    var id = payController.responPembayaran;
+    try {
+
+      String apiUrl = '$BASE_URL/payment/top_up/$id'; // Ganti dengan URL API yang sesuai
+      var uri = Uri.parse(apiUrl);
+
+      var request = http.MultipartRequest('POST', uri)
+        ..fields['nama'] = namaPengirim.text
+        ..files.add(http.MultipartFile.fromBytes(
+          'bukti_pembayaran',
+          _image!.readAsBytesSync(),
+          filename: 'image.jpg',
+        ));
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+
+      var response = await http.Response.fromStream(await request.send());
+
+      Navigator.pop(context); // Tutup dialog loading
+
+      if (response.statusCode == 200) {
+        print('Data berhasil dikirim: ${response.body}');
+      } else {
+        print('Gagal mengirim data. Response: ${response.body}');
+      }
+    } catch (e) {
+      print('Terjadi error: $e');
+    }
+  }
+
+  void kirimData(){
+    Map<String, dynamic> data = {
+      "nama": namaPengirim.text,
+      "bukti_pembayaran": _image!.readAsBytesSync()
+    };
+
+    // Mengirim data ke API
+    print('$data');
+    // payController.KirimBukti(data);
+
+
+
+  }
 }
 
 
-
-// Text(widget.nama_bank),
-// Text(widget.email),
-// Text(widget.jumlah),
-// Text(widget.kode_bank_client),

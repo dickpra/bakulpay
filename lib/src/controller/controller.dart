@@ -1,9 +1,11 @@
-
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:bakulpay/src/model/menu_model.dart';
 import 'package:bakulpay/src/model/payment_model.dart';
 import 'package:bakulpay/src/model/rate_model.dart';
 import 'package:bakulpay/src/model/test_model.dart';
 import 'package:bakulpay/src/model/wd_model.dart';
+import 'package:bakulpay/src/page/topUp/bayar.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../service/api_service.dart';
@@ -11,6 +13,7 @@ import 'package:http/http.dart' as http;
 
 
 class PayController extends GetxController {
+  Rx<File?> imageFile = Rx<File?>(null);
   var isTopUpSelected = true.obs;
   var isLoading = false.obs;
   final jsonDataTransaksi = <test_model>[].obs;
@@ -20,7 +23,9 @@ class PayController extends GetxController {
   final selectedPaymentMethod = RxString('');
 
   final jsonRate = {}.obs;
+
   final jsonPembayaran = <payment_model>[].obs;
+  final jsonPembayaranWd = <payment_model>[].obs;
   final jsonWithdraw = <withdraw_model>[].obs;
 
   // final responPembayaran = {}.obs;
@@ -36,8 +41,40 @@ class PayController extends GetxController {
   var isVccSelected = false.obs;
   var isNetellerSelected = false.obs;
 
+  Future<void> pickImageGallery() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      imageFile.value = File(pickedFile.path);
+    }
+  }
+  Future<void> pickImageKamera() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      imageFile.value = File(pickedFile.path);
+    }
+  }
+
   void updateString(String? newValue) {
     selectedPaymentMethod.value = newValue!;
+  }
+
+  Future<void> KirimBukti (String nama, File bukti) async {
+    isLoading.value = true;
+    final response = await ApiService().post_data(nama, bukti);
+
+    print('peler $response');
+
+    if (response != null) {
+
+      // isidata.value = waitingModel.fromJson(data);
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.setString("Token", response.data!.token!);
+      // Get.offAllNamed(dashboardSalesRoute);
+
+      isLoading.value = false;
+    } else {
+      isLoading.value = false;
+    }
   }
 
   Future<void> KirimTopup (dynamic data) async {
@@ -48,13 +85,14 @@ class PayController extends GetxController {
 
     if (response != null) {
 
-      var stringdata = response.toString();
+      var stringdata = response['id_pembayaran'].toString();
       responPembayaran.value = stringdata;
 
       // isidata.value = waitingModel.fromJson(data);
       // final prefs = await SharedPreferences.getInstance();
       // prefs.setString("Token", response.data!.token!);
       // Get.offAllNamed(dashboardSalesRoute);
+      Get.to(() => BuatPesanan(data: data));
       isLoading.value = false;
     } else {
       isLoading.value = false;
@@ -98,6 +136,13 @@ class PayController extends GetxController {
     final jsonDataWait = await ApiService().getPaymentApi();
 
     jsonPembayaran.assignAll(jsonDataWait);
+
+  }
+  Future getPaymentwd() async {
+
+    final jsonDataWait = await ApiService().getPaymentApiWd();
+
+    jsonPembayaranWd.assignAll(jsonDataWait);
 
   }
 

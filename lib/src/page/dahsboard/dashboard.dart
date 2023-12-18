@@ -42,6 +42,7 @@ class _DashBoardState extends State<DashBoard> {
     payController.getDataMenu();
     payController.getDataRateTopup();
     payController.getPayment();
+    payController.getPaymentwd();
     payController.getWithdraw();
   }
 
