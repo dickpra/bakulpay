@@ -18,7 +18,39 @@ import 'package:get/get.dart';
 class ApiService extends GetConnect with BaseController {
   PayController payController = Get.put(PayController());
 
-  Future post_data(String nama, File foto) async {
+  Future kirimBuktiWdApi(String nama, File foto) async {
+    var idbayar = payController.responPembayaranWD.value;
+    dynamic body = ({
+      "nama": nama,
+    });
+    String? res;
+    // var token = await getToken();
+    final response = await BaseClient()
+        .postMultipart(BASE_URL, '/payment/top_up/$idbayar', body, '', foto)
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        res = '{"success":"${apiError["success"]}","message":"${apiError["message"]}"}';
+        // Get.rawSnackbar(message: apiError["message"]);
+      } else if (error is UnAuthorizedException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      } else {
+        handleError(error);
+      }
+    });
+    print(body);
+    if (response != null) {
+      final jsonDecoded = jsonDecode(response);
+      return jsonDecoded;
+    } else {
+      // final jsonDecoded = jsonDecode(res ?? "");
+      // return jsonDecoded;
+      return null;
+    }
+  }
+
+  Future kirimBuktiTopApi(String nama, File foto) async {
     var idbayar = payController.responPembayaran.value;
     dynamic body = ({
       "nama": nama,
@@ -51,13 +83,10 @@ class ApiService extends GetConnect with BaseController {
   }
 
 
-  Future kirimBuktiApi (dynamic data) async{
-    var idbayar = payController.responPembayaran.value;
-
-    final body = FormData({});
+  Future kirimWDapi (dynamic data) async{
 
     final response = await BaseClient()
-        .post(BASE_URL, '/payment/top_up/$idbayar', data , "")
+        .post(BASE_URL, '/withdraw', data , "")
     // .post(URL_TEST, '/sales', data , "")
         .catchError((error) {
       if (error is BadRequestException) {
@@ -72,6 +101,8 @@ class ApiService extends GetConnect with BaseController {
     });
 
     // print('response $response');
+
+
     if (response != null) {
       var kirimIsi = jsonDecode(response);
       // print('Response status: ${kirimIsi.statusCode}');
@@ -194,7 +225,8 @@ class ApiService extends GetConnect with BaseController {
     final jsonData = jsonDecode(response);
     print("jsonData $jsonData");
 
-    final List<dynamic> responseData = jsonData;
+    final List<dynamic> responseData = jsonData['data'];
+    // final List<dynamic> responseData = jsonData;
     print('responseData $responseData');
     // final List<dynamic> responseData = jsonData;
 
@@ -249,6 +281,28 @@ class ApiService extends GetConnect with BaseController {
 
   }
 
+  Future getRateWdApi() async{
+    final response = await BaseClient()
+        .get(BASE_URL, '/payment/withdraw',"")
+    // .get(URL_MOCK2, '/test',"")
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else if (error is ApiNotRespondingException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else {
+        handleError(error);
+      }
+    });
+
+    final jsonData = jsonDecode(response);
+
+    return jsonData;
+
+  }
+
   Future getRateTop() async{
     final response = await BaseClient()
         .get(BASE_URL, '/payment/top%20up',"")
@@ -292,9 +346,9 @@ class ApiService extends GetConnect with BaseController {
     final jsonData = jsonDecode(response);
     print("jsonData $jsonData");
 
-    // final List<dynamic> responseData = jsonData['data'];
+    final List<dynamic> responseData = jsonData['data'];
     // print('responseDataMenu $responseData');
-    final List<dynamic> responseData = jsonData;
+    // final List<dynamic> responseData = jsonData;
 
     // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
     final Iterable<payment_model> waitingModels = responseData.map((data) => payment_model.fromJson(data));
@@ -330,9 +384,9 @@ class ApiService extends GetConnect with BaseController {
     final jsonData = jsonDecode(response);
     print("jsonData $jsonData");
 
-    // final List<dynamic> responseData = jsonData['data'];
+    final List<dynamic> responseData = jsonData['data'];
     // print('responseDataMenu $responseData');
-    final List<dynamic> responseData = jsonData;
+    // final List<dynamic> responseData = jsonData;
 
     // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
     final Iterable<payment_model> waitingModels = responseData.map((data) => payment_model.fromJson(data));

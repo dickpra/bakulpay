@@ -44,6 +44,26 @@ class _DashBoardState extends State<DashBoard> {
     payController.getPayment();
     payController.getPaymentwd();
     payController.getWithdraw();
+    payController.getDataRateWd();
+  }
+
+  Future<void> _refreshData() async {
+    // Tambahkan logika untuk memperbarui data di sini
+
+    // Misalnya, Anda dapat memanggil fungsi yang memuat data baru
+    // await fetchData();
+
+    // Setelah data diperbarui, panggil setState untuk membangun ulang antarmuka
+    setState(() {
+      payController.getDataTransak();
+      payController.getDataRate();
+      payController.getDataMenu();
+      payController.getDataRateTopup();
+      payController.getPayment();
+      payController.getPaymentwd();
+      payController.getWithdraw();
+      payController.getDataRateWd();
+    });
   }
 
   @override
@@ -119,12 +139,12 @@ class _DashBoardState extends State<DashBoard> {
           ),
           body: <Widget>[
             /// Dashboard
-             SingleChildScrollView(
+             RefreshIndicator(child: SingleChildScrollView(
                child: Container(
-                 decoration: BoxDecoration(
-                   // color: Colors.lightGreen,
-                 ),
-                 // padding: EdgeInsets.symmetric(vertical: 1),
+                   decoration: BoxDecoration(
+                     // color: Colors.lightGreen,
+                   ),
+                   // padding: EdgeInsets.symmetric(vertical: 1),
                    child: Column(
                      children: [
                        // profilDashboard(user: widget.user.displayName),
@@ -145,7 +165,7 @@ class _DashBoardState extends State<DashBoard> {
                            child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Top Up/Beli'),
                          ),
                        ),
-                       beliTopup(),
+                       BeliTopup(),
                        Align(
                          alignment: Alignment.topLeft,
                          child: Padding(
@@ -161,7 +181,7 @@ class _DashBoardState extends State<DashBoard> {
                      ],
                    )
                ),
-             ),
+             ), onRefresh: _refreshData),
 
             /// Withdraw
             Container(

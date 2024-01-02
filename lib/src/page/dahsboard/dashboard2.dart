@@ -127,7 +127,7 @@ class _DashBoard2State extends State<DashBoard2> {
                        child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Top Up/Beli'),
                      ),
                    ),
-                   beliTopup(),
+                   BeliTopup(),
                    Align(
                      alignment: Alignment.topLeft,
                      child: Padding(

@@ -61,7 +61,7 @@ class _ratePageState extends State<ratePage> {
                 if (data.isEmpty) {
                   return Center(
                       child: RefreshIndicator(
-                          onRefresh: payController.getDataTransak,
+                          onRefresh: payController.getDataRate,
                           child: const Text('Belum Ada Transaksi')));
                 } else {
                   return RefreshIndicator(
@@ -74,7 +74,13 @@ class _ratePageState extends State<ratePage> {
                               if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Paypal')){
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => TopupPaypal(),
+                                    builder: (context) => Topup(),
+                                  ),
+                                );
+                              }else if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Perfect Money')){
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => TopupPerfectMoney(),
                                   ),
                                 );
                               }
@@ -127,6 +133,12 @@ Container ListRate(RxList<rate_model> data, index) {
                   radius: 36,
                   child: Image.network('${data[index].icons}',fit: BoxFit.contain,),
                 ),
+                // if(data[index].namaBank!.contains('Skrill'))
+                // CircleAvatar(
+                //   backgroundColor: Colors.white,
+                //   radius: 36,
+                //   child: Image(fit: BoxFit.contain, image: AssetImage('assets/images/skrill.png'),),
+                // ),
                 SizedBox(width: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

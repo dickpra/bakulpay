@@ -137,6 +137,8 @@ class _SelectionPageState extends State<SelectionPage> {
                   textForm(dollarController,"Masukkan Jumlah \$",[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                   ],TextInputType.number, 'Masukkan Jumlah','',false),
+
+                ///USD
                 SizedBox(height: 20),
                 if (pilihInstansi != null && pilihInstansi!.contains('USDT') || pilihInstansi != null && pilihInstansi!.contains('BUSD'))
                   Container(
@@ -164,6 +166,7 @@ class _SelectionPageState extends State<SelectionPage> {
                     ),
                   ),
 
+                ///BANK
                 SizedBox(height: 20),
                 if (pilihInstansi != null)
                   Container(
@@ -212,6 +215,7 @@ class _SelectionPageState extends State<SelectionPage> {
                     },)
                   ),
                 SizedBox(height: 20),
+
                 if (bankPilihan != null)
                   TextFormField(
                     controller: nomorController,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:bakulpay/src/router/constant.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -208,9 +209,9 @@ class PromoItem extends StatelessWidget {
 }
 
 
-class beliTopup extends StatelessWidget {
+class BeliTopup extends StatelessWidget {
   PayController payController = Get.put(PayController());
-  final RxList<Map<String, dynamic>> jsonData = <Map<String, dynamic>>[].obs;
+  // final RxList<Map<String, dynamic>> jsonData = <Map<String, dynamic>>[].obs;
 
   // Future<void> fetchData() async {
   //   try {
@@ -237,7 +238,7 @@ class beliTopup extends StatelessWidget {
         // ),
         // buildCircularMenuList()
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Obx(() {
             final data = payController.jsonDataMenu;
             List<Widget> menuButtons = [];
@@ -254,20 +255,29 @@ class beliTopup extends StatelessWidget {
                           print('Menu ${j + 1} tapped');
                           print('Menu ${j} tapped');
 
-                          if(data[j].namaBank!.contains('Paypal')){
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => TopupPaypal(),
-                              ),
-                            );
+                          if(data[j].namaBank!.contains('USDT')||data[j].namaBank!.contains('BUSD')){
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (context) => TopupPaypal(),
+                            //   ),
+                            // );
+                          }else{
+                            Get.toNamed(topup,arguments: [data[j].icons as String,data[j].namaBank.toString()]);
                           }
-                          if(data[j].namaBank!.contains('Perfect Money')){
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => TopupPerfectMoney(),
-                              ),
-                            );
-                          }
+                        // if(data[j].namaBank!.contains('Paypal')){
+                          //   Navigator.of(context).push(
+                          //     MaterialPageRoute(
+                          //       builder: (context) => TopupPaypal(),
+                          //     ),
+                          //   );
+                          // }
+                          // if(data[j].namaBank!.contains('Perfect Money')){
+                          //   Navigator.of(context).push(
+                          //     MaterialPageRoute(
+                          //       builder: (context) => TopupPerfectMoney(),
+                          //     ),
+                          //   );
+                          // }
                       },
                       child: menuButtonTopup(
                         data[j].icons as String,
@@ -280,7 +290,7 @@ class beliTopup extends StatelessWidget {
 
               menuButtons.add(
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,37 +307,33 @@ class beliTopup extends StatelessWidget {
           }),
         )
 
-
-
-
-
       ],
     );
 
 
   }
 
-  Widget buildCircularMenuList() {
-    return Obx(
-          () => GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 120.0,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
-        ),
-        itemCount: jsonData.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              if (jsonData[index]["data"])
-                print('Menu ${index + 1} tapped');
-            },
-            child: menuButtonTopup(jsonData[index]["icons"] as String, jsonData[index]["nama_bank"]),
-          );
-        },
-      ),
-    );
-  }
+  // Widget buildCircularMenuList() {
+  //   return Obx(
+  //         () => GridView.builder(
+  //       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+  //         maxCrossAxisExtent: 120.0,
+  //         crossAxisSpacing: 8.0,
+  //         mainAxisSpacing: 8.0,
+  //       ),
+  //       itemCount: jsonData.length,
+  //       itemBuilder: (context, index) {
+  //         return GestureDetector(
+  //           onTap: () {
+  //             if (jsonData[index]["data"])
+  //               print('Menu ${index + 1} tapped');
+  //           },
+  //           child: menuButtonTopup(jsonData[index]["icons"] as String, jsonData[index]["nama_bank"]),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget menuButtonTopup(String imagePath, String jdulText) {
     return Column(

@@ -1,11 +1,14 @@
 import 'dart:io';
+import 'package:bakulpay/src/page/dahsboard/wd_widget/bayarWd.dart';
+import 'package:bakulpay/src/router/constant.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:bakulpay/src/model/menu_model.dart';
 import 'package:bakulpay/src/model/payment_model.dart';
 import 'package:bakulpay/src/model/rate_model.dart';
 import 'package:bakulpay/src/model/test_model.dart';
 import 'package:bakulpay/src/model/wd_model.dart';
-import 'package:bakulpay/src/page/topUp/bayar.dart';
+import 'package:bakulpay/src/page/topUp/bayarTopUp.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../service/api_service.dart';
@@ -23,6 +26,7 @@ class PayController extends GetxController {
   final selectedPaymentMethod = RxString('');
 
   final jsonRate = {}.obs;
+  final jsonRateWd = {}.obs;
 
   final jsonPembayaran = <payment_model>[].obs;
   final jsonPembayaranWd = <payment_model>[].obs;
@@ -31,6 +35,7 @@ class PayController extends GetxController {
   // final responPembayaran = {}.obs;
 
   final  responPembayaran =''.obs;
+  final  responPembayaranWD =''.obs;
 
   var isPaypalSelected = false.obs;
   var isSkrillSelected = false.obs;
@@ -58,9 +63,9 @@ class PayController extends GetxController {
     selectedPaymentMethod.value = newValue!;
   }
 
-  Future<void> KirimBukti (String nama, File bukti) async {
-    isLoading.value = true;
-    final response = await ApiService().post_data(nama, bukti);
+  Future<void> KirimBuktiWD (String nama, File bukti) async {
+     isLoading.value = true;
+    final response = await ApiService().kirimBuktiWdApi(nama, bukti);
 
     print('peler $response');
 
@@ -69,7 +74,118 @@ class PayController extends GetxController {
       // isidata.value = waitingModel.fromJson(data);
       // final prefs = await SharedPreferences.getInstance();
       // prefs.setString("Token", response.data!.token!);
+
+      Get.snackbar(
+        backgroundColor: Colors.blue,
+        'Informasi', // Judul SnackBar
+        'Berhasil Memesan!', // Isi SnackBar
+        snackPosition: SnackPosition.BOTTOM, // Posisi SnackBar
+        duration: Duration(seconds: 3), // Durasi tampilan SnackBar
+        onTap: (snack) {
+          // Aksi yang diambil ketika SnackBar ditekan
+          print('SnackBar ditekan');
+        },);
+
+      Get.offAllNamed(dashboard);
+
+      isLoading.value = false;
+    } else {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> KirimWd (dynamic data) async {
+    isLoading.value = true;
+    final response = await ApiService().kirimWDapi(data);
+
+    print('WD $response');
+
+    if (response != null) {
+
+      var stringdata = response['id_pembayaran'].toString();
+      responPembayaranWD.value = stringdata;
+
+      // isidata.value = waitingModel.fromJson(data);
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.setString("Token", response.data!.token!);
       // Get.offAllNamed(dashboardSalesRoute);
+      Get.to(() => BuatPesananWd(data: data));
+      isLoading.value = false;
+    } else {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> KirimBuktiTopup (String nama, File bukti) async {
+    isLoading.value = true;
+    final response = await ApiService().kirimBuktiTopApi(nama, bukti);
+
+    print('peler $response');
+
+    if (response != null) {
+
+      // isidata.value = waitingModel.fromJson(data);
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.setString("Token", response.data!.token!);
+      Get.offAllNamed(dashboard);
+    //   Get.snackbar(
+    //     backgroundColor: Colors.blue,
+    //       'Informasi', // Judul SnackBar
+    //       'Berhasil Memesan!', // Isi SnackBar
+    //       snackPosition: SnackPosition.BOTTOM, // Posisi SnackBar
+    //       duration: Duration(seconds: 3), // Durasi tampilan SnackBar
+    // onTap: (snack) {
+    // // Aksi yang diambil ketika SnackBar ditekan
+    // print('SnackBar ditekan');
+    // },);
+      Get.dialog(
+        SafeArea(
+          child: Scaffold(
+            body: Center(
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Pembayaran Berhasil',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Icon(
+                        Icons.check_circle_outline,
+                        size: 130,
+                        color: Colors.green,
+                      ),
+                      SizedBox(height: 10),
+                      TextButton(
+                        onPressed: () {
+                          Get.back();
+                        }, child: Text(
+                        'OK',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
 
       isLoading.value = false;
     } else {
@@ -111,7 +227,7 @@ class PayController extends GetxController {
     // Ambil dan proses data dari JSON, misalnya:
     final jsonDataWait = await ApiService().getRate();
 
-    print('data $jsonDataWait');
+    print('rate $jsonDataWait');
     jsonDataRate.assignAll(jsonDataWait);
   }
 
@@ -128,6 +244,14 @@ class PayController extends GetxController {
     final jsonDataWait = await ApiService().getRateTop();
 
     jsonRate.value = jsonDataWait;
+    // print('topup $jsonDataWait');
+  }
+
+  Future getDataRateWd() async {
+    // Ambil dan proses data dari JSON, misalnya:
+    final jsonDataWait = await ApiService().getRateWdApi();
+
+    jsonRateWd.value = jsonDataWait;
     // print('topup $jsonDataWait');
   }
 

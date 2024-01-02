@@ -38,7 +38,7 @@ class morePage extends StatelessWidget {
                                 child: topupButton("assets/images/payp.png","Paypal",(){
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => TopupPaypal(),
+                                      builder: (context) => Topup(),
                                     ),
                                   );
                                 }),

@@ -65,17 +65,22 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // TODO: Implement sign in logic
-
-                          loginController.loginUserSales(_emailController.text, _passwordController.text);
-                        }
+                        // if (_formKey.currentState!.validate()) {
+                        //   // TODO: Implement sign in logic
+                        //
+                        //   loginController.loginUserSales(_emailController.text, _passwordController.text);
+                        // }
 
                         // Navigator.of(context).push(
                         //   MaterialPageRoute(
                         //     builder: (context) => DashBoard(user: user),
                         //   ),
                         // );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => DashBoard(),
+                          ),
+                        );
                       },
                       child: Text('Sign in'),
                     ),
@@ -94,7 +99,21 @@ class _LoginState extends State<Login> {
                           print('Login gagal');
                         }
                       },
-                      child: Text('Login dengan Google'),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/google-logo.png',
+                            height: 24,
+                            width: 24,
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            'Login dengan Google',
+                            // style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
 
                     SizedBox(height: 20),

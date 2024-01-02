@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bakulpay/src/controller/controller.dart';
+import 'package:bakulpay/src/model/model_topup.dart';
 import 'package:bakulpay/src/model/pembayaran_model.dart';
 import 'package:bakulpay/src/page/dahsboard/dashboard.dart';
 import 'package:bakulpay/src/setting/env.dart';
@@ -14,18 +15,18 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 
-class BuatPesanan extends StatefulWidget {
-  final pembayaran_model data;
+class BuatPesananWd extends StatefulWidget {
+  final model_topup data;
 
 
 
-  BuatPesanan({required this.data});
+  BuatPesananWd({required this.data});
 
   @override
-  State<BuatPesanan> createState() => _BuatPesananState();
+  State<BuatPesananWd> createState() => _BuatPesananWdState();
 }
 
-class _BuatPesananState extends State<BuatPesanan> {
+class _BuatPesananWdState extends State<BuatPesananWd> {
 
   PayController payController = Get.put(PayController());
   File? _image;
@@ -34,6 +35,9 @@ class _BuatPesananState extends State<BuatPesanan> {
   final currencyFormat = NumberFormat.decimalPattern('en_US');
   TextEditingController namaPengirim = TextEditingController();
   String kodebank = '';
+  String namaRekBank = '';
+  String iconBank = '';
+
 
 
   Future<void> pickGallery() async {
@@ -86,7 +90,7 @@ class _BuatPesananState extends State<BuatPesanan> {
           )),
           centerTitle: true,
         ),
-        body: SingleChildScrollView(
+        body: WillPopScope(child: SingleChildScrollView(
           child: Column(
             children: [
               Padding(
@@ -107,49 +111,31 @@ class _BuatPesananState extends State<BuatPesanan> {
                           padding: EdgeInsets.all(0),
                           child: Column(
                             children: [
-                              if(widget.data.namaBank.toString().contains('BNI'))
-                              Image.asset('assets/images/bni_logo.png',scale: 5,),
-                              if(widget.data.namaBank.toString().contains('Dana'))
-                                Image.asset('assets/images/dana.png',scale: 10,),
+                              // if(widget.data.product.toString().contains('Skrill'))
+                              //   Image.asset('assets/images/skrill.png',scale: 5,),
+                              // if(widget.data.product.toString().contains('Perfect Money'))
+                              //   Image.asset('assets/images/perfectmoney.png',scale: 10,),
+                              Obx(() {
+                                final data = payController.jsonWithdraw;
+                                // final bank = data;
+                                // print(data);
+
+                                final topUpData = data
+                                    .where((item) => item.namaBank == widget.data.product)
+                                    .toList();
+
+                                if (topUpData.isEmpty) {
+                                  return Center(
+                                      child: const Text('Belum Ada Transaksi'));
+                                } else {
+                                  for (var item in topUpData){
+                                    iconBank = item.icons;
+
+                                  }
+                                  return Center(child: Image.network(iconBank,scale: 0.3,));
+                                }
+                              }),
                               SizedBox(height: 10),
-                              // Obx(() {
-                              //   final data = payController.jsonPembayaran;
-                              //   // final bank = data;
-                              //   // print(data);
-                              //
-                              //   final topUpData = data
-                              //       .where((item) => item.namaBank == widget.data.namaBank)
-                              //       .toList();
-                              //
-                              //   // print('dasdasdsa $data');
-                              //   if (topUpData.isEmpty) {
-                              //     return Center(
-                              //       child: RefreshIndicator(
-                              //         onRefresh: payController.getDataRateTopup,
-                              //         child:  Text('Belum Ada Transaksi'),
-                              //       ),
-                              //     );
-                              //   } else {
-                              //     for  (var item in topUpData) {
-                              //       kodebank = item.noRekening;
-                              //
-                              //     }
-                              //     return Column(
-                              //       children: [
-                              //         // for (var item in topUpData)
-                              //         // Text('${item['price']}')
-                              //         TextButton(
-                              //
-                              //            onPressed: () { Clipboard.setData(ClipboardData(text: kodebank)); },
-                              //           child: Text(kodebank,style: TextStyle(color: Colors.grey[800],
-                              //           fontWeight: FontWeight.bold,
-                              //           fontSize: 20,
-                              //         ),),
-                              //         ),
-                              //       ],
-                              //     );
-                              //   }
-                              // }),
 
                             ],
                           ),
@@ -160,7 +146,6 @@ class _BuatPesananState extends State<BuatPesanan> {
                   ),
                 ),
               ),
-              // SizedBox(height: 10),
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Container(
@@ -177,7 +162,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                         child: Padding(
                           padding: EdgeInsets.all(3),
                           child: Text(
-                          'Total Pembayaran',
+                              'Total Pembayaran',
                               style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
                         ),
                       ),
@@ -187,8 +172,8 @@ class _BuatPesananState extends State<BuatPesanan> {
                         child: Padding(
                           padding: EdgeInsets.all(3),
                           child: Text(
-                              '${widget.data.totalPembayaran}',
-                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.orange)
+                              '\$${widget.data.totalPembayaran}',
+                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.red)
                           ),
                         ),
                       ),
@@ -211,7 +196,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Rekening ${widget.data.namaBank}'),
+                            Text('Rekening ${widget.data.product}'),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -220,15 +205,15 @@ class _BuatPesananState extends State<BuatPesanan> {
                                   color: Colors.blue,
                                   onPressed: () {
                                     Clipboard.setData(ClipboardData(text: kodebank));
-          
+
                                   },
                                   icon: Icon(Icons.copy),
                                 ),
                                 Obx(() {
-                                  final data = payController.jsonPembayaran;
+                                  final data = payController.jsonWithdraw;
                                   // final bank = data;
                                   // print(data);
-          
+
                                   final topUpData = data
                                       .where((item) => item.namaBank == widget.data.namaBank)
                                       .toList();
@@ -243,8 +228,8 @@ class _BuatPesananState extends State<BuatPesanan> {
                                     );
                                   } else {
                                     for  (var item in topUpData) {
-                                      kodebank = item.noRekening;
-          
+                                      kodebank = item.namaBank;
+
                                     }
                                     return Column(
                                       children: [
@@ -254,6 +239,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                                           kodebank,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
+                                            color: Colors.blueAccent,
                                             fontSize: 16,
                                           ),
                                         ),
@@ -279,14 +265,9 @@ class _BuatPesananState extends State<BuatPesanan> {
                             Text('Atas Nama'),
                             Obx(() {
                               final data = payController.jsonPembayaran;
-                              // final bank = data;
-                              // print(data);
-
                               final topUpData = data
                                   .where((item) => item.namaBank == widget.data.namaBank)
                                   .toList();
-                              // print('meki $topUpData');
-                              // print('dasdasdsa $data');
                               if (topUpData.isEmpty) {
                                 return Center(
                                   child: RefreshIndicator(
@@ -296,7 +277,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                                 );
                               } else {
                                 for  (var item in topUpData) {
-                                  kodebank = item.nama!;
+                                  namaRekBank = item.nama!;
 
                                 }
                                 return Column(
@@ -304,7 +285,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                                     // for (var item in topUpData)
                                     // Text('${item['price']}')
                                     Text(
-                                      kodebank,
+                                      namaRekBank,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
@@ -325,7 +306,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                           children: [
                             Text('id Pembayaran'),
                             Obx(() {
-                              final data = payController.responPembayaran;
+                              final data = payController.responPembayaranWD;
                               return Text('$data',style: TextStyle(
                                   fontWeight: FontWeight.bold
                               ));
@@ -432,16 +413,20 @@ class _BuatPesananState extends State<BuatPesanan> {
                             ),
                             onPressed: () {
                               if(_image != null && namaPengirim.text.isNotEmpty){
-                                payController.KirimBukti(namaPengirim.text, _image!);
+                                payController.KirimBuktiTopup(namaPengirim.text, _image!);
                                 // Get.offAllNamed();
                               }else{
                                 showDialog(context: context,builder: (context) {
                                   return AlertDialog(
-                                    title: Center(child: Text('Masukkan Nama Pengirim')),
+                                    title: Center(
+                                        child: Icon(Icons.warning)),
+                                    content: Text('Nama dan Bukti Harus diisi'),
+                                    alignment: Alignment.center,
+
                                     // content: Text('Bank Harus Dipilih'),
                                     actions: <Widget>[
                                       TextButton(
-                                        child: Text('ok'),
+                                        child: Text('Ok'),
                                         onPressed: () {
                                           Navigator.of(context).pop(true);
                                         },
@@ -470,7 +455,33 @@ class _BuatPesananState extends State<BuatPesanan> {
               ),
             ],
           ),
-        ),
+        ), onWillPop: () async {
+          // Menampilkan dialog konfirmasi
+          return await showDialog<bool>(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Icon(Icons.warning),
+                backgroundColor: CupertinoColors.systemYellow,
+                content: Text('Apakah Anda ingin keluar dari Pembayaran'),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Batal'),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  TextButton(
+                    child: Text('Keluar'),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          ) ?? false;
+        },),
       ),
     );
   }

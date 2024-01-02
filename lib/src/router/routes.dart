@@ -1,6 +1,7 @@
 import 'package:bakulpay/src/page/dahsboard/dashboard.dart';
 import 'package:bakulpay/src/page/login/login.dart';
 import 'package:bakulpay/src/page/onboarding/onboarding.dart';
+import 'package:bakulpay/src/page/topUp/topup_page.dart';
 import 'package:bakulpay/src/router/constant.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +22,11 @@ final List<GetPage<dynamic>> routes = [
   GetPage(
       name: dashboard,
       page: ()=> DashBoard()
+  ),
+
+  GetPage(
+      name: topup,
+      page: ()=> Topup()
   ),
 
 ];
