@@ -2240,7 +2240,7 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                           // content: Text('Bank Harus Dipilih'),
                           actions: <Widget>[
                             TextButton(
-                              child: Text('ok'),
+                              child: Text('Ok'),
                               onPressed: () {
                                 Navigator.of(context).pop(true);
                               },

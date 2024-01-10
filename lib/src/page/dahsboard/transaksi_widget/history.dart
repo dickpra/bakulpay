@@ -21,8 +21,6 @@ class _transaksiState extends State<transaksi> {
 
   String filter2 = '';
 
-
-
   @override
   void initState() {
     super.initState();
@@ -86,7 +84,8 @@ class _transaksiState extends State<transaksi> {
                               //     builder: (context) => dataTransaksiPage(),
                               //   ),
                               // );
-                              Get.to(DataTransaksiPage());
+                              Get.to(
+                                  DataTransaksiPage(data.elementAt(index)));
                             },
                             child: Listdata(filteredItems, index),
                           );
@@ -304,7 +303,7 @@ Container Listdata(List<model_history> data, index) {
                   decoration: BoxDecoration(
                     borderRadius:
                     BorderRadius.circular(10),
-                    color: Colors.orange,
+                    color: getStatusColor(data[index].status.toString()),
                   ),
                   child: Center(
                     child: Text(
@@ -352,4 +351,15 @@ Container Listdata(List<model_history> data, index) {
     ),
   );
 }
-
+Color getStatusColor(String status) {
+  switch (status.toLowerCase()) {
+    case 'pending':
+      return Colors.orange;
+    case 'success':
+      return Colors.green;
+    case 'failed':
+      return Colors.red;
+    default:
+      return Colors.black; // Warna default jika status tidak dikenali
+  }
+}
