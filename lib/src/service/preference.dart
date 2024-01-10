@@ -11,14 +11,9 @@ Future getToken() async {
   return prefs.getString("Token");
 }
 
-Future removeTokenSales() async {
+Future removeToken() async {
   final SharedPreferences shared = await SharedPreferences.getInstance();
-  return shared.remove("authTokenSales");
-}
-
-Future removeTokenTeknisi() async {
-  final SharedPreferences shared = await SharedPreferences.getInstance();
-  return shared.remove("authTokenTeknisi");
+  return shared.remove("authToken");
 }
 
 Future removeUserFormLogin() async {
@@ -26,4 +21,15 @@ Future removeUserFormLogin() async {
   shared.remove("NameSales");
   shared.remove("NameTeknisi");
   shared.remove("NomorHP");
+}
+
+Future<void> showAccessToken() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final accessToken = sharedPreferences.getString('NickUser'); // Mengambil access_token dari SharedPreferences
+  if (accessToken != null) {
+    print('Access Token: $accessToken');
+    // Lakukan apa yang Anda butuhkan dengan access_token di sini
+  } else {
+    print('Access Token tidak tersedia');
+  }
 }

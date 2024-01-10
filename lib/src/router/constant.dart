@@ -1,8 +1,11 @@
 var root = '/';
-const String login= '/login';
+const String loginApp= '/login';
+
+const String onboarding= '/onboarding';
 
 const String dashboard = '/dashboard';
 const String topup = '/topup';
+const String register = '/register';
 
 
 

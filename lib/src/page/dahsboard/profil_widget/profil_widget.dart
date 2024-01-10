@@ -1,5 +1,9 @@
+import 'package:bakulpay/src/controller/controller.dart';
+import 'package:bakulpay/src/router/constant.dart';
+import 'package:bakulpay/src/service/preference.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class profilWidget extends StatefulWidget {
   const profilWidget({super.key});
@@ -9,6 +13,8 @@ class profilWidget extends StatefulWidget {
 }
 
 class _profilWidgetState extends State<profilWidget> {
+  PayController payController = Get.put(PayController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,10 +45,14 @@ class _profilWidgetState extends State<profilWidget> {
                                 'Selamat Datang,',
                                 style: TextStyle(fontSize: 12, color: Colors.grey), // Tambahkan warna teks
                               ),
-                              Text(
-                                'Shila2207!',
-                                style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold), // Tambahkan warna teks
-                              ),
+                              Obx(() => Text(
+                                payController.respsonNamaPgn.value,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
                             ],
                           ),
                         ),
@@ -131,7 +141,9 @@ class _profilWidgetState extends State<profilWidget> {
                                       TextButton(
                                         child: Text('Keluar'),
                                         onPressed: () {
-                                          Navigator.of(context).pop(true);
+                                          Get.offAllNamed(root);
+                                          removeToken();
+                                          // showAccessToken();
                                         },
                                       ),
                                     ],

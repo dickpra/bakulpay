@@ -2230,7 +2230,25 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                     print(selectedPaymentMethod.toString());
                     print(rateTopup);
                     print(widget.iconNetwork);
-                    kirimData();
+                    if(selectedPaymentMethod != null){
+
+                      kirimData();
+                    }else{
+                      showDialog(context: context,builder: (context) {
+                        return AlertDialog(
+                          title: Center(child: Text('Bank Harus Dipilih')),
+                          // content: Text('Bank Harus Dipilih'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                            ),
+                          ],
+                        );
+                      },);
+                    }
 
                   },
                   child:
@@ -2250,7 +2268,7 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
 
   void kirimData(){
     model_topup data = model_topup(
-        userId: 50,
+        userId: payController.respsonIdPengguna.value,
         product: widget.produk,
         priceRate: rateTopup,
         jumlah: widget.amount,

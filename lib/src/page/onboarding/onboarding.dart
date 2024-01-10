@@ -65,7 +65,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Align(
             alignment: Alignment.bottomRight,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
                   if (_currentPage < _onboardingPages.length - 1) {

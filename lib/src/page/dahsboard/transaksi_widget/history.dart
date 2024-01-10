@@ -1,4 +1,5 @@
 import 'package:bakulpay/src/controller/controller.dart';
+import 'package:bakulpay/src/model/history_model.dart';
 import 'package:bakulpay/src/model/test_model.dart';
 import 'package:bakulpay/src/page/dahsboard/transaksi_widget/transaksi_data/detail_transaksi.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,8 +43,7 @@ class _transaksiState extends State<transaksi> {
             icon: const Icon(Icons.filter_list),
             onPressed: () {
               _showFilterDialog();
-              // Aksi yang dijalankan saat ikon filter ditekan
-              // Misalnya, tampilkan dialog filter atau navigasi ke halaman filter
+
               print('Ikon Filter Ditekan');
             },
           ),
@@ -63,8 +63,8 @@ class _transaksiState extends State<transaksi> {
 
                 final data = payController.jsonDataTransaksi;
 
-                List<test_model> filteredItems = data
-                    .where((item) => item.produk!.toLowerCase().contains(filter2.toLowerCase()))
+                List<model_history> filteredItems = data
+                    .where((item) => item.product!.toLowerCase().contains(filter2.toLowerCase()))
                     // .where((item) => item.status!.toLowerCase().contains(filter2.toLowerCase()))
                     .toList();
                 // print('daasdasdasdsa $data');
@@ -261,12 +261,12 @@ class _transaksiState extends State<transaksi> {
 
 
 
-Container Listdata(List<test_model> data, index) {
+Container Listdata(List<model_history> data, index) {
   return Container(
     padding: EdgeInsets.all(8),
     margin: EdgeInsets.all(8),
     decoration: BoxDecoration(
-      color: Colors.cyan,
+      color: Colors.white60,
       border: Border.all(),
     ),
     child: Column(
@@ -287,8 +287,8 @@ Container Listdata(List<test_model> data, index) {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),'Top-Up'),
-                    Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].produk}'),
+                    Text('${data[index].namaBank}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                    Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].product}'),
                   ],
                 ),
 
@@ -303,7 +303,7 @@ Container Listdata(List<test_model> data, index) {
                   decoration: BoxDecoration(
                     borderRadius:
                     BorderRadius.circular(10),
-                    color: Colors.green,
+                    color: Colors.orange,
                   ),
                   child: Center(
                     child: Text(
@@ -315,7 +315,7 @@ Container Listdata(List<test_model> data, index) {
                     ),
                   ),
                 ),
-                Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),'Rp.33.798,00'),
+                Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),'Rp.${data[index].totalPembayaran}'),
               ],
             ),
           ],
@@ -326,7 +326,7 @@ Container Listdata(List<test_model> data, index) {
           children: [
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Text('Tanggal',style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,))),
+                child: Text('${data[index].tanggal}',style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,))),
             Container(
               width: 100,
               height: 30,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bakulpay/src/model/history_model.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/bayarWd.dart';
 import 'package:bakulpay/src/router/constant.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class PayController extends GetxController {
   Rx<File?> imageFile = Rx<File?>(null);
   var isTopUpSelected = true.obs;
   var isLoading = false.obs;
-  final jsonDataTransaksi = <test_model>[].obs;
+  final jsonDataTransaksi = <model_history>[].obs;
   final jsonDataRate = <rate_model>[].obs;
   final jsonDataMenu= <menu_model>[].obs;
 
@@ -45,6 +46,23 @@ class PayController extends GetxController {
   var isBusdSelected = false.obs;
   var isVccSelected = false.obs;
   var isNetellerSelected = false.obs;
+  var  respsonIdPengguna =''.obs;
+  var  respsonNamaPgn =''.obs;
+
+  Future<void> getNamaPengguna() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final accessToken = sharedPreferences.getString('NickUser');
+    if (accessToken != null) {
+      respsonNamaPgn.value = accessToken.toString();
+    }
+  }
+  Future<void> getidPengguna() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final accessToken = sharedPreferences.getString('UserId');
+    if (accessToken != null) {
+      respsonIdPengguna.value = accessToken.toString();
+    }
+  }
 
   Future<void> pickImageGallery() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -127,7 +145,7 @@ class PayController extends GetxController {
       // isidata.value = waitingModel.fromJson(data);
       // final prefs = await SharedPreferences.getInstance();
       // prefs.setString("Token", response.data!.token!);
-      Get.offAllNamed(dashboard);
+      Get.toNamed(dashboard);
     //   Get.snackbar(
     //     backgroundColor: Colors.blue,
     //       'Informasi', // Judul SnackBar

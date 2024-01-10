@@ -1,4 +1,5 @@
-
+import 'package:bakulpay/src/model/history_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:bakulpay/src/controller/controller.dart';
@@ -167,10 +168,65 @@ class ApiService extends GetConnect with BaseController {
     }
   }
 
-  Future<Iterable<test_model>> GetTransaksi() async{
-
+  Future loginApiGoogle(String username) async {
+    dynamic body = ({"email": username});
     final response = await BaseClient()
-        .get(URL_MOCK, '/proses',"")
+        .post(BASE_URL, '/login_gm', body, "")
+    // .post(URL_TEST, '/login', body, "")
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      } else if (error is UnAuthorizedException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      } else {
+        handleError(error);
+      }
+    });
+    if (response != null) {
+      var login = jsonDecode(response);
+      return login;
+    } else {
+      return null;
+    }
+  }
+
+  Future registerApi(String name, String username, String email, String phone,String passsword, String confirm_pass) async {
+    dynamic body = ({
+      "name": name,
+      "username": username,
+      "email": email,
+      "noHp": phone,
+      "password": passsword,
+      "confirm_password": confirm_pass,
+    });
+    final response = await BaseClient()
+        .post(BASE_URL, '/register', body, "")
+    // .post(URL_TEST, '/login', body, "")
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      } else if (error is UnAuthorizedException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      } else {
+        handleError(error);
+      }
+    });
+    if (response != null) {
+      var login = jsonDecode(response);
+      return login;
+    } else {
+      return null;
+    }
+  }
+
+  Future<Iterable<model_history>> GetTransaksi() async{
+    var idPgn = payController.respsonIdPengguna.value;
+    final response = await BaseClient()
+        .get(BASE_URL, '/history/$idPgn',"")
         .catchError((error) {
       if (error is BadRequestException) {
         var apiError = json.decode(error.message!);
@@ -178,28 +234,33 @@ class ApiService extends GetConnect with BaseController {
       }else if (error is ApiNotRespondingException) {
         var apiError = json.decode(error.message!);
         Get.rawSnackbar(message: apiError["message"]);
+      }else if (error is FetchDataException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
       }else {
         handleError(error);
       }
     });
 
-    print("response $response");
+    print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm $response");
 
     final jsonData = jsonDecode(response);
-    print("jsonData $jsonData");
-
-    final List<dynamic> responseData = jsonData;
-    print('responseData $responseData');
-    // final List<dynamic> responseData = jsonData;
-
-    // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
-    final Iterable<test_model> waitingModels = responseData.map((data) => test_model.fromJson(data));
-    print("Itersble$waitingModels");
-
 
     if (response != null) {
+      // final List<dynamic> responseData = jsonData['data']['topups'];
+      // print('responseData $responseData');
+      List<dynamic> transactions = [];
+      transactions.addAll(jsonData['data']['withdraws']);
+      transactions.addAll(jsonData['data']['topups']);
+      // final List<dynamic> responseData = jsonData;
+
+      // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
+      final Iterable<model_history> waitingModels = transactions.map((data) => model_history.fromJson(data));
+      print("Itersble$waitingModels");
       return waitingModels;
     } else {
+      var peler = response['data'].toString();
+      print(' dasasdaadasdasdsa asdas dsa asdsa  as sa $peler');
       return response;
     }
 

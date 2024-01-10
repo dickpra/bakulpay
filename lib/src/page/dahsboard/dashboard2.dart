@@ -2,7 +2,7 @@ import 'package:bakulpay/src/model/test_model.dart';
 import 'package:bakulpay/src/page/berita.dart';
 import 'package:bakulpay/src/page/dahsboard/profil_widget/profil_widget.dart';
 import 'package:bakulpay/src/page/dahsboard/rate/rate.dart';
-import 'package:bakulpay/src/page/dahsboard/transaksi_widget/transaksi.dart';
+import 'package:bakulpay/src/page/dahsboard/transaksi_widget/history.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/wdPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

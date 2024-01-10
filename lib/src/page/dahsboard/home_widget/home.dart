@@ -11,17 +11,21 @@ import 'package:bakulpay/src/page/berita.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:bakulpay/src/page/dahsboard/more_page.dart';
-import 'package:bakulpay/src/page/dahsboard/transaksi_widget/transaksi.dart';
+import 'package:bakulpay/src/page/dahsboard/transaksi_widget/history.dart';
 import 'package:bakulpay/src/page/test.dart';
 import 'package:bakulpay/src/page/topUp/topup_page.dart';
 import 'package:bakulpay/src/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
+import 'package:get/get.dart';
 
-class profilDashboard extends StatelessWidget {
+
+class ProfilDashboard extends StatelessWidget {
   // final String? user;
   // profilDashboard({super.key, required this.user});
+
+  PayController payController = Get.put(PayController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +50,14 @@ class profilDashboard extends StatelessWidget {
                   'Selamat Datang,',
                   style: TextStyle(fontSize: 12, color: Colors.grey), // Tambahkan warna teks
                 ),
-                Text(
-                  'Shila2207!',
-                  style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold), // Tambahkan warna teks
-                ),
+                Obx(() => Text(
+                  payController.respsonNamaPgn.value,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
                 // Text(
                 //   user?? 'User',
                 //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

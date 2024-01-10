@@ -65,36 +65,42 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        // if (_formKey.currentState!.validate()) {
-                        //   // TODO: Implement sign in logic
-                        //
-                        //   loginController.loginUserSales(_emailController.text, _passwordController.text);
-                        // }
+                        if (_formKey.currentState!.validate()) {
+                          // TODO: Implement sign in logic
+
+                          loginController.loginUserApp(_emailController.text, _passwordController.text);
+                        }
 
                         // Navigator.of(context).push(
                         //   MaterialPageRoute(
                         //     builder: (context) => DashBoard(user: user),
                         //   ),
                         // );
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DashBoard(),
-                          ),
-                        );
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DashBoard(),
+                        //   ),
+                        // );
                       },
-                      child: Text('Sign in'),
+                      child: Obx(() =>
+                      loginController.isLoading.value ? CircularProgressIndicator():
+                      Text('Sign In'),
+                      ),
                     ),
 
                     ElevatedButton(
                       onPressed: () async {
                         User? user = await signInWithGoogle();
+
                         if (user != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DashBoard(),
-                            ),
-                          );
+                          print(user.email);
+                          loginController.loginGoogle(user.email.toString());
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => DashBoard(),
+                          //   ),
+                          // );
                         } else {
                           print('Login gagal');
                         }
@@ -130,12 +136,14 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => BakulPaySignUpPage(),
-                          ),
-                        );
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) => BakulPaySignUpPage(email: '',),
+                        //   ),
+                        // );
                         // TODO: Implement sign up with Google logic
+                        Get.to(BakulPaySignUpPage(email: '',));
+                        // Get.off(() => BakulPaySignUpPage);
                       },
                       child: Text('Sign Up'),
                     ),

@@ -1,6 +1,8 @@
 import 'package:bakulpay/src/page/dahsboard/dashboard.dart';
 import 'package:bakulpay/src/page/login/login.dart';
+import 'package:bakulpay/src/page/login/signup.dart';
 import 'package:bakulpay/src/page/onboarding/onboarding.dart';
+import 'package:bakulpay/src/page/splash/splash.dart';
 import 'package:bakulpay/src/page/topUp/topup_page.dart';
 import 'package:bakulpay/src/router/constant.dart';
 import 'package:get/get.dart';
@@ -9,14 +11,14 @@ import 'package:get/get.dart';
 final List<GetPage<dynamic>> routes = [
   GetPage(
     name: root,
-    page: ()=> OnboardingScreen()
+    page: ()=> Root()
   ),
-  // GetPage(
-  //     name: MasukMilihRoute,
-  //     page: ()=> Masuk()
-  // ),
   GetPage(
-      name: login,
+      name: onboarding,
+      page: ()=> OnboardingScreen()
+  ),
+  GetPage(
+      name: loginApp,
       page: ()=> Login()
   ),
   GetPage(
@@ -27,6 +29,11 @@ final List<GetPage<dynamic>> routes = [
   GetPage(
       name: topup,
       page: ()=> Topup()
+  ),
+
+  GetPage(
+      name: register,
+      page: ()=> BakulPaySignUpPage(email: '',)
   ),
 
 ];
