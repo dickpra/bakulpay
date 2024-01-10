@@ -27,7 +27,7 @@ class ApiService extends GetConnect with BaseController {
     String? res;
     // var token = await getToken();
     final response = await BaseClient()
-        .postMultipart(BASE_URL, '/payment/top_up/$idbayar', body, '', foto)
+        .postMultipart(BASE_URL, '/payment/withdraw/$idbayar', body, '', foto)
         .catchError((error) {
       if (error is BadRequestException) {
         var apiError = json.decode(error.message!);
@@ -247,15 +247,15 @@ class ApiService extends GetConnect with BaseController {
     final jsonData = jsonDecode(response);
 
     if (response != null) {
-      // final List<dynamic> responseData = jsonData['data']['topups'];
+      final List<dynamic> responseData = jsonData['data'];
       // print('responseData $responseData');
-      List<dynamic> transactions = [];
-      transactions.addAll(jsonData['data']['withdraws']);
-      transactions.addAll(jsonData['data']['topups']);
+      // List<dynamic> transactions = [];
+      // transactions.addAll(jsonData['data']['withdraws']);
+      // transactions.addAll(jsonData['data']['topups']);
       // final List<dynamic> responseData = jsonData;
 
       // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
-      final Iterable<model_history> waitingModels = transactions.map((data) => model_history.fromJson(data));
+      final Iterable<model_history> waitingModels = responseData.map((data) => model_history.fromJson(data));
       print("Itersble$waitingModels");
       return waitingModels;
     } else {

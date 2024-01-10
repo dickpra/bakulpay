@@ -18,9 +18,9 @@ Future removeToken() async {
 
 Future removeUserFormLogin() async {
   final SharedPreferences shared = await SharedPreferences.getInstance();
-  shared.remove("NameSales");
-  shared.remove("NameTeknisi");
-  shared.remove("NomorHP");
+  shared.remove("authToken");
+  shared.remove("NickUser");
+  shared.remove("UserId");
 }
 
 Future<void> showAccessToken() async {

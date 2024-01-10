@@ -270,7 +270,7 @@ class BeliTopup extends StatelessWidget {
                             //   ),
                             // );
                           }else{
-                            Get.toNamed(topup,arguments: [data[j].icons as String,data[j].namaBank.toString()]);
+                            Get.toNamed(topUp,arguments: [data[j].icons as String,data[j].namaBank.toString()]);
                           }
                         // if(data[j].namaBank!.contains('Paypal')){
                           //   Navigator.of(context).push(

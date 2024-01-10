@@ -27,9 +27,10 @@ final List<GetPage<dynamic>> routes = [
   ),
 
   GetPage(
-      name: topup,
+      name: topUp,
       page: ()=> Topup()
   ),
+
 
   GetPage(
       name: register,

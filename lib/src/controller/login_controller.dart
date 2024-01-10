@@ -24,9 +24,7 @@ class LoginController extends GetxController {
     if (response != null) {
       login.value = login_model.fromJson(response);
 
-
       print('respon login $response');
-
 
       if (response['success'] == true){
         Get.offAllNamed(loginApp);
@@ -40,25 +38,28 @@ class LoginController extends GetxController {
             // Aksi yang diambil ketika SnackBar ditekan
             print('SnackBar ditekan');
           },);
-      }else if(response['message'] == 'Validation failed'){
-        Get.defaultDialog(
-          title: 'Password Tidak Cocok',
-          content: (
-              TextButton(
-                onPressed: () { Get.back(); }, child: Text('Ok'),)),
-        );
       }else{
-        Get.snackbar(
-          backgroundColor: Colors.blue,
-          'Informasi', // Judul SnackBar
-          'Akun sudah ada!', // Isi SnackBar
-          snackPosition: SnackPosition.BOTTOM, // Posisi SnackBar
-          duration: Duration(seconds: 3), // Durasi tampilan SnackBar
-          onTap: (snack) {
-            // Aksi yang diambil ketika SnackBar ditekan
-            print('SnackBar ditekan');
-          },);
+        Get.defaultDialog(
+          title: 'Warning',
+          confirm: TextButton(
+            onPressed: () { Get.back(); }, child: Text('Ok'),),
+          content:
+              Text('${response['message']}'),
+        );
       }
+      // else{
+      //   Get.snackbar(
+      //     backgroundColor: Colors.blue,
+      //     'Informasi', // Judul SnackBar
+      //     'Akun sudah ada!', // Isi SnackBar
+      //     snackPosition: SnackPosition.BOTTOM, // Posisi SnackBar
+      //     duration: Duration(seconds: 3), // Durasi tampilan SnackBar
+      //     onTap: (snack) {
+      //       // Aksi yang diambil ketika SnackBar ditekan
+      //       print('SnackBar ditekan');
+      //     },
+      //   );
+      // }
 
       isLoading.value = false;
     }else {
@@ -83,7 +84,7 @@ class LoginController extends GetxController {
         final jsonResponse = response;
         final accessToken = jsonResponse['data']['access_token'];
         final Name = jsonResponse['data']['name'];
-        final idUser = jsonResponse['data']['user_id'];
+        final idUser = jsonResponse['data']['user_id'].toString();
         final sharedPreferences = await SharedPreferences.getInstance();
 
         sharedPreferences.setString('authToken', accessToken);
@@ -127,7 +128,7 @@ class LoginController extends GetxController {
         final jsonResponse = response;
         final accessToken = jsonResponse['data']['access_token'];
         final Name = jsonResponse['data']['name'];
-        final idUser = jsonResponse['data']['user_id'];
+        final idUser = jsonResponse['data']['user_id'].toString();
         final sharedPreferences = await SharedPreferences.getInstance();
 
         sharedPreferences.setString('authToken', accessToken);

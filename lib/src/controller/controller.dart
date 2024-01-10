@@ -211,6 +211,83 @@ class PayController extends GetxController {
     }
   }
 
+  Future<void> KirimBuktiWd(String nama, File bukti) async {
+    isLoading.value = true;
+    final response = await ApiService().kirimBuktiWdApi(nama, bukti);
+
+    print('peler $response');
+
+    if (response != null) {
+
+      // isidata.value = waitingModel.fromJson(data);
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.setString("Token", response.data!.token!);
+      Get.toNamed(dashboard);
+    //   Get.snackbar(
+    //     backgroundColor: Colors.blue,
+    //       'Informasi', // Judul SnackBar
+    //       'Berhasil Memesan!', // Isi SnackBar
+    //       snackPosition: SnackPosition.BOTTOM, // Posisi SnackBar
+    //       duration: Duration(seconds: 3), // Durasi tampilan SnackBar
+    // onTap: (snack) {
+    // // Aksi yang diambil ketika SnackBar ditekan
+    // print('SnackBar ditekan');
+    // },);
+      Get.dialog(
+        SafeArea(
+          child: Scaffold(
+            body: Center(
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Pembayaran Berhasil',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Icon(
+                        Icons.check_circle_outline,
+                        size: 130,
+                        color: Colors.green,
+                      ),
+                      SizedBox(height: 10),
+                      TextButton(
+                        onPressed: () {
+                          Get.back();
+                        }, child: Text(
+                        'OK',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      isLoading.value = false;
+    } else {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> KirimTopup (dynamic data) async {
     isLoading.value = true;
     final response = await ApiService().kirimTopup(data);

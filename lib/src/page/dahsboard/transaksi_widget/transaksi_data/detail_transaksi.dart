@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class dataTransaksiPage extends StatelessWidget {
-  const dataTransaksiPage({super.key});
+class DataTransaksiPage extends StatelessWidget {
+  const DataTransaksiPage({super.key});
 
   @override
   Widget build(BuildContext context) {

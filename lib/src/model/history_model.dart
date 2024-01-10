@@ -14,6 +14,7 @@ class model_history {
   String? status;
   String? createdAt;
   String? updatedAt;
+  String? type;
 
   model_history(
       {this.id,
@@ -30,7 +31,8 @@ class model_history {
         this.priceRate,
         this.status,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.type});
 
   model_history.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -48,6 +50,7 @@ class model_history {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +70,7 @@ class model_history {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['type'] = this.type;
     return data;
   }
 }

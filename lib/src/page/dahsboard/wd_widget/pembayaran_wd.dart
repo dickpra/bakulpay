@@ -542,7 +542,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
 
   void kirimDataWd(){
     model_topup data = model_topup(
-        userId: 5,
+        userId: payController.respsonIdPengguna.value,
         product: widget.produk,
         priceRate: rateWD,
         jumlah: totalTagihan,

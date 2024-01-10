@@ -413,7 +413,7 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                             ),
                             onPressed: () {
                               if(_image != null && namaPengirim.text.isNotEmpty){
-                                payController.KirimBuktiTopup(namaPengirim.text, _image!);
+                                payController.KirimBuktiWd(namaPengirim.text, _image!);
                                 // Get.offAllNamed();
                               }else{
                                 showDialog(context: context,builder: (context) {

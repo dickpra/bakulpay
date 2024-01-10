@@ -64,7 +64,7 @@ class _transaksiState extends State<transaksi> {
                 final data = payController.jsonDataTransaksi;
 
                 List<model_history> filteredItems = data
-                    .where((item) => item.product!.toLowerCase().contains(filter2.toLowerCase()))
+                    .where((item) => item.type!.toLowerCase().contains(filter2.toLowerCase()))
                     // .where((item) => item.status!.toLowerCase().contains(filter2.toLowerCase()))
                     .toList();
                 // print('daasdasdasdsa $data');
@@ -81,11 +81,12 @@ class _transaksiState extends State<transaksi> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => dataTransaksiPage(),
-                                ),
-                              );
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => dataTransaksiPage(),
+                              //   ),
+                              // );
+                              Get.to(DataTransaksiPage());
                             },
                             child: Listdata(filteredItems, index),
                           );
@@ -121,7 +122,7 @@ class _transaksiState extends State<transaksi> {
                         print('asuu $topup');
                         if(topup.contains('true')){
                           setState((){
-                            filter2 = 'Top Up';
+                            filter2 = 'Top-Up';
                           });
                         }if(topup.contains('false')){
                           setState((){
@@ -287,7 +288,7 @@ Container Listdata(List<model_history> data, index) {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${data[index].namaBank}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                    Text('${data[index].type}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
                     Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].product}'),
                   ],
                 ),

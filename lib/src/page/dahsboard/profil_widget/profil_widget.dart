@@ -142,7 +142,8 @@ class _profilWidgetState extends State<profilWidget> {
                                         child: Text('Keluar'),
                                         onPressed: () {
                                           Get.offAllNamed(root);
-                                          removeToken();
+                                          // removeToken();
+                                          removeUserFormLogin();
                                           // showAccessToken();
                                         },
                                       ),
