@@ -32,13 +32,22 @@ class DataTransaksiPage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
+                      if(data.type == 'Top-Up')
                       Align(
                         alignment: Alignment.center,
                         child: Padding(
                           padding: EdgeInsets.all(0),
-                          child: Text(data.totalPembayaran.toString(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                          child: Text('Rp.${data.totalPembayaran.toString()}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
                         ),
                       ),
+                      if(data.type == 'Withdraw')
+                        Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.all(0),
+                            child: Text('\$${data.totalPembayaran.toString()}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                          ),
+                        ),
                       Align(
                         alignment: Alignment.center,
                         child: Padding(
@@ -162,28 +171,44 @@ class DataTransaksiPage extends StatelessWidget {
                         ),
                       ],
                     ),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(child: Text('Total Tagihan')),
+                        if(data.type == 'Top-Up')
                         Expanded(
-                          child: Text(data.totalPembayaran.toString(),style: TextStyle(
+                          child: Text('\$${data.jumlah.toString()}',style: TextStyle(
+                              fontWeight: FontWeight.bold
+                          )),
+                        ),
+                        if(data.type == 'Withdraw')
+                        Expanded(
+                          child: Text('Rp.${data.jumlah.toString()}',style: TextStyle(
                               fontWeight: FontWeight.bold
                           )),
                         ),
                       ],
                     ),
+                    SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: Text('Total',style: TextStyle(
+                        Expanded(child: Text('Total Diterima',style: TextStyle(
                             fontWeight: FontWeight.bold
                         ))),
+                        if(data.type == 'Withdraw')
                         Expanded(
-                          child: Text(data.totalPembayaran.toString(),style: TextStyle(
+                          child: Text('\$${data.totalPembayaran.toString()}',style: TextStyle(
                               fontWeight: FontWeight.bold
                           )),
                         ),
+                        if(data.type == 'Top-Up')
+                          Expanded(
+                            child: Text('Rp.${data.totalPembayaran.toString()}',style: TextStyle(
+                                fontWeight: FontWeight.bold
+                            )),
+                          ),
                       ],
                     ),
                     Row(

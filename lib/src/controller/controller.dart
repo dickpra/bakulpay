@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:bakulpay/src/model/history_model.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/bayarWd.dart';
 import 'package:bakulpay/src/router/constant.dart';
+import 'package:bakulpay/src/service/preference.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:bakulpay/src/model/menu_model.dart';
@@ -81,7 +82,7 @@ class PayController extends GetxController {
     selectedPaymentMethod.value = newValue!;
   }
 
-  Future<void> KirimBuktiWD (String nama, File bukti) async {
+  Future<void> teeeeessss (String nama, File bukti) async {
      isLoading.value = true;
     final response = await ApiService().kirimBuktiWdApi(nama, bukti);
 
@@ -145,7 +146,7 @@ class PayController extends GetxController {
       // isidata.value = waitingModel.fromJson(data);
       // final prefs = await SharedPreferences.getInstance();
       // prefs.setString("Token", response.data!.token!);
-      Get.toNamed(dashboard);
+      Get.offAllNamed(dashboard);
     //   Get.snackbar(
     //     backgroundColor: Colors.blue,
     //       'Informasi', // Judul SnackBar
@@ -156,6 +157,7 @@ class PayController extends GetxController {
     // // Aksi yang diambil ketika SnackBar ditekan
     // print('SnackBar ditekan');
     // },);
+      GetAllSync();
       Get.dialog(
         SafeArea(
           child: Scaffold(
@@ -222,7 +224,9 @@ class PayController extends GetxController {
       // isidata.value = waitingModel.fromJson(data);
       // final prefs = await SharedPreferences.getInstance();
       // prefs.setString("Token", response.data!.token!);
-      Get.toNamed(dashboard);
+      Get.offAllNamed(dashboard);
+
+      GetAllSync();
     //   Get.snackbar(
     //     backgroundColor: Colors.blue,
     //       'Informasi', // Judul SnackBar

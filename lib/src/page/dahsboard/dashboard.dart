@@ -4,6 +4,7 @@ import 'package:bakulpay/src/page/dahsboard/profil_widget/profil_widget.dart';
 import 'package:bakulpay/src/page/dahsboard/rate/rate.dart';
 import 'package:bakulpay/src/page/dahsboard/transaksi_widget/history.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/wdPage.dart';
+import 'package:bakulpay/src/service/preference.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bakulpay/src/controller/controller.dart';
@@ -11,7 +12,6 @@ import 'package:bakulpay/src/model/test_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'home_widget/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,36 +37,12 @@ class _DashBoardState extends State<DashBoard> {
   @override
   void initState() {
     super.initState();
-    payController.getDataTransak();
-    payController.getDataRate();
-    payController.getDataMenu();
-    payController.getDataRateTopup();
-    payController.getPayment();
-    payController.getPaymentwd();
-    payController.getWithdraw();
-    payController.getDataRateWd();
-    payController.getidPengguna();
-    payController.getNamaPengguna();
+    GetAllSync();
   }
 
   Future<void> _refreshData() async {
-    // Tambahkan logika untuk memperbarui data di sini
-
-    // Misalnya, Anda dapat memanggil fungsi yang memuat data baru
-    // await fetchData();
-
-    // Setelah data diperbarui, panggil setState untuk membangun ulang antarmuka
     setState(() {
-      payController.getDataTransak();
-      payController.getDataRate();
-      payController.getDataMenu();
-      payController.getDataRateTopup();
-      payController.getPayment();
-      payController.getPaymentwd();
-      payController.getWithdraw();
-      payController.getDataRateWd();
-      payController.getidPengguna();
-      payController.getNamaPengguna();
+      GetAllSync();
     });
   }
 
@@ -143,7 +119,7 @@ class _DashBoardState extends State<DashBoard> {
           ),
           body: <Widget>[
             /// Dashboard
-             RefreshIndicator(child: SingleChildScrollView(
+             RefreshIndicator(onRefresh: _refreshData, child: SingleChildScrollView(
                child: Container(
                    decoration: BoxDecoration(
                      // color: Colors.lightGreen,
@@ -185,7 +161,7 @@ class _DashBoardState extends State<DashBoard> {
                      ],
                    )
                ),
-             ), onRefresh: _refreshData),
+             )),
 
             /// Withdraw
             Container(

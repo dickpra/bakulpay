@@ -19,7 +19,7 @@ class _transaksiState extends State<transaksi> {
   PayController payController = Get.put(PayController());
   PayController filterController = Get.put(PayController());
 
-  String filter2 = '';
+  String filter = '';
 
   @override
   void initState() {
@@ -41,8 +41,6 @@ class _transaksiState extends State<transaksi> {
             icon: const Icon(Icons.filter_list),
             onPressed: () {
               _showFilterDialog();
-
-              print('Ikon Filter Ditekan');
             },
           ),
         ],
@@ -62,7 +60,7 @@ class _transaksiState extends State<transaksi> {
                 final data = payController.jsonDataTransaksi;
 
                 List<model_history> filteredItems = data
-                    .where((item) => item.type!.toLowerCase().contains(filter2.toLowerCase()))
+                    .where((item) => item.type!.toLowerCase().contains(filter.toLowerCase()))
                     // .where((item) => item.status!.toLowerCase().contains(filter2.toLowerCase()))
                     .toList();
                 // print('daasdasdasdsa $data');
@@ -118,14 +116,14 @@ class _transaksiState extends State<transaksi> {
                     ElevatedButton(
                       onPressed: () {
                         var topup = filterController.isTopUpSelected.toString();
-                        print('asuu $topup');
+
                         if(topup.contains('true')){
                           setState((){
-                            filter2 = 'Top-Up';
+                            filter = 'Top-Up';
                           });
                         }if(topup.contains('false')){
                           setState((){
-                            filter2 = 'Withdraw';
+                            filter = 'Withdraw';
                           });
                         }
                       },
@@ -278,16 +276,157 @@ Container Listdata(List<model_history> data, index) {
             /// Ikon
             Row(
               children: [
-                // if(data[index].produk!.contains('produk 3'))
-                CircleAvatar(
-                  radius: 36,
-                  child: Image(image: AssetImage('assets/images/busd-logo.png')),
+                if(data[index].product == 'Paypal')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image(image: AssetImage('assets/images/payp.png'),),
+                  ),
+                ),if(data[index].product == 'Perfect Money')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image(image: AssetImage('assets/images/perfectmoney.png'),),
+                  ),
+                ),if(data[index].product == 'Pay Owner')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image(image: AssetImage('assets/images/nett.png'),),
+                  ),
+                ),if(data[index].product == 'Skrill')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image(image: AssetImage('assets/images/skrill.png'),),
+                  ),
+                ),if(data[index].product == 'VCC')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image(image: AssetImage('assets/images/visa.png'),),
+                  ),
+                ),if(data[index].product == 'Payeer')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image(image: AssetImage('assets/images/payeer.png'),),
+                  ),
+                ),if(data[index].product == 'USDT')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image(image: AssetImage('assets/images/busd-logo.png'),),
+                  ),
+                ),if(data[index].product == 'BUSD')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image(image: AssetImage('assets/images/busd-logo.png'),),
+                  ),
                 ),
                 SizedBox(width: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('${data[index].type}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                    SizedBox(height: 5),
                     Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].product}'),
                   ],
                 ),
@@ -315,7 +454,11 @@ Container Listdata(List<model_history> data, index) {
                     ),
                   ),
                 ),
-                Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),'Rp.${data[index].totalPembayaran}'),
+                SizedBox(height: 5),
+                if(data[index].type == 'Top-Up')
+                Text('Rp.${data[index].totalPembayaran}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                if(data[index].type == 'Withdraw')
+                  Text('\$${data[index].totalPembayaran}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
               ],
             ),
           ],
@@ -333,14 +476,14 @@ Container Listdata(List<model_history> data, index) {
               decoration: BoxDecoration(
                 borderRadius:
                 BorderRadius.circular(10),
-                color: Colors.blue,
+                color: Colors.white,
               ),
               child: Center(
                 child: Text(
-                  'Detail',
+                  'Klik untuk Detail',
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.white,
+                    color: Colors.grey,
                   ),
                 ),
               ),

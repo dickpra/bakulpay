@@ -1,4 +1,8 @@
+import 'package:bakulpay/src/controller/controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+
+
 
 Future setToken(String value) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -32,4 +36,20 @@ Future<void> showAccessToken() async {
   } else {
     print('Access Token tidak tersedia');
   }
+}
+
+Future<void> GetAllSync() async {
+  PayController payController = Get.put(PayController());
+
+
+  payController.getDataTransak();
+  payController.getDataRate();
+  payController.getDataMenu();
+  payController.getDataRateTopup();
+  payController.getPayment();
+  payController.getPaymentwd();
+  payController.getWithdraw();
+  payController.getDataRateWd();
+  payController.getidPengguna();
+  payController.getNamaPengguna();
 }

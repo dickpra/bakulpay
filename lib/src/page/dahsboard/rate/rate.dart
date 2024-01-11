@@ -128,10 +128,23 @@ Container ListRate(RxList<rate_model> data, index) {
                 //   radius: 36,
                 //   child: Image(image: AssetImage('assets/images/dana.png')),
                 // ),
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 36,
-                  child: Image.network('${data[index].icons}',fit: BoxFit.contain,),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image.network('${data[index].icons}',fit: BoxFit.contain,),
+                  ),
                 ),
                 // if(data[index].namaBank!.contains('Skrill'))
                 // CircleAvatar(
