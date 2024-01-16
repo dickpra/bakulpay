@@ -33,7 +33,6 @@ class _DashBoardState extends State<DashBoard> {
   PayController payController = Get.put(PayController());
 
 
-
   @override
   void initState() {
     super.initState();
@@ -45,6 +44,17 @@ class _DashBoardState extends State<DashBoard> {
       GetAllSync();
     });
   }
+
+  void _changePage(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+
+    // Tambahkan navigasi ke halaman yang diinginkan di sini
+    // Contoh: Navigator.push(...)
+  }
+
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +85,8 @@ class _DashBoardState extends State<DashBoard> {
             },
           ) ?? false;
         },
+
+      
         child: SafeArea(child:
         Scaffold(
           // extendBody: true,
@@ -121,6 +133,91 @@ class _DashBoardState extends State<DashBoard> {
             ],
           ),
 
+        //   bottomNavigationBar: Padding(
+        //     padding: EdgeInsets.all(10),
+        //     child: Container(
+        //         height: 65,
+        //         decoration: BoxDecoration(
+        //           color: Color(0xFFffa4af),
+        //           borderRadius: BorderRadius.only(
+        //             topLeft: Radius.circular(15),
+        //             topRight: Radius.circular(15),
+        //             bottomRight: Radius.circular(15),
+        //             bottomLeft: Radius.circular(15),
+        //           ),
+        //         ),
+        //         child: Row(
+        //             children: <Widget>[
+        //         Expanded(
+        //         child: InkWell(
+        //             onTap: () {
+        //         // Pindah ke halaman Home
+        //         _changePage(0);
+        //   },
+        //     child: Container(
+        //       child: Column(
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         children: <Widget>[Icon(Icons.home), Text('Home')],
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        //   Expanded(
+        //     child: InkWell(
+        //       onTap: () {
+        //         // Pindah ke halaman Withdraw
+        //         _changePage(1);
+        //       },
+        //       child: Container(
+        //         child: Column(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: <Widget>[Icon(Icons.money), Text('Withdraw')],
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        //   Expanded(
+        //     child: InkWell(
+        //       onTap: () {
+        //         // Pindah ke halaman Transaksi
+        //         _changePage(2);
+        //       },
+        //       child: Container(
+        //         child: Column(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: <Widget>[Icon(Icons.payment), Text('Transaksi')],
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        //   Expanded(
+        //     child: InkWell(
+        //       onTap: () {
+        //         // Pindah ke halaman Rate
+        //         _changePage(3);
+        //       },
+        //       child: Container(
+        //         child: Column(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: <Widget>[Icon(Icons.star), Text('Rate')],
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        //   Expanded(
+        //     child: InkWell(
+        //       onTap: () {
+        //         // Pindah ke halaman Profil
+        //         _changePage(4);
+        //       },
+        //       child: Container(
+        //         child: Column(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: <Widget>[Icon(Icons.person), Text('Profil')],
+        //         ),
+        //       ),
+        //     ),
+        //   ),],),),),
           body: <Widget>[
             /// Dashboard
              RefreshIndicator(onRefresh: _refreshData, child: SingleChildScrollView(
@@ -169,7 +266,7 @@ class _DashBoardState extends State<DashBoard> {
 
             /// Withdraw
             Container(
-                child: SelectionPage(),
+                child: WithdrawPage(),
             ),
 
             /// Transaksi
@@ -285,41 +382,4 @@ class _DashBoardState extends State<DashBoard> {
   }
 }
 
-class AnimatedBottomBar extends StatelessWidget {
-  final int currentIcon;
-  // final List<IconModel> icons;
-  final ValueChanged<int>? onTap;
-  final Icon icons;
-  const AnimatedBottomBar({
-    Key? key,
-    required this.currentIcon,
-    required this.onTap,
-    required this.icons,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      child: Container(
-        margin: const EdgeInsets.all(40),
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 2), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: []
-      ),
-    ));
-  }
-}

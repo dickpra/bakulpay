@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class SelectionPage extends StatefulWidget {
+class WithdrawPage extends StatefulWidget {
   @override
-  _SelectionPageState createState() => _SelectionPageState();
+  _WithdrawPageState createState() => _WithdrawPageState();
 }
 
-class _SelectionPageState extends State<SelectionPage> {
+class _WithdrawPageState extends State<WithdrawPage> {
 
   PayController payController = Get.put(PayController());
   List<String> pilihanInstansi = ['Paypal','Skrill', 'Perfect Money', 'Payeer', 'USDT', 'BUSD'];
@@ -72,55 +72,78 @@ class _SelectionPageState extends State<SelectionPage> {
                 //   ),
                 // ),
                 const SizedBox(height: 30),
-                Container(
-                  // width: 200,
-                  decoration: const BoxDecoration(),
-                  child: Obx(() {
-                    final data = payController.jsonWithdraw;
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
 
-                    if (data.isEmpty) {
-                      return Center(
-                        child:  Text('Belum Ada Metode Pembayaran'),
-                      );
-                    } else {
-                      return DropdownButtonFormField<String>(
-                        hint: Text('Pilih Metode Pencairan'),
-                        value: pilihInstansi, // Gunakan selectedPaymentMethod dari payController
-                        // onChanged: (newValue) {
-                        //   pilihInstansi = newValue;
-                        // },
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            setState(() {
-                              pilihInstansi = newValue;
-                            });
-                          }
-                        },
+                    // width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey.shade50),
+                      // borderRadius: BorderRadius.circular(50),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 2,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Obx(() {
+                      final data = payController.jsonWithdraw;
 
-                        items: payController.jsonWithdraw.map<DropdownMenuItem<String>>(
-                              (paymentModel) {
+                      if (data.isEmpty) {
+                        return Center(
+                          child:  Text('Belum Ada'),
+                        );
+                      } else {
+                        return DropdownButtonFormField<String>(
 
-                            String value = paymentModel.namaBank.toString();
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Row(
-                                children: [
-                                  // Sesuaikan dengan struktur objek model Anda
-                                  Image.network(
-                                    paymentModel.icons.toString(),
-                                    height: 30,
-                                    width: 30,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(value),
-                                ],
-                              ),
-                            );
+                          decoration:  InputDecoration(
+                            border: InputBorder.none, // Menghilangkan underline
+                            // filled: true,
+                            // contentPadding: EdgeInsets.symmetric(),
+                            // border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                          ),
+                          hint: Text('Pilih Jenis Produk'),
+                          value: pilihInstansi, // Gunakan selectedPaymentMethod dari payController
+                          // onChanged: (newValue) {
+                          //   pilihInstansi = newValue;
+                          // },
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                pilihInstansi = newValue;
+                              });
+                            }
                           },
-                        ).toList(),
-                      );
-                    }
-                  },),
+
+                          items: payController.jsonWithdraw.map<DropdownMenuItem<String>>(
+                                (paymentModel) {
+
+                              String value = paymentModel.namaBank.toString();
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Row(
+                                  children: [
+                                    // Sesuaikan dengan struktur objek model Anda
+                                    Image.network(
+                                      paymentModel.icons.toString(),
+                                      height: 30,
+                                      width: 30,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(value),
+                                  ],
+                                ),
+                              );
+                            },
+                          ).toList(),
+                        );
+                      }
+                    },),
+                  ),
                 ),
                 SizedBox(height: 16),
                 // Obx(() {
@@ -134,9 +157,63 @@ class _SelectionPageState extends State<SelectionPage> {
                 //   return Text(data.toString());
                 // }),
                 if (pilihInstansi != null)
-                  textForm(dollarController,"Masukkan Jumlah \$",[
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                  ],TextInputType.number, 'Masukkan Jumlah','',false),
+                  Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                        Align
+                          (alignment: Alignment.centerLeft,
+                            child: Text('Masukkan Jumlah (\$)', style: TextStyle(
+                              fontSize: 18,fontWeight: FontWeight.bold
+                            ),)),
+                        TextFormField(
+                          controller: dollarController,
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold
+                          ),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                            // labelText: 'Masukkan Jumlah \$',
+                            // border: OutlineInputBorder(
+                            //   borderRadius: BorderRadius.circular(10),
+                            // ),
+
+                            labelStyle: TextStyle(
+                              // color: Colors.blue,
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                          obscureText: false,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Masukkan Jumlah!';
+                            }
+                            final double? amount = double.tryParse(value);
+                            if (amount! <= 4.0) {
+                              return 'Jumlah Harus lebih dari \$5';
+                            }
+                            return null;
+                          },
+                        ),
+                        // textForm(dollarController,"Masukkan Jumlah \$",[
+                        //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        // ],TextInputType.number, 'Masukkan Jumlah','',false),
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
 
                 ///USD
                 SizedBox(height: 20),
@@ -246,6 +323,9 @@ class _SelectionPageState extends State<SelectionPage> {
                     backgroundColor: CupertinoColors.activeBlue, // warna latar belakang
                   ),
                   onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // TODO: Implement sign up logic
+                    }
                     _confirmWithdraw(context);
 
                   },

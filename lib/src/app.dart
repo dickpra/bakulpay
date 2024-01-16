@@ -1,3 +1,4 @@
+import 'package:bakulpay/src/page/dahsboard/dashboard2.dart';
 import 'package:bakulpay/src/page/login/login2.dart';
 import 'package:bakulpay/src/page/onboarding/onboarding.dart';
 import 'package:bakulpay/src/router/constant.dart';
@@ -20,10 +21,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: Login2(),
-      // home: OnboardingScreen(),
+      home: Home(),
 
-      getPages: routes,
-      initialRoute:  root,
+      // getPages: routes,
+      // initialRoute:  root,
     );
   }
 }
