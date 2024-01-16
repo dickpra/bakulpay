@@ -129,7 +129,7 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                                       child: const Text('Belum Ada Transaksi'));
                                 } else {
                                   for (var item in topUpData){
-                                    iconBank = item.icons;
+                                    iconBank = item.icons!;
 
                                   }
                                   return Center(child: Image.network(iconBank,scale: 0.3,));
@@ -211,14 +211,11 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                                 ),
                                 Obx(() {
                                   final data = payController.jsonWithdraw;
-                                  // final bank = data;
-                                  // print(data);
 
                                   final topUpData = data
-                                      .where((item) => item.namaBank == widget.data.namaBank)
+                                      .where((item) => item.namaBank == widget.data.product)
                                       .toList();
-                                  // print('meki $topUpData');
-                                  // print('dasdasdsa $data');
+
                                   if (topUpData.isEmpty) {
                                     return Center(
                                       child: RefreshIndicator(
@@ -228,7 +225,7 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                                     );
                                   } else {
                                     for  (var item in topUpData) {
-                                      kodebank = item.namaBank;
+                                      kodebank = item.noRekening;
 
                                     }
                                     return Column(
@@ -264,9 +261,9 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                           children: [
                             Text('Atas Nama'),
                             Obx(() {
-                              final data = payController.jsonPembayaran;
+                              final data = payController.jsonWithdraw;
                               final topUpData = data
-                                  .where((item) => item.namaBank == widget.data.namaBank)
+                                  .where((item) => item.namaBank == widget.data.product)
                                   .toList();
                               if (topUpData.isEmpty) {
                                 return Center(
@@ -375,18 +372,35 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                             });
                           },
                           child: _image == null ?
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.add,
-                                  color: Colors.grey[800],
-                                  size: 50.0,
+                          Row(
+                            children: [
+                              Expanded(child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(color: Colors.grey.shade50),
+                                  // borderRadius: BorderRadius.circular(50),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
-                                Text('Pilih bukti Pembayaran')
-                              ],
-                            ),
+                                padding: EdgeInsets.all(5),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      color: Colors.grey[800],
+                                      size: 50.0,
+                                    ),
+                                    Text('Pilih bukti Pembayaran')
+                                  ],
+                                ),
+                              ))
+                            ],
                           )
                               : Image.file(
                             _image!,

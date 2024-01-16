@@ -17,6 +17,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
+class UserController {
+  bool isGoogleLogin = true;
+}
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -37,7 +41,7 @@ class _LoginState extends State<Login> {
   final _passwordController = TextEditingController();
 
   LoginController loginController = Get.put(LoginController());
-
+  final UserController userController = UserController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +68,15 @@ class _LoginState extends State<Login> {
                     textForm(_passwordController,"Masukkan Password",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'isi password','',true),
                     SizedBox(height: 20),
                     ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith((states) =>  Color(0xFF7AA4F5))
+                      ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           // TODO: Implement sign in logic
 
-                          loginController.loginUserApp(_emailController.text, _passwordController.text);
+                          loginController.loginUserApp(context,_emailController.text, _passwordController.text);
+                          userController.isGoogleLogin = false;
                         }
 
                         // Navigator.of(context).push(
@@ -84,7 +92,7 @@ class _LoginState extends State<Login> {
                       },
                       child: Obx(() =>
                       loginController.isLoading.value ? CircularProgressIndicator():
-                      Text('Sign In'),
+                      Text('Sign In',style: TextStyle(color: Colors.white),),
                       ),
                     ),
 
@@ -93,8 +101,10 @@ class _LoginState extends State<Login> {
                         User? user = await signInWithGoogle();
 
                         if (user != null) {
-                          print(user.email);
-                          loginController.loginGoogle(user.email.toString());
+                          print(user.photoURL);
+                          print(user.displayName);
+
+                          loginController.loginGoogle(user.email.toString(),user.displayName.toString(),user.photoURL.toString());
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
@@ -115,7 +125,7 @@ class _LoginState extends State<Login> {
                           ),
                           SizedBox(width: 8),
                           Text(
-                            'Login dengan Google',
+                            'Login With Google',style: TextStyle(color: Color(0xFF37398B))
                             // style: TextStyle(color: Colors.black),
                           ),
                         ],
@@ -134,19 +144,28 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    TextButton(
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateColor.resolveWith((states) =>  Colors.white)
+                      ),
                       onPressed: () {
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => BakulPaySignUpPage(email: '',),
-                        //   ),
-                        // );
-                        // TODO: Implement sign up with Google logic
-                        Get.to(BakulPaySignUpPage(email: '',));
-                        // Get.off(() => BakulPaySignUpPage);
+                        Get.to(BakulPaySignUpPage(email: '', nama: '', statusLoginGoolge: false,));
                       },
-                      child: Text('Sign Up'),
+                      child: Text('Register',style: TextStyle(color: Color(0xFF37398B)),),
                     ),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     // Navigator.of(context).push(
+                    //     //   MaterialPageRoute(
+                    //     //     builder: (context) => BakulPaySignUpPage(email: '',),
+                    //     //   ),
+                    //     // );
+                    //     // TODO: Implement sign up with Google logic
+                    //     Get.to(BakulPaySignUpPage(email: '',));
+                    //     // Get.off(() => BakulPaySignUpPage);
+                    //   },
+                    //   child: Text('Sign Up'),
+                    // ),
                     SizedBox(height: 20),
                   ],
                 ),

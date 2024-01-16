@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-
 class Topup extends StatelessWidget {
   PayController payController = Get.put(PayController());
   final _formKey = GlobalKey<FormState>();
@@ -27,7 +26,7 @@ class Topup extends StatelessWidget {
             var data = payController.jsonRate;
             var bank = data['data'];
             var topUpData = bank
-                .where((item) => item['nama_bank'] == 'Paypal')
+                .where((item) => item['nama_bank'] == title)
                 .toList();
             if (topUpData.isEmpty) {
               return Center(
@@ -76,7 +75,7 @@ class Topup extends StatelessWidget {
                       // }),
                   ),
                   SizedBox(height: 30),
-                  textForm(rekController,title=="Paypal"?"Masukkan E-Mail Paypal":title=="Pay Owner"?'Masukkan E-Mail Payooner':title=="Skrill"?'Masukkan E-Mail Skrill':"Masukkan Uid",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text,title=="Paypal"?'Masukkan E-Mail':title=="Skrill"?'Masukkan E-Mail':"Masukkan Uid",title=="Paypal"?'@':title=="Skrill"?'@':'',false),
+                  textForm(rekController,title=="Paypal"?"Masukkan E-Mail Paypal":title=="Pay Owner"?'Masukkan E-Mail Payooner':title=="Skrill"?'Masukkan E-Mail Skrill':"Masukkan Uid",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text,title=="Paypal"?'Masukkan E-Mail':title=="Pay Owner"?'Masukkan E-Mail':title=="Skrill"?'Masukkan E-Mail':"Masukkan Uid",title=="Pay Owner"?'@':title=="Paypal"?'@':title=="Skrill"?'@':'',false),
                   SizedBox(height: 16),
                   textForm(dollarController,"Masukkan Jumlah \$",[FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],TextInputType.number, 'Masukkan jumlah','',false),
                   SizedBox(height: 50),

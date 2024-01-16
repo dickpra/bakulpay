@@ -154,7 +154,7 @@ class DataTransaksiPage extends StatelessWidget {
                       children: [
                         Expanded(child: Text('Harga Satuan')),
                         Expanded(
-                          child: Text(data.priceRate.toString(),style: TextStyle(
+                          child: Text('Rp.${data.priceRate.toString()}',style: TextStyle(
                               fontWeight: FontWeight.bold
                           )),
                         ),

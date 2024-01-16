@@ -170,7 +170,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                           padding: EdgeInsets.all(3),
                           child: Text(
                               'Total Pembayaran',
-                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                              style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.black87)),
                         ),
                       ),
                       SizedBox(height: 5),
@@ -180,7 +180,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                           padding: EdgeInsets.all(3),
                           child: Text(
                               'Rp.${widget.data.totalPembayaran}',
-                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.red)
+                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,)
                           ),
                         ),
                       ),
@@ -283,7 +283,6 @@ class _BuatPesananState extends State<BuatPesanan> {
                               children: [
                                 Text('No Rekening ${widget.data.namaBank}'),
                                 SizedBox(width: 5,),
-
                               ],
                             ),
                             Row(
@@ -312,7 +311,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                                     return Center(
                                       child: RefreshIndicator(
                                         onRefresh: payController.getDataRateTopup,
-                                        child:  Text('Belum Ada Transaksi'),
+                                        child:  Text('Belum Ada Rekening'),
                                       ),
                                     );
                                   } else {
@@ -327,7 +326,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                                           kodebank,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.black54,
+                                            color: Colors.black,
                                             fontSize: 16,
                                           ),
                                         ),
@@ -359,7 +358,6 @@ class _BuatPesananState extends State<BuatPesanan> {
                               } else {
                                 for  (var item in topUpData) {
                                   namaRekBank = item.nama!;
-
                                 }
                                 return Column(
                                   children: [
@@ -460,7 +458,17 @@ class _BuatPesananState extends State<BuatPesanan> {
                             Expanded(child: Container(
                               // margin: EdgeInsets.symmetric(vertical: 20),
                               decoration: BoxDecoration(
-                                  color: Colors.grey
+                                color: Colors.grey[200],
+                                border: Border.all(color: Colors.grey.shade50),
+                                // borderRadius: BorderRadius.circular(50),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 2,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
                               ),
                               padding: EdgeInsets.all(5),
                               child: Column(

@@ -77,7 +77,10 @@ class _DashBoardState extends State<DashBoard> {
         },
         child: SafeArea(child:
         Scaffold(
+          // extendBody: true,
+          // backgroundColor: Colors.green,
           bottomNavigationBar: NavigationBar(
+
             onDestinationSelected: (int index) {
               setState(() {
                 currentPageIndex = index;
@@ -117,6 +120,7 @@ class _DashBoardState extends State<DashBoard> {
               ),
             ],
           ),
+
           body: <Widget>[
             /// Dashboard
              RefreshIndicator(onRefresh: _refreshData, child: SingleChildScrollView(
@@ -132,7 +136,7 @@ class _DashBoardState extends State<DashBoard> {
                        Align(
                          alignment: Alignment.topLeft,
                          child: Padding(
-                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                            child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Promo'),
                          ),
                        ),
@@ -141,7 +145,7 @@ class _DashBoardState extends State<DashBoard> {
                        Align(
                          alignment: Alignment.topLeft,
                          child: Padding(
-                           padding: const EdgeInsets.all(16.0),
+                           padding: EdgeInsets.all(16.0),
                            child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Top Up/Beli'),
                          ),
                        ),
@@ -149,7 +153,7 @@ class _DashBoardState extends State<DashBoard> {
                        Align(
                          alignment: Alignment.topLeft,
                          child: Padding(
-                           padding: const EdgeInsets.all(16.0),
+                           padding: EdgeInsets.all(16.0),
                            child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Berita Terkini'),
                          ),
                        ),
@@ -278,5 +282,44 @@ class _DashBoardState extends State<DashBoard> {
         ],
       ),
     );
+  }
+}
+
+class AnimatedBottomBar extends StatelessWidget {
+  final int currentIcon;
+  // final List<IconModel> icons;
+  final ValueChanged<int>? onTap;
+  final Icon icons;
+  const AnimatedBottomBar({
+    Key? key,
+    required this.currentIcon,
+    required this.onTap,
+    required this.icons,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.transparent,
+      child: Container(
+        margin: const EdgeInsets.all(40),
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 2), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: []
+      ),
+    ));
   }
 }

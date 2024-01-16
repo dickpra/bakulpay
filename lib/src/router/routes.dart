@@ -34,7 +34,7 @@ final List<GetPage<dynamic>> routes = [
 
   GetPage(
       name: register,
-      page: ()=> BakulPaySignUpPage(email: '',)
+      page: ()=> BakulPaySignUpPage(email: '', nama: '', statusLoginGoolge: false,)
   ),
 
 ];

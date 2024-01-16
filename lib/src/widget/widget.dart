@@ -113,6 +113,7 @@ class textForm extends StatelessWidget {
       ),
       keyboardType: hurufAngka,
       inputFormatters: formattext,
+
       obscureText: hintPass,
       validator: (value) {
         if (value!.isEmpty) {

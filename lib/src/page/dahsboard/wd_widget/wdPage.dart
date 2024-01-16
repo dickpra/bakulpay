@@ -77,7 +77,7 @@ class _SelectionPageState extends State<SelectionPage> {
                   decoration: const BoxDecoration(),
                   child: Obx(() {
                     final data = payController.jsonWithdraw;
-                    // print('daasdasdasdsa $data');
+
                     if (data.isEmpty) {
                       return Center(
                         child:  Text('Belum Ada Metode Pembayaran'),
@@ -107,7 +107,7 @@ class _SelectionPageState extends State<SelectionPage> {
                                 children: [
                                   // Sesuaikan dengan struktur objek model Anda
                                   Image.network(
-                                    paymentModel.icons,
+                                    paymentModel.icons.toString(),
                                     height: 30,
                                     width: 30,
                                   ),

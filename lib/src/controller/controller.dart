@@ -57,11 +57,11 @@ class PayController extends GetxController {
       respsonNamaPgn.value = accessToken.toString();
     }
   }
-  Future<void> getidPengguna() async {
+  Future getidPengguna() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    final accessToken = sharedPreferences.getString('UserId');
-    if (accessToken != null) {
-      respsonIdPengguna.value = accessToken.toString();
+    final idPengguna = sharedPreferences.getString('UserId');
+    if (idPengguna != null) {
+      respsonIdPengguna.value = idPengguna.toString();
     }
   }
 

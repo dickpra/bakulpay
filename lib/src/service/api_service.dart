@@ -230,7 +230,7 @@ class ApiService extends GetConnect with BaseController {
         .catchError((error) {
       if (error is BadRequestException) {
         var apiError = json.decode(error.message!);
-        Get.rawSnackbar(message: apiError["message"]);
+        // Get.rawSnackbar(message: apiError["message"]);
       }else if (error is ApiNotRespondingException) {
         var apiError = json.decode(error.message!);
         Get.rawSnackbar(message: apiError["message"]);

@@ -2,8 +2,10 @@ class withdraw_model {
   dynamic id;
   dynamic namaBank;
   dynamic icons;
-  dynamic type;
+  String? type;
   dynamic price;
+  String? nama;
+  dynamic noRekening;
   String? createdAt;
   String? updatedAt;
 
@@ -13,6 +15,8 @@ class withdraw_model {
         this.icons,
         this.type,
         this.price,
+        this.nama,
+        this.noRekening,
         this.createdAt,
         this.updatedAt});
 
@@ -22,6 +26,8 @@ class withdraw_model {
     icons = json['icons'];
     type = json['type'];
     price = json['price'];
+    nama = json['nama'];
+    noRekening = json['no_rekening'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -33,6 +39,8 @@ class withdraw_model {
     data['icons'] = this.icons;
     data['type'] = this.type;
     data['price'] = this.price;
+    data['nama'] = this.nama;
+    data['no_rekening'] = this.noRekening;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

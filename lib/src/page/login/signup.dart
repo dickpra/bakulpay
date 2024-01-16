@@ -1,4 +1,5 @@
 import 'package:bakulpay/src/controller/login_controller.dart';
+import 'package:bakulpay/src/page/login/login.dart';
 import 'package:bakulpay/src/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,9 +8,12 @@ import 'package:get/get.dart';
 
 class BakulPaySignUpPage extends StatefulWidget {
 
-  const BakulPaySignUpPage({super.key, required this.email});
+  const BakulPaySignUpPage({super.key, required this.email, required this.nama, required this.statusLoginGoolge});
 
   final String email;
+  final String nama;
+  final bool statusLoginGoolge;
+
 
   @override
   _BakulPaySignUpPageState createState() => _BakulPaySignUpPageState();
@@ -29,18 +33,20 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isPasswordValid = false;
+
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          // backgroundColor: Colors.blue,
-          title: Text(
-            'Register Akun',
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-        ),
+        // appBar: AppBar(
+        //   centerTitle: true,
+        //   // backgroundColor: Colors.blue,
+        //   title: Text(
+        //     'Register Akun',
+        //     style: TextStyle(
+        //       color: Colors.black,
+        //     ),
+        //   ),
+        // ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
@@ -52,93 +58,94 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                     width: MediaQuery.sizeOf(context).width,
                     child: Image.asset('assets/images/LOGO.png')
                 ),
-                textForm(_nameController,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
-                // TextFormField(
-                //   controller: _nameController,
-                //   decoration: InputDecoration(
-                //     labelText: 'Name',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(15),
-                //       )
-                //   ),
-                //   validator: (value) {
-                //     if (value!.isEmpty) {
-                //       return 'Please enter your name';
-                //     }
-                //     return null;
-                //   },
-                // ),
+                textForm(_nameController..text = widget.nama,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
+
                 SizedBox(height: 20),
                 textForm(_usernameController,"Username",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your username','',false),
-                // TextFormField(
-                //   controller: _usernameController,
-                //   decoration: InputDecoration(
-                //     labelText: 'Username',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(15),
-                //       )
-                //   ),
-                //   validator: (value) {
-                //     if (value!.isEmpty) {
-                //       return 'Please enter your username';
-                //     }
-                //     return null;
-                //   },
-                // ),
+
                 SizedBox(height: 20),
-                textForm(_emailController..text = widget.email,"Email",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your email','',false),
-                // TextFormField(
-                //   controller: _emailController..text = widget.email,
-                //   decoration: InputDecoration(
-                //     labelText: 'Email',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(15),
-                //       )
-                //   ),
-                //   validator: (value) {
-                //     if (value!.isEmpty) {
-                //       return 'Please enter your email';
-                //     }
-                //     return null;
-                //   },
-                // ),
+                // textForm(_emailController..text = widget.email,"Email",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your email','@',false),
+                TextFormField(
+                  controller: _emailController..text = widget.email,
+                  readOnly: widget.statusLoginGoolge,
+                  decoration: InputDecoration(
+
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    labelText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.text,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                  obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your email';
+                    } else if (!value.contains('@')) {
+                      return 'Masukkan email yang benar!!';
+                    } else if (!value.contains('.')) {
+                      return 'Masukkan email yang benar!!';
+                    }
+                    return null;
+                  },
+                ),
                 SizedBox(height: 20),
                 textForm(_phoneController,"Phone Number",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your Phone Number','',false),
-                // TextFormField(
-                //   controller: _phoneController,
-                //   decoration: InputDecoration(
-                //     labelText: 'Phone Number',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(15),
-                //       )
-                //   ),
-                //   validator: (value) {
-                //     if (value!.isEmpty) {
-                //       return 'Please enter your phone number';
-                //     }
-                //     return null;
-                //   },
-                // ),
                 SizedBox(height: 20),
-                textForm(_passwordController,"Password",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your Password','',true),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    labelText: 'Passsword',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.text,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+                  obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your Password';
+                    } else if (value.length <= 6) {
+                      return 'Password min 6 karakter';
+                    }
+                    return null;
+                  },
+                ),
                 SizedBox(height: 20),
-                textForm(_confirmPasswordController,"Confirm Password",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your Password','',true),
-                // TextFormField(
-                //   controller: _passwordController,
-                //   decoration: InputDecoration(
-                //     labelText: 'Password',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(15),
-                //       )
-                //   ),
-                //   obscureText: true,
-                //   validator: (value) {
-                //     if (value!.isEmpty) {
-                //       return 'Please enter your password';
-                //     }
-                //     return null;
-                //   },
-                // ),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    labelText: 'Confirm Passsword',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.text,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+                  obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your Password';
+                    } else if (value.length <= 6) {
+                      return 'Password min 6 karakter';
+                    }
+                    return null;
+                  },
+                ),
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {

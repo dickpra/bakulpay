@@ -261,12 +261,26 @@ class _transaksiState extends State<transaksi> {
 
 Container Listdata(List<model_history> data, index) {
   return Container(
+
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color: Colors.grey.shade50),
+      // borderRadius: BorderRadius.circular(50),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 1,
+          blurRadius: 2,
+          offset: Offset(0, 2),
+        ),
+      ],
+    ),
     padding: EdgeInsets.all(8),
     margin: EdgeInsets.all(8),
-    decoration: BoxDecoration(
-      color: Colors.white60,
-      border: Border.all(),
-    ),
+    // decoration: BoxDecoration(
+    //   color: Colors.white60,
+    //   border: Border.all(),
+    // ),
     child: Column(
       // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -455,7 +469,7 @@ Container Listdata(List<model_history> data, index) {
                   ),
                 ),
                 SizedBox(height: 5),
-                if(data[index].type == 'Top-Up')
+                if(data[index].type == 'Top-Up' || data[index].type == 'TopUp' || data[index].type == 'Top Up')
                 Text('Rp.${data[index].totalPembayaran}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
                 if(data[index].type == 'Withdraw')
                   Text('\$${data[index].totalPembayaran}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),

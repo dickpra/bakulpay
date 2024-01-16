@@ -68,15 +68,13 @@ class ProfilDashboard extends StatelessWidget {
           // SizedBox(
           //   width: 20, // Sesuaikan lebar sesuai kebutuhan
           // ),
-          Align(
-            child: Container(
-              padding: EdgeInsets.only(left: 80),
-              decoration: BoxDecoration(
-                // color: Colors.grey,
-              ),
-              width: MediaQuery.of(context).size.width * 0.5, // Gunakan ukuran relatif untuk gambar
-              child: Image.asset('assets/images/LOGO.png'),
+          Container(
+            padding: EdgeInsets.only(left: 80),
+            decoration: BoxDecoration(
+              // color: Colors.grey,
             ),
+            width: MediaQuery.of(context).size.width * 0.5, // Gunakan ukuran relatif untuk gambar
+            child: Image.asset('assets/images/LOGO.png'),
           ),
         ],
       ),
@@ -201,10 +199,10 @@ class PromoItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5), // Warna bayangan
-            spreadRadius: 2, // Seberapa luas bayangan menyebar
-            blurRadius: 5, // Seberapa kabur bayangan
-            offset: Offset(0, 3), // Perpindahan bayangan secara horizontal dan vertikal
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 2,
+            offset: Offset(0, 2),
           ),
         ],
         image: DecorationImage(
@@ -260,8 +258,8 @@ class BeliTopup extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         // if (jsonData[j]["data"])
-                          print('Menu ${j + 1} tapped');
-                          print('Menu ${j} tapped');
+                        //   print('Menu ${j + 1} tapped');
+                        //   print('Menu ${j} tapped');
 
                           if(data[j].namaBank!.contains('USDT')||data[j].namaBank!.contains('BUSD')){
                             // Navigator.of(context).push(

@@ -11,7 +11,7 @@ import 'package:bakulpay/src/page/dahsboard/dashboard.dart';
 import 'package:bakulpay/src/service/api_service.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 class LoginController extends GetxController {
   var isLoading = false.obs;
   var login = login_model().obs;
@@ -67,7 +67,7 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> loginUserApp(String email, String password) async {
+  Future<void> loginUserApp(BuildContext context,String email, String password) async {
     isLoading.value = true;
     final response = await ApiService().loginApi(email, password);
 
@@ -93,12 +93,29 @@ class LoginController extends GetxController {
 
         Get.offAllNamed(dashboard);
       }else{
-        Get.defaultDialog(
-          title: 'email / password salah',
-          content: (
-              TextButton(
-                onPressed: () { Get.back(); }, child: Text('Ok'),)),
-        );
+        // Get.defaultDialog(
+        //   title: 'email / password salah',
+        //   content: (
+        //       TextButton(
+        //         onPressed: () { Get.back(); }, child: Text('Ok'),)),
+        // );
+        Alert(
+          context: context,
+          title: "Warning",
+          desc: "Password/Email Salah",
+          buttons: [
+            DialogButton(
+              color: Colors.red,
+              child: Text(
+                "OK",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              onPressed: () => Navigator.pop(context),
+              width: 120,
+            )
+          ],
+          // image: Image.asset("assets/images/usdt.png"),
+        ).show();
       }
 
 
@@ -112,7 +129,7 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> loginGoogle(String email) async {
+  Future<void> loginGoogle(String email, String nama, String potoprofil) async {
     isLoading.value = true;
     final response = await ApiService().loginApiGoogle(email);
 
@@ -121,7 +138,6 @@ class LoginController extends GetxController {
       login.value = login_model.fromJson(response);
 
       print('respon login $response');
-
 
 
       if (response['success'] == true){
@@ -133,11 +149,11 @@ class LoginController extends GetxController {
 
         sharedPreferences.setString('authToken', accessToken);
         sharedPreferences.setString('NickUser', Name);
-        sharedPreferences.setString('UserId', idUser.toString());
+        sharedPreferences.setString('UserId', idUser);
         Get.offAllNamed(dashboard);
         print('peler sehat');
       }else{
-        Get.to(BakulPaySignUpPage(email: email));
+        Get.to(BakulPaySignUpPage(email: email, nama: nama, statusLoginGoolge: true,));
       }
 
       // final prefs = await SharedPreferences.getInstance();

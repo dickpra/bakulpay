@@ -2,6 +2,7 @@ import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/model/rate_model.dart';
 import 'package:bakulpay/src/model/test_model.dart';
 import 'package:bakulpay/src/page/topUp/topup_page.dart';
+import 'package:bakulpay/src/router/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -71,19 +72,23 @@ class _ratePageState extends State<ratePage> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Paypal')){
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => Topup(),
-                                  ),
-                                );
-                              }else if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Perfect Money')){
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => TopupPerfectMoney(),
-                                  ),
-                                );
+                              if(data[index].type == 'Top Up' || data[index].type == 'Top-Up' || data[index].type == 'TopUp'){
+                                Get.toNamed(topUp,arguments: [data[index].icons as String, data[index].namaBank as String]);
                               }
+
+                              // if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Paypal')){
+                              //   Navigator.of(context).push(
+                              //     MaterialPageRoute(
+                              //       builder: (context) => Topup(),
+                              //     ),
+                              //   );
+                              // }else if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Perfect Money')){
+                              //   Navigator.of(context).push(
+                              //     MaterialPageRoute(
+                              //       builder: (context) => TopupPerfectMoney(),
+                              //     ),
+                              //   );
+                              // }
                             },
                             child: ListRate(data, index),
                           );
@@ -106,9 +111,22 @@ Container ListRate(RxList<rate_model> data, index) {
     padding: EdgeInsets.all(8),
     margin: EdgeInsets.all(8),
     decoration: BoxDecoration(
-      color: Colors.white60,
-      border: Border.all(),
+      color: Colors.white,
+      border: Border.all(color: Colors.grey.shade50),
+      // borderRadius: BorderRadius.circular(50),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 1,
+          blurRadius: 2,
+          offset: Offset(0, 2),
+        ),
+      ],
     ),
+    // decoration: BoxDecoration(
+    //   color: Colors.white60,
+    //   border: Border.all(),
+    // ),
     child: Column(
       // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
