@@ -125,12 +125,12 @@ class ThirdPage extends StatelessWidget {
   }
 }
 
-class Home extends StatefulWidget {
+class DashboardNew extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _DashboardNewState createState() => _DashboardNewState();
 }
 
-class _HomeState extends State<Home> {
+class _DashboardNewState extends State<DashboardNew> {
   @override
   void initState() {
     super.initState();
@@ -314,9 +314,11 @@ class ThirdTab extends StatelessWidget {
 class FourthTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: ratePage(),
+    return SafeArea(
+      child: Center(
+        child: Container(
+          child: ratePage(),
+        ),
       ),
     );
   }
@@ -324,10 +326,11 @@ class FourthTab extends StatelessWidget {
 class FiftTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Profile Page',
-        style: TextStyle(fontSize: 21),
+    return SafeArea(
+      child: Center(
+        child: Container(
+          child: profilWidget(),
+        ),
       ),
     );
   }

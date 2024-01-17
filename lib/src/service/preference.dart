@@ -25,11 +25,13 @@ Future removeUserFormLogin() async {
   shared.remove("authToken");
   shared.remove("NickUser");
   shared.remove("UserId");
+  shared.remove("UserPhoto");
+  shared.remove("UserEmail");
 }
 
 Future<void> showAccessToken() async {
   final sharedPreferences = await SharedPreferences.getInstance();
-  final accessToken = sharedPreferences.getString('NickUser'); // Mengambil access_token dari SharedPreferences
+  final accessToken = sharedPreferences.getString('UserId'); // Mengambil access_token dari SharedPreferences
   if (accessToken != null) {
     print('Access Token: $accessToken');
     // Lakukan apa yang Anda butuhkan dengan access_token di sini
@@ -40,8 +42,6 @@ Future<void> showAccessToken() async {
 
 Future<void> GetAllSync() async {
   PayController payController = Get.put(PayController());
-
-
   payController.getDataTransak();
   payController.getDataRate();
   payController.getDataMenu();
@@ -50,6 +50,5 @@ Future<void> GetAllSync() async {
   payController.getPaymentwd();
   payController.getWithdraw();
   payController.getDataRateWd();
-  payController.getidPengguna();
-  payController.getNamaPengguna();
+  payController.getPenggunaPreference();
 }

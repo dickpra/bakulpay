@@ -75,9 +75,110 @@ class Topup extends StatelessWidget {
                       // }),
                   ),
                   SizedBox(height: 30),
-                  textForm(rekController,title=="Paypal"?"Masukkan E-Mail Paypal":title=="Pay Owner"?'Masukkan E-Mail Payooner':title=="Skrill"?'Masukkan E-Mail Skrill':"Masukkan Uid",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text,title=="Paypal"?'Masukkan E-Mail':title=="Pay Owner"?'Masukkan E-Mail':title=="Skrill"?'Masukkan E-Mail':"Masukkan Uid",title=="Pay Owner"?'@':title=="Paypal"?'@':title=="Skrill"?'@':'',false),
-                  SizedBox(height: 16),
-                  textForm(dollarController,"Masukkan Jumlah \$",[FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],TextInputType.number, 'Masukkan jumlah','',false),
+                  Row(
+                    children: [
+                      Expanded(child: Divider()),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: 5),
+                      Text(title=="Paypal"?"E-Mail Paypal":title=="Pay Owner"?'E-Mail Payooner':title=="Skrill"?'E-Mail Skrill':"Masukkan Uid", style: TextStyle(
+                          fontSize: 15,
+                      ),),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: TextFormField(
+                      controller: rekController,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15, fontWeight: FontWeight.bold
+                      ),
+                      decoration: InputDecoration(
+                        hintText: title=="Paypal"?"E-Mail Paypal":title=="Pay Owner"?'E-Mail Payooner':title=="Skrill"?'E-Mail Skrill':"Masukkan Uid",
+                        // contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                        // labelText: 'Masukkan Jumlah \$',
+                        // border: OutlineInputBorder(
+                        //   borderRadius: BorderRadius.circular(10),
+                        // ),
+                        border: InputBorder.none,
+                        labelStyle: TextStyle(
+                          // color: Colors.blue,
+                        ),
+                      ),
+                      keyboardType: TextInputType.text,
+                      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+                    
+                      obscureText: false,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your email';
+                        } else if (!value.contains('@')) {
+                          return 'Masukkan email yang benar!!';
+                        } else if (!value.contains('.')) {
+                          return 'Masukkan email yang benar!!';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  // textForm2(rekController,title=="Paypal"?"Masukkan E-Mail Paypal":title=="Pay Owner"?'Masukkan E-Mail Payooner':title=="Skrill"?'Masukkan E-Mail Skrill':"Masukkan Uid",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text,title=="Paypal"?'Masukkan E-Mail':title=="Pay Owner"?'Masukkan E-Mail':title=="Skrill"?'Masukkan E-Mail':"Masukkan Uid",title=="Pay Owner"?'@':title=="Paypal"?'@':title=="Skrill"?'@':'',false),
+                  Row(
+                    children: [
+                      Expanded(child: Divider()),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: 5),
+                      Text('Masukkan Jumlah (\$)', style: TextStyle(
+                          fontSize: 15,
+                      ),),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: TextFormField(
+                      controller: dollarController,
+                      style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '\$',
+
+                        border: InputBorder.none,
+                        labelStyle: TextStyle(
+                          // color: Colors.blue,
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                      obscureText: false,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Masukkan Jumlah!';
+                        }
+                        final double? amount = double.tryParse(value);
+                        if (amount! <= 5.0) {
+                          return 'Jumlah Harus lebih dari \$5';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  // textForm2(rekController,title=="Paypal"?"Masukkan E-Mail Paypal":title=="Pay Owner"?'Masukkan E-Mail Payooner':title=="Skrill"?'Masukkan E-Mail Skrill':"Masukkan Uid",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text,title=="Paypal"?'Masukkan E-Mail':title=="Pay Owner"?'Masukkan E-Mail':title=="Skrill"?'Masukkan E-Mail':"Masukkan Uid",title=="Pay Owner"?'@':title=="Paypal"?'@':title=="Skrill"?'@':'',false),
+                  Row(
+                    children: [
+                      Expanded(child: Divider()),
+                    ],
+                  ),
+                  // SizedBox(height: 16),
+                  // textForm2(dollarController,"Masukkan Jumlah \$",[FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],TextInputType.number, 'Masukkan jumlah','',false),
                   SizedBox(height: 50),
                     Align(
                       alignment: Alignment.bottomCenter,

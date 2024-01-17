@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:bakulpay/src/page/login/signup.dart';
+import 'dart:io';
+import 'package:bakulpay/src/page/login/register_page.dart';
 import 'package:bakulpay/src/router/constant.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,13 +17,11 @@ class LoginController extends GetxController {
   var isLoading = false.obs;
   var login = login_model().obs;
 
-  Future<void> registerUserApp(String name, String username, String email, String phone,String passsword, String confirm_pass) async {
+  Future<void> registerUserApp(String name, String username, String email, String phone,String passsword, String confirm_pass, File fotoProfil) async {
     isLoading.value = true;
-    final response = await ApiService().registerApi(name,username,email,phone,passsword,confirm_pass);
-
+    final response = await ApiService().registerApi(name,username,email,phone,passsword,confirm_pass,fotoProfil);
 
     if (response != null) {
-      login.value = login_model.fromJson(response);
 
       print('respon login $response');
 
@@ -85,11 +84,19 @@ class LoginController extends GetxController {
         final accessToken = jsonResponse['data']['access_token'];
         final Name = jsonResponse['data']['name'];
         final idUser = jsonResponse['data']['user_id'].toString();
+        final photoUser = jsonResponse['data']['photo'].toString();
+        final emailUser = jsonResponse['data']['email'].toString();
+        final nohpUser = jsonResponse['data']['noHp'].toString();
         final sharedPreferences = await SharedPreferences.getInstance();
 
         sharedPreferences.setString('authToken', accessToken);
         sharedPreferences.setString('NickUser', Name);
         sharedPreferences.setString('UserId', idUser);
+        sharedPreferences.setString('UserPhoto', photoUser);
+        sharedPreferences.setString('UserEmail', emailUser);
+        sharedPreferences.setString('UserNohp', nohpUser);
+        Get.offAllNamed(dashboard);
+        print('peler sehat');
 
         Get.offAllNamed(dashboard);
       }else{
@@ -145,11 +152,17 @@ class LoginController extends GetxController {
         final accessToken = jsonResponse['data']['access_token'];
         final Name = jsonResponse['data']['name'];
         final idUser = jsonResponse['data']['user_id'].toString();
+        final photoUser = jsonResponse['data']['photo'].toString();
+        final emailUser = jsonResponse['data']['email'].toString();
+        final nohpUser = jsonResponse['data']['noHp'].toString();
         final sharedPreferences = await SharedPreferences.getInstance();
 
         sharedPreferences.setString('authToken', accessToken);
         sharedPreferences.setString('NickUser', Name);
         sharedPreferences.setString('UserId', idUser);
+        sharedPreferences.setString('UserPhoto', photoUser);
+        sharedPreferences.setString('UserEmail', emailUser);
+        sharedPreferences.setString('UserNohp', nohpUser);
         Get.offAllNamed(dashboard);
         print('peler sehat');
       }else{

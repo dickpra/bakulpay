@@ -192,7 +192,7 @@ class ApiService extends GetConnect with BaseController {
     }
   }
 
-  Future registerApi(String name, String username, String email, String phone,String passsword, String confirm_pass) async {
+  Future registerApi(String name, String username, String email, String phone,String passsword, String confirm_pass,File fotoProfil) async {
     dynamic body = ({
       "name": name,
       "username": username,
@@ -202,7 +202,7 @@ class ApiService extends GetConnect with BaseController {
       "confirm_password": confirm_pass,
     });
     final response = await BaseClient()
-        .post(BASE_URL, '/register', body, "")
+        .postMultipartReg(BASE_URL, '/register', body, "", fotoProfil)
     // .post(URL_TEST, '/login', body, "")
         .catchError((error) {
       if (error is BadRequestException) {

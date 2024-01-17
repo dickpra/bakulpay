@@ -5,7 +5,7 @@ import 'package:bakulpay/src/page/dahsboard/dashboard.dart';
 import 'package:bakulpay/src/page/dahsboard/dashboard2.dart';
 import 'package:bakulpay/src/page/login/goolgeLogin.dart';
 import 'package:bakulpay/src/page/login/login2.dart';
-import 'package:bakulpay/src/page/login/signup.dart';
+import 'package:bakulpay/src/page/login/register_page.dart';
 import 'package:bakulpay/src/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -133,11 +133,11 @@ class _LoginState extends State<Login> {
                     ),
 
                     SizedBox(height: 20),
-                    Row(
+                    const Row(
                       children: [
                         Expanded(child: Divider()),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text('Or'),
                         ),
                         Expanded(child: Divider()),
@@ -146,12 +146,12 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateColor.resolveWith((states) =>  Colors.white)
+                          backgroundColor: MaterialStateColor.resolveWith((states) => Color(0xFF37398B))
                       ),
                       onPressed: () {
                         Get.to(BakulPaySignUpPage(email: '', nama: '', statusLoginGoolge: false,));
                       },
-                      child: Text('Register',style: TextStyle(color: Color(0xFF37398B)),),
+                      child: Text('Register',style: TextStyle(color: Colors.white),),
                     ),
                     // TextButton(
                     //   onPressed: () {

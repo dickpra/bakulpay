@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:bakulpay/src/controller/login_controller.dart';
+import 'package:bakulpay/src/page/dahsboard/wd_widget/pembayaran_wd.dart';
 import 'package:bakulpay/src/page/login/login.dart';
 import 'package:bakulpay/src/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
+import 'package:image_picker/image_picker.dart';
 
 class BakulPaySignUpPage extends StatefulWidget {
 
@@ -29,6 +32,38 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
   final _confirmPasswordController = TextEditingController();
 
   LoginController registerController = Get.put(LoginController());
+
+  File? _image;
+
+  Future<void> pickGallery() async {
+    final picker = ImagePicker();
+
+    // Memilih sumber gambar (galeri atau kamera)
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<void> pickKamera() async {
+    final picker = ImagePicker();
+
+    // Memilih sumber gambar (galeri atau kamera)
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
 
 
   @override
@@ -58,20 +93,45 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                     width: MediaQuery.sizeOf(context).width,
                     child: Image.asset('assets/images/LOGO.png')
                 ),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Name', style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
                 textForm(_nameController..text = widget.nama,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
-
                 SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Username', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
                 textForm(_usernameController,"Username",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your username','',false),
-
                 SizedBox(height: 20),
-                // textForm(_emailController..text = widget.email,"Email",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your email','@',false),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Email', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
                 TextFormField(
                   controller: _emailController..text = widget.email,
                   readOnly: widget.statusLoginGoolge,
                   decoration: InputDecoration(
 
                     contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                    labelText: 'Email',
+                    // labelText: 'Email',
+                    hintText: 'Email',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -95,13 +155,31 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   },
                 ),
                 SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Phone Number', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
                 textForm(_phoneController,"Phone Number",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your Phone Number','',false),
                 SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Password', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
                 TextFormField(
                   controller: _passwordController,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                    labelText: 'Passsword',
+                    hintText: 'Passsword',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -122,11 +200,20 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   },
                 ),
                 SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Confirm Password', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
                 TextFormField(
                   controller: _confirmPasswordController,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                    labelText: 'Confirm Passsword',
+                    hintText: 'Confirm Passsword',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -147,14 +234,85 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   },
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Pilih Foto Profil', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
+                CircleAvatar(
+                  radius: 80,
+                  backgroundImage: _image != null ? FileImage(_image!) : null,
+                  backgroundColor: Color(0xff37398B),
+                ),
+                TextButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    showDialog(context: context, builder: (BuildContext context){
+                      return AlertDialog(
+                        title:  Text('Pilih Foto'),
+                        // content: Text('Pilih Foto'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Kamera'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              // payController.pickImageKamera();
+                              pickKamera();
+                              // Navigator.pop(context);
+                            },
+                          ),
+                          TextButton(
+                            child: Text('Gallery'),
+                            onPressed: () {
+                              pickGallery();
+                              // payController.pickImageGallery();
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    });
+                  },
+                  child: Text('Pilih Foto',style: TextStyle(
+                      color: Color(0xff37398B)
+                  ),),
+                ),
+                SizedBox(height: 30),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateColor.resolveWith((states) =>  Color(0xff37398B))
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate() && _image != null) {
                       // TODO: Implement sign up logic
-                      registerController.registerUserApp(_nameController.text, _usernameController.text, _emailController.text, _phoneController.text, _passwordController.text, _confirmPasswordController.text);
+                      registerController.registerUserApp(_nameController.text, _usernameController.text, _emailController.text, _phoneController.text, _passwordController.text, _confirmPasswordController.text, _image!);
+                    }else{
+                      showDialog(context: context,builder: (context) {
+                        return AlertDialog(
+                          title: Center(
+                              child: Icon(Icons.warning)),
+                          content: Text('Foto Tidak Boleh Kosong'),
+                          alignment: Alignment.center,
+
+                          // content: Text('Bank Harus Dipilih'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                            ),
+                          ],
+                        );
+                      },);
                     }
                   },
-                  child: Text('Create Account'),
+                  child: Text('Create Account',style: TextStyle(
+                    color: Colors.white
+                  ),),
                 ),
                 // SizedBox(height: 20),
                 // Row(

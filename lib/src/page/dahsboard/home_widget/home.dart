@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:get/get.dart';
 
-
 class ProfilDashboard extends StatelessWidget {
   // final String? user;
   // profilDashboard({super.key, required this.user});
@@ -163,10 +162,10 @@ class _PromoBannerState extends State<PromoBanner> {
               _currentPageNotifier.value = index;
             },
             children: [
-              PromoItem(imageUrl: 'https://static.wikia.nocookie.net/bakemonogatari1645/images/b/b9/Shinobu.png/revision/latest?cb=20161221045011'),
-              PromoItem(imageUrl: 'https://asset.japan.travel/image/upload/v1671447928/yamanashi/Yamanashi_t_id382_1.jpg'),
-              PromoItem(imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHwfp27o65DT03GXKuMEdrBmHjt9aXOy16CA&usqp=CAU'),
-              // Tambahkan item promo sesuai kebutuhan
+              PromoItem(imageUrl: 'https://img.freepik.com/premium-psd/mega-sale-discount-banner-template-promotion_501916-114.jpg'),
+              PromoItem(imageUrl: 'https://img.freepik.com/premium-vector/sale-banner-template-design_74379-121.jpg'),
+              PromoItem(imageUrl: 'https://www.shutterstock.com/shutterstock/photos/2176913847/display_1500/stock-vector--d-flash-sale-banner-template-design-for-web-or-social-media-2176913847.jpg'),
+
             ],
           ),
           Positioned(

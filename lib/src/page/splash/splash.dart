@@ -20,7 +20,7 @@ class _RootState extends State<Root> {
   }
 
   void _init() {
-    Timer(const Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 1), () {
       getPref();
       // Get.offAndToNamed(loginRoute);
     });

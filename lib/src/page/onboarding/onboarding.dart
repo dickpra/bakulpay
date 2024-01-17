@@ -4,7 +4,7 @@ import 'package:bakulpay/src/page/login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../login/signup.dart';
+import '../login/register_page.dart';
 
 
 class OnboardingScreen extends StatefulWidget {

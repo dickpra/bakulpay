@@ -102,8 +102,9 @@ class textForm extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
+        hintText: labelText,
         contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-        labelText: labelText,
+        // labelText: labelText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -113,7 +114,48 @@ class textForm extends StatelessWidget {
       ),
       keyboardType: hurufAngka,
       inputFormatters: formattext,
+      obscureText: hintPass,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return warningText;
+        } else if (!value.contains(emailWarning)) {
+          return 'Masukkan email yang benar!!';
+        }
+        return null;
+      },
+    );
+  }
+}
 
+class textForm2 extends StatelessWidget {
+  final TextEditingController controller;
+  final String labelText;
+  final TextInputType hurufAngka;
+  final List<TextInputFormatter> formattext;
+  final String warningText;
+  final String emailWarning;
+  final bool hintPass;
+
+  textForm2(this.controller, this.labelText, this.formattext, this.hurufAngka,
+      this.warningText, this.emailWarning, this.hintPass);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: labelText,
+        contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+        // labelText: labelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelStyle: TextStyle(
+            // color: Colors.blue,
+            ),
+      ),
+      keyboardType: hurufAngka,
+      inputFormatters: formattext,
       obscureText: hintPass,
       validator: (value) {
         if (value!.isEmpty) {

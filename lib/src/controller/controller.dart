@@ -47,23 +47,55 @@ class PayController extends GetxController {
   var isBusdSelected = false.obs;
   var isVccSelected = false.obs;
   var isNetellerSelected = false.obs;
+
+  ///Pengguna Preference
   var  respsonIdPengguna =''.obs;
   var  respsonNamaPgn =''.obs;
+  var  respsonphoto =''.obs;
+  var  respsonEmail=''.obs;
+  var  respsonNohp=''.obs;
 
-  Future<void> getNamaPengguna() async {
+  Future<void> getPenggunaPreference() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    final accessToken = sharedPreferences.getString('NickUser');
-    if (accessToken != null) {
-      respsonNamaPgn.value = accessToken.toString();
+    final user = sharedPreferences.getString('NickUser');
+    final userId = sharedPreferences.getString('UserId');
+    final photoUser = sharedPreferences.getString('UserPhoto');
+    final emailUser = sharedPreferences.getString('UserEmail');
+    final noHpUser = sharedPreferences.getString('UserNohp');
+
+    if (user != null) {
+      respsonNamaPgn.value = user.toString();
     }
-  }
-  Future getidPengguna() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    final idPengguna = sharedPreferences.getString('UserId');
-    if (idPengguna != null) {
-      respsonIdPengguna.value = idPengguna.toString();
+    if (userId != null) {
+      respsonIdPengguna.value = userId.toString();
     }
+    if (photoUser != null) {
+      respsonphoto.value = photoUser.toString();
+    }
+    if (emailUser != null) {
+      respsonEmail.value = emailUser.toString();
+    }
+    if (noHpUser != null) {
+      respsonNohp.value = noHpUser.toString();
+    }
+
   }
+
+
+  // Future<void> getNamaPengguna() async {
+  //   final sharedPreferences = await SharedPreferences.getInstance();
+  //   final accessToken = sharedPreferences.getString('NickUser');
+  //   if (accessToken != null) {
+  //     respsonNamaPgn.value = accessToken.toString();
+  //   }
+  // }
+  // Future getidPengguna() async {
+  //   final sharedPreferences = await SharedPreferences.getInstance();
+  //   final idPengguna = sharedPreferences.getString('UserId');
+  //   if (idPengguna != null) {
+  //     respsonIdPengguna.value = idPengguna.toString();
+  //   }
+  // }
 
   Future<void> pickImageGallery() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);

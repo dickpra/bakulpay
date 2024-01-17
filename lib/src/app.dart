@@ -14,17 +14,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Bakulpay',
       theme: ThemeData(
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
       // home: Login2(),
-      home: Home(),
+      // home: DashboardNew(),
 
-      // getPages: routes,
-      // initialRoute:  root,
+      getPages: routes,
+      initialRoute:  root,
     );
   }
 }

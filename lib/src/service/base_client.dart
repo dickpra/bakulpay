@@ -114,6 +114,53 @@ class BaseClient {
     }
   }
 
+  //POST REGISTER
+  Future<dynamic> postMultipartReg(String baseUrl, String api, dynamic payload,
+      String token, File file) async {
+    var uri = Uri.parse(baseUrl + api);
+    Map<String, String> headers = {
+      "Authorization": "Bearer $token",
+      'Content-Type': 'multipart/form-data'
+    };
+    var request = http.MultipartRequest("POST", uri);
+    request.headers.addAll(headers);
+    try {
+      request.fields['name'] = payload['name'];
+      request.fields['username'] = payload['username'];
+      request.fields['email'] = payload['email'];
+      request.fields['noHp'] = payload['noHp'];
+      request.fields['password'] = payload['password'];
+      request.fields['confirm_password'] = payload['confirm_password'];
+      if (file != null) {
+        request.files.add(http.MultipartFile(
+            "photo",
+            // ignore: deprecated_member_use
+            http.ByteStream(file.openRead()).cast(),
+            await file.length(),
+            filename: path.basename(file.path)));
+      } else {
+        request.fields['photo'] = "";
+      }
+      dynamic statusResponse;
+      await request
+          .send()
+          .then((result) async {
+        await http.Response.fromStream(result).then((response) {
+          statusResponse = response;
+        });
+      })
+          .catchError((err) => print('error : ' + err.toString()))
+          .whenComplete(() {});
+      return _processResponse(statusResponse);
+      // }
+    } on SocketException {
+      throw FetchDataException('No Internet connection', uri.toString());
+    } on TimeoutException {
+      throw ApiNotRespondingException(
+          'API not responded in time', uri.toString());
+    }
+  }
+
   //DELETE
   Future<dynamic> delete(String baseUrl, String api, String token) async {
     var uri = Uri.parse(baseUrl + api);
