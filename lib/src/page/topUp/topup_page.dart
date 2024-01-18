@@ -108,16 +108,16 @@ class Topup extends StatelessWidget {
                           // color: Colors.blue,
                         ),
                       ),
-                      keyboardType: TextInputType.text,
+                      keyboardType: title=="Paypal"?TextInputType.emailAddress:title=="Pay Owner"?TextInputType.emailAddress:title=="Skrill"?TextInputType.emailAddress:TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
                     
                       obscureText: false,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your email';
-                        } else if (!value.contains('@')) {
+                        } else if (!value.contains(title=="Pay Owner"?'@':title=="Paypal"?'@':title=="Skrill"?'@':'')) {
                           return 'Masukkan email yang benar!!';
-                        } else if (!value.contains('.')) {
+                        } else if (!value.contains(title=="Pay Owner"?'.':title=="Paypal"?'.':title=="Skrill"?'.':'')) {
                           return 'Masukkan email yang benar!!';
                         }
                         return null;
@@ -156,15 +156,14 @@ class Topup extends StatelessWidget {
                         ),
                       ),
                       keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       obscureText: false,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Masukkan Jumlah!';
                         }
                         final double? amount = double.tryParse(value);
-                        if (amount! <= 5.0) {
+                        if (amount! <= 4.9) {
                           return 'Jumlah Harus lebih dari \$5';
                         }
                         return null;

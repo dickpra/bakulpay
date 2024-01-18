@@ -185,7 +185,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                             ),
                           ),
                           keyboardType: TextInputType.number,
-                          inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
 
                           obscureText: false,
                           validator: (value) {
@@ -193,7 +193,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                               return 'Masukkan Jumlah!';
                             }
                             final double? amount = double.tryParse(value);
-                            if (amount! <= 5.0) {
+                            if (amount! <= 4.9) {
                               return 'Jumlah Harus lebih dari \$5';
                             }
                             return null;

@@ -153,8 +153,8 @@ Container ListRate(RxList<rate_model> data, index) {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 2,
+                        offset: Offset(0, 2),
                       ),
                     ],
                   ),

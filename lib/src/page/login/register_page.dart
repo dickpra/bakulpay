@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:bakulpay/src/controller/login_controller.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/pembayaran_wd.dart';
 import 'package:bakulpay/src/page/login/login.dart';
@@ -30,10 +30,13 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final loginController = Get.put(LoginController());
 
   LoginController registerController = Get.put(LoginController());
-
+  bool passwordHide = true;
+  bool passwordHide2 = true;
   File? _image;
+
 
   Future<void> pickGallery() async {
     final picker = ImagePicker();
@@ -68,7 +71,6 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isPasswordValid = false;
 
     return SafeArea(
       child: Scaffold(
@@ -102,7 +104,9 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   ],
                 ),
                 SizedBox(height: 5),
+                if(widget.nama.isNotEmpty)
                 textForm(_nameController..text = widget.nama,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
+                textForm(_nameController,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
                 SizedBox(height: 20),
                 Row(
                   children: [
@@ -125,10 +129,8 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                 ),
                 SizedBox(height: 5),
                 TextFormField(
-                  controller: _emailController..text = widget.email,
-                  readOnly: widget.statusLoginGoolge,
+                  controller: _emailController,
                   decoration: InputDecoration(
-
                     contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
                     // labelText: 'Email',
                     hintText: 'Email',
@@ -139,7 +141,37 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                       // color: Colors.blue,
                     ),
                   ),
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.emailAddress,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                  obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your email';
+                    } else if (!value.contains('@')) {
+                      return 'Masukkan email yang benar!!';
+                    } else if (!value.contains('.')) {
+                      return 'Masukkan email yang benar!!';
+                    }
+                    return null;
+                  },
+                ),
+                if(widget.email.isNotEmpty)
+                TextFormField(
+                  controller: _emailController..text = widget.email,
+                  readOnly: widget.statusLoginGoolge,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    // labelText: 'Email',
+                    hintText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
                   inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
 
                   obscureText: false,
@@ -164,7 +196,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   ],
                 ),
                 SizedBox(height: 5),
-                textForm(_phoneController,"Phone Number",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your Phone Number','',false),
+                textForm(_phoneController,"Phone Number",[FilteringTextInputFormatter.digitsOnly],TextInputType.number, 'Please enter your Phone Number','',false),
                 SizedBox(height: 20),
                 Row(
                   children: [
@@ -177,7 +209,15 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                 SizedBox(height: 5),
                 TextFormField(
                   controller: _passwordController,
+                  obscureText: passwordHide,
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: passwordHide ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          passwordHide = !passwordHide;
+                        });
+                      },),
                     contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
                     hintText: 'Passsword',
                     border: OutlineInputBorder(
@@ -189,7 +229,6 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   ),
                   keyboardType: TextInputType.text,
                   inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-                  obscureText: true,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your Password';
@@ -210,8 +249,16 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                 ),
                 SizedBox(height: 5),
                 TextFormField(
+                  obscureText: passwordHide2,
                   controller: _confirmPasswordController,
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: passwordHide2 ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          passwordHide2 = !passwordHide2;
+                        });
+                      },),
                     contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
                     hintText: 'Confirm Passsword',
                     border: OutlineInputBorder(
@@ -223,7 +270,6 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   ),
                   keyboardType: TextInputType.text,
                   inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-                  obscureText: true,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your Password';
@@ -245,8 +291,29 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                 SizedBox(height: 5),
                 CircleAvatar(
                   radius: 80,
-                  backgroundImage: _image != null ? FileImage(_image!) : null,
+                  // backgroundImage: _image != null ? FileImage(_image!) : null,
                   backgroundColor: Color(0xff37398B),
+                  child: ClipOval(
+                    child:
+                    _image == null ?
+                    CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Color(0xff37398B),
+                    ):
+                    CircleAvatar(
+                      radius: 80,
+                      // backgroundImage: _image != null ? FileImage(_image!) : null,
+                      backgroundColor: Color(0xff37398B),
+                      child: ClipOval(
+                          child: Image.file(
+                            _image!,
+                            width: 160,
+                            height: 160,
+                            fit: BoxFit.cover,
+                          ),
+                      ),
+                    ),
+                  ),
                 ),
                 TextButton(
                   onPressed: () {
@@ -286,33 +353,40 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                     backgroundColor: MaterialStateColor.resolveWith((states) =>  Color(0xff37398B))
                   ),
                   onPressed: () {
-                    if (_formKey.currentState!.validate() && _image != null) {
+                    if (_formKey.currentState!.validate()) {
                       // TODO: Implement sign up logic
-                      registerController.registerUserApp(_nameController.text, _usernameController.text, _emailController.text, _phoneController.text, _passwordController.text, _confirmPasswordController.text, _image!);
-                    }else{
-                      showDialog(context: context,builder: (context) {
-                        return AlertDialog(
-                          title: Center(
-                              child: Icon(Icons.warning)),
-                          content: Text('Foto Tidak Boleh Kosong'),
-                          alignment: Alignment.center,
-
-                          // content: Text('Bank Harus Dipilih'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('Ok'),
-                              onPressed: () {
-                                Navigator.of(context).pop(true);
-                              },
-                            ),
+                      if(_image != null){
+                        registerController.registerUserApp(context,_nameController.text, _usernameController.text, _emailController.text, _phoneController.text, _passwordController.text, _confirmPasswordController.text, _image!);
+                      }else{
+                        Alert(
+                          context: context,
+                          type: AlertType.warning,
+                          title: "Warning",
+                          desc: "Foto Tidak Boleh Kosong",
+                          buttons: [
+                            DialogButton(
+                              color: Colors.red,
+                              child: Text(
+                                "OK",
+                                style: TextStyle(color: Colors.white, fontSize: 18),
+                              ),
+                              onPressed: () => Navigator.pop(context),
+                              width: 120,
+                            )
                           ],
-                        );
-                      },);
+                          // image: Image.asset("assets/images/usdt.png"),
+                        ).show();
+                      }
                     }
                   },
-                  child: Text('Create Account',style: TextStyle(
-                    color: Colors.white
-                  ),),
+                  child:
+                  Obx(() =>
+                  loginController.isLoading.value ? CircularProgressIndicator():
+                  Text('Sign In',style: TextStyle(color: Colors.white),),
+                  ),
+                  // Text('Create Account',style: TextStyle(
+                  //   color: Colors.white
+                  // ),),
                 ),
                 // SizedBox(height: 20),
                 // Row(

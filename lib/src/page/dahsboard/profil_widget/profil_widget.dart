@@ -30,14 +30,17 @@ class _profilWidgetState extends State<profilWidget> {
                     ///Poto Profil
                     Row(
                       children: [
-                        CircleAvatar(radius: 40,
+                        CircleAvatar(
+                          radius: 40,
                         child: Obx(() => ClipOval(
-                          child: Image.network(
+                          child:
+                          payController.respsonphoto.value.isNotEmpty ?
+                          Image.network(
                             width: 160,
                             height: 160,
-                            payController.respsonphoto.value.toString(),
+                            payController.respsonphoto.value,
                             fit: BoxFit.cover,
-                          ),
+                          ):Icon(CupertinoIcons.profile_circled,size: 70,color: Colors.blueAccent,)
                         )),
                         ),
                         SizedBox(width: 10),
@@ -66,6 +69,8 @@ class _profilWidgetState extends State<profilWidget> {
                       child: IconButton(
                         onPressed: () {
                           showAccessToken();
+                          payController.clearJsonDataTransaksi();
+                          print(payController.jsonDataTransaksi);
                         },
                         icon: Icon(Icons.edit_note),
                       ),
@@ -164,10 +169,12 @@ class _profilWidgetState extends State<profilWidget> {
                               TextButton(
                                 child: Text('Keluar'),
                                 onPressed: () {
-                                  Get.offAllNamed(root);
+                                  payController.clearJsonDataTransaksi();
                                   // removeToken();
+                                  print(payController.jsonDataTransaksi);
                                   removeUserFormLogin();
-                                  // showAccessToken();
+                                  Get.toNamed(root);
+                                  showAccessToken();
                                 },
                               ),
                             ],

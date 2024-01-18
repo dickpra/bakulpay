@@ -33,15 +33,15 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  // TextEditingController emailController = TextEditingController();
-  // TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  LoginController loginController = Get.put(LoginController());
+  final loginController = Get.put(LoginController());
   final UserController userController = UserController();
+
+  bool passwordHide = true;
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +62,57 @@ class _LoginState extends State<Login> {
                         child: Image.asset('assets/images/LOGO.png')
                     ),
                     SizedBox(height: 50),
-                    textForm(_emailController,"Masukkan E-Mail",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Masukkan e-mail','@',false),
+                    Row(
+                      children: [
+                        SizedBox(width: 10),
+                        Text('Your email addres', style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold
+                        ),),
+                      ],
+                    ),
+                    textForm(_emailController,"Masukkan E-Mail",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.emailAddress, 'Masukkan e-mail','@',false),
 
                     SizedBox(height: 20),
-                    textForm(_passwordController,"Masukkan Password",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'isi password','',true),
+                    Row(
+                      children: [
+                        SizedBox(width: 10),
+                        Text('Password', style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold
+                        ),),
+                      ],
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: passwordHide,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: passwordHide ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              passwordHide = !passwordHide;
+                            });
+                          },),
+                        contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                        hintText: 'Passsword',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelStyle: TextStyle(
+                          // color: Colors.blue,
+                        ),
+                      ),
+                      keyboardType: TextInputType.text,
+                      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your Password';
+                        } else if (value.length <= 6) {
+                          return 'Password min 6 karakter';
+                        }
+                        return null;
+                      },
+                    ),
+                    // textForm(_passwordController,"Masukkan Password",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'isi password','',true),
                     SizedBox(height: 20),
                     ElevatedButton(
                       style: ButtonStyle(

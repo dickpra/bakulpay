@@ -48,6 +48,11 @@ class PayController extends GetxController {
   var isVccSelected = false.obs;
   var isNetellerSelected = false.obs;
 
+  ///Hapus Transaksi Logout
+  void clearJsonDataTransaksi() {
+    jsonDataTransaksi.value.clear();
+  }
+
   ///Pengguna Preference
   var  respsonIdPengguna =''.obs;
   var  respsonNamaPgn =''.obs;

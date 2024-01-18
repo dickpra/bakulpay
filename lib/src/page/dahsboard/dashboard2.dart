@@ -11,13 +11,14 @@ import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/model/test_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'home_widget/home.dart';
 
 
 import 'package:flutter/material.dart';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -149,44 +150,74 @@ class _DashboardNewState extends State<DashboardNew> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: Color(0xFFf67280),
-      extendBody: true,
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(20),
-        child: Container(
-          height: 55,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 2,
-                offset: Offset(0, 2),
-              ),
-            ],
-            // color: Color(0xFFffa4af),
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                ),
+    return WillPopScope(
+      onWillPop: () async{ return await
+      Alert(
+        context: context,
+        // onWillPopActive: true,
+        type: AlertType.warning,
+        title: "Warning",
+        desc: "Apakah anda ingin keluar Aplikasi?",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Ya",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => SystemNavigator.pop(),
+            color: Colors.red,
           ),
-          child: Row(
-            children: <Widget>[
-              buildNavItem(0, 'assets/images/menuikon/hm.png', 'Home'),
-              buildNavItem(1, 'assets/images/menuikon/wd.png', 'Withdraw'),
-              buildNavItem(2, 'assets/images/menuikon/tx.png', 'Transaksi'),
-              buildNavItem(3, 'assets/images/menuikon/rate.png', 'Rate'),
-              buildNavItem(4, 'assets/images/menuikon/pp.png', 'Profil'),
-            ],
+          DialogButton(
+            child: Text(
+              "Tidak",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            color: Color.fromRGBO(0, 179, 134, 1.0),
+          )
+        ],
+      ).show()
+          ?? false;
+        },
+      child: Scaffold(
+        // backgroundColor: Color(0xFFf67280),
+        extendBody: true,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.all(20),
+          child: Container(
+            height: 55,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: Offset(0, 2),
+                ),
+              ],
+              // color: Color(0xFFffa4af),
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                  ),
+            ),
+            child: Row(
+              children: <Widget>[
+                buildNavItem(0, 'assets/images/menuikon/hm.png', 'Home'),
+                buildNavItem(1, 'assets/images/menuikon/wd.png', 'Withdraw'),
+                buildNavItem(2, 'assets/images/menuikon/tx.png', 'Transaksi'),
+                buildNavItem(3, 'assets/images/menuikon/rate.png', 'Rate'),
+                buildNavItem(4, 'assets/images/menuikon/pp.png', 'Profil'),
+              ],
+            ),
           ),
         ),
+        body: pages[_currentIndex],
       ),
-      body: pages[_currentIndex],
     );
   }
 

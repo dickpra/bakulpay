@@ -73,7 +73,7 @@ class _transaksiState extends State<transaksi> {
                   return RefreshIndicator(
                       onRefresh: payController.getDataTransak,
                       child: ListView.builder(
-                        itemCount: filteredItems.length,
+                        itemCount: data.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
@@ -152,18 +152,22 @@ class _transaksiState extends State<transaksi> {
                           filterController.isTopUpSelected.value = true;
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: filterController.isTopUpSelected.value ? Colors.blue : Colors.grey,
+                          backgroundColor: filterController.isTopUpSelected.value ? Color(0xff37398B) : Colors.white,
                         ),
-                        child: Text('Top Up'),
+                        child: Text('Top Up',style: TextStyle(
+                          color: filterController.isTopUpSelected.value ? Colors.white : Color(0xff37398B),
+                        ),),
                       ),
                       ElevatedButton(
                         onPressed: () {
                           filterController.isTopUpSelected.value = false;
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: !filterController.isTopUpSelected.value ? Colors.blue : Colors.grey,
+                          backgroundColor: !filterController.isTopUpSelected.value ? Color(0xff37398B) : Colors.white,
                         ),
-                        child: Text('Withdraw'),
+                        child: Text('Withdraw',style: TextStyle(
+                          color: !filterController.isTopUpSelected.value ? Colors.white : Color(0xff37398B),
+                        ),),
                       ),
                     ],
                   );
@@ -298,8 +302,8 @@ Container Listdata(List<model_history> data, index) {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
                       ),
                     ],
                   ),
@@ -316,8 +320,8 @@ Container Listdata(List<model_history> data, index) {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
                       ),
                     ],
                   ),
@@ -326,7 +330,7 @@ Container Listdata(List<model_history> data, index) {
                     radius: 36,
                     child: Image(image: AssetImage('assets/images/perfectmoney.png'),),
                   ),
-                ),if(data[index].product == 'Pay Owner')
+                ),if(data[index].product == 'Pay Owner' || data[index].product == 'Payooner')
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -334,8 +338,8 @@ Container Listdata(List<model_history> data, index) {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
                       ),
                     ],
                   ),
@@ -352,8 +356,8 @@ Container Listdata(List<model_history> data, index) {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
                       ),
                     ],
                   ),
@@ -370,8 +374,8 @@ Container Listdata(List<model_history> data, index) {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
                       ),
                     ],
                   ),
@@ -388,8 +392,8 @@ Container Listdata(List<model_history> data, index) {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
                       ),
                     ],
                   ),
@@ -406,8 +410,8 @@ Container Listdata(List<model_history> data, index) {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
                       ),
                     ],
                   ),
@@ -424,8 +428,8 @@ Container Listdata(List<model_history> data, index) {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
                       ),
                     ],
                   ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/page/login/register_page.dart';
 import 'package:bakulpay/src/router/constant.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,10 +15,11 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 class LoginController extends GetxController {
-  var isLoading = false.obs;
-  var login = login_model().obs;
+  final isLoading = false.obs;
+  final login = login_model().obs;
+  final payController = Get.put(PayController());
 
-  Future<void> registerUserApp(String name, String username, String email, String phone,String passsword, String confirm_pass, File fotoProfil) async {
+  Future<void> registerUserApp(BuildContext context,String name, String username, String email, String phone,String passsword, String confirm_pass, File fotoProfil) async {
     isLoading.value = true;
     final response = await ApiService().registerApi(name,username,email,phone,passsword,confirm_pass,fotoProfil);
 
@@ -38,13 +40,31 @@ class LoginController extends GetxController {
             print('SnackBar ditekan');
           },);
       }else{
-        Get.defaultDialog(
-          title: 'Warning',
-          confirm: TextButton(
-            onPressed: () { Get.back(); }, child: Text('Ok'),),
-          content:
-              Text('${response['message']}'),
-        );
+        Alert(
+          context: context,
+          type: AlertType.error,
+          title: "Warning",
+          desc: "${response['message']}",
+          buttons: [
+            DialogButton(
+              color: Colors.red,
+              child: Text(
+                "OK",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              onPressed: () => Navigator.pop(context),
+              width: 120,
+            )
+          ],
+          // image: Image.asset("assets/images/usdt.png"),
+        ).show();
+        // Get.defaultDialog(
+        //   title: 'Warning',
+        //   confirm: TextButton(
+        //     onPressed: () { Get.back(); }, child: Text('Ok'),),
+        //   content:
+        //       Text('${response['message']}'),
+        // );
       }
       // else{
       //   Get.snackbar(
@@ -95,9 +115,7 @@ class LoginController extends GetxController {
         sharedPreferences.setString('UserPhoto', photoUser);
         sharedPreferences.setString('UserEmail', emailUser);
         sharedPreferences.setString('UserNohp', nohpUser);
-        Get.offAllNamed(dashboard);
-        print('peler sehat');
-
+        payController.clearJsonDataTransaksi();
         Get.offAllNamed(dashboard);
       }else{
         // Get.defaultDialog(
@@ -108,6 +126,7 @@ class LoginController extends GetxController {
         // );
         Alert(
           context: context,
+          type: AlertType.error,
           title: "Warning",
           desc: "Password/Email Salah",
           buttons: [
@@ -163,8 +182,9 @@ class LoginController extends GetxController {
         sharedPreferences.setString('UserPhoto', photoUser);
         sharedPreferences.setString('UserEmail', emailUser);
         sharedPreferences.setString('UserNohp', nohpUser);
+        payController.clearJsonDataTransaksi();
         Get.offAllNamed(dashboard);
-        print('peler sehat');
+
       }else{
         Get.to(BakulPaySignUpPage(email: email, nama: nama, statusLoginGoolge: true,));
       }

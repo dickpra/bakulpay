@@ -126,7 +126,7 @@ class _PromoBannerState extends State<PromoBanner> {
     super.initState();
 
     // Automatic scroll behaviour
-    _timer = Timer.periodic(const Duration(seconds: 7), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 10), (Timer timer) {
       int nextPage = _currentPageNotifier.value + 1;
 
       if (nextPage < 3) {
@@ -216,22 +216,7 @@ class PromoItem extends StatelessWidget {
 
 class BeliTopup extends StatelessWidget {
   PayController payController = Get.put(PayController());
-  // final RxList<Map<String, dynamic>> jsonData = <Map<String, dynamic>>[].obs;
 
-  // Future<void> fetchData() async {
-  //   try {
-  //     final response = await http.get(Uri.parse('http://192.168.18.33/api/payment/top%20up'));
-  //
-  //     if (response.statusCode == 200) {
-  //       final Map<String, dynamic> parsedData = json.decode(response.body);
-  //       jsonData.assignAll(List<Map<String, dynamic>>.from(parsedData['data']));
-  //     } else {
-  //       throw Exception('Gagal memuat data dari API');
-  //     }
-  //   } catch (error) {
-  //     print('Error: $error');
-  //   }
-  // }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -351,7 +336,7 @@ class BeliTopup extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 5,
-                offset: Offset(0, 3),
+                offset: Offset(0, 1),
               ),
             ],
           ),
