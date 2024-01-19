@@ -19,8 +19,8 @@ import 'package:http/http.dart' as http;
 
 class PayController extends GetxController {
   Rx<File?> imageFile = Rx<File?>(null);
-  var isTopUpSelected = true.obs;
-  var isLoading = false.obs;
+  final isTopUpSelected = false.obs;
+  final isLoading = false.obs;
   final jsonDataTransaksi = <model_history>[].obs;
   final jsonDataRate = <rate_model>[].obs;
   final jsonDataMenu= <menu_model>[].obs;
@@ -34,19 +34,17 @@ class PayController extends GetxController {
   final jsonPembayaranWd = <payment_model>[].obs;
   final jsonWithdraw = <withdraw_model>[].obs;
 
-  // final responPembayaran = {}.obs;
-
   final  responPembayaran =''.obs;
   final  responPembayaranWD =''.obs;
 
-  var isPaypalSelected = false.obs;
-  var isSkrillSelected = false.obs;
-  var isPerfectMoneySelected = false.obs;
-  var isPayeerSelected = false.obs;
-  var isUsdtSelected = false.obs;
-  var isBusdSelected = false.obs;
-  var isVccSelected = false.obs;
-  var isNetellerSelected = false.obs;
+  final isPaypalSelected = false.obs;
+  final isSkrillSelected = false.obs;
+  final isPerfectMoneySelected = false.obs;
+  final isPayeerSelected = false.obs;
+  final isUsdtSelected = false.obs;
+  final isBusdSelected = false.obs;
+  final isVccSelected = false.obs;
+  final isNetellerSelected = false.obs;
 
   ///Hapus Transaksi Logout
   void clearJsonDataTransaksi() {
@@ -54,19 +52,19 @@ class PayController extends GetxController {
   }
 
   ///Pengguna Preference
-  var  respsonIdPengguna =''.obs;
-  var  respsonNamaPgn =''.obs;
-  var  respsonphoto =''.obs;
-  var  respsonEmail=''.obs;
-  var  respsonNohp=''.obs;
+  final  respsonIdPengguna =''.obs;
+  final  respsonNamaPgn =''.obs;
+  final  respsonphoto =''.obs;
+  final  respsonEmail=''.obs;
+  final  respsonNohp=''.obs;
 
   Future<void> getPenggunaPreference() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    final user = sharedPreferences.getString('NickUser');
-    final userId = sharedPreferences.getString('UserId');
-    final photoUser = sharedPreferences.getString('UserPhoto');
-    final emailUser = sharedPreferences.getString('UserEmail');
-    final noHpUser = sharedPreferences.getString('UserNohp');
+    var sharedPreferences = await SharedPreferences.getInstance();
+    var user = sharedPreferences.getString('NickUser');
+    var userId = sharedPreferences.getString('UserId');
+    var photoUser = sharedPreferences.getString('UserPhoto');
+    var emailUser = sharedPreferences.getString('UserEmail');
+    var noHpUser = sharedPreferences.getString('UserNohp');
 
     if (user != null) {
       respsonNamaPgn.value = user.toString();
@@ -103,13 +101,13 @@ class PayController extends GetxController {
   // }
 
   Future<void> pickImageGallery() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    var pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       imageFile.value = File(pickedFile.path);
     }
   }
   Future<void> pickImageKamera() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    var pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       imageFile.value = File(pickedFile.path);
     }
@@ -121,7 +119,7 @@ class PayController extends GetxController {
 
   Future<void> teeeeessss (String nama, File bukti) async {
      isLoading.value = true;
-    final response = await ApiService().kirimBuktiWdApi(nama, bukti);
+     var response = await ApiService().kirimBuktiWdApi(nama, bukti);
 
     print('peler $response');
 
@@ -130,7 +128,6 @@ class PayController extends GetxController {
       // isidata.value = waitingModel.fromJson(data);
       // final prefs = await SharedPreferences.getInstance();
       // prefs.setString("Token", response.data!.token!);
-
       Get.snackbar(
         backgroundColor: Colors.blue,
         'Informasi', // Judul SnackBar
@@ -152,7 +149,7 @@ class PayController extends GetxController {
 
   Future<void> KirimWd (dynamic data) async {
     isLoading.value = true;
-    final response = await ApiService().kirimWDapi(data);
+    var response = await ApiService().kirimWDapi(data);
 
     print('WD $response');
 
@@ -174,7 +171,7 @@ class PayController extends GetxController {
 
   Future<void> KirimBuktiTopup (String nama, File bukti) async {
     isLoading.value = true;
-    final response = await ApiService().kirimBuktiTopApi(nama, bukti);
+    var response = await ApiService().kirimBuktiTopApi(nama, bukti);
 
     print('peler $response');
 
@@ -252,7 +249,7 @@ class PayController extends GetxController {
 
   Future<void> KirimBuktiWd(String nama, File bukti) async {
     isLoading.value = true;
-    final response = await ApiService().kirimBuktiWdApi(nama, bukti);
+    var response = await ApiService().kirimBuktiWdApi(nama, bukti);
 
     print('peler $response');
 
@@ -331,7 +328,7 @@ class PayController extends GetxController {
 
   Future<void> KirimTopup (dynamic data) async {
     isLoading.value = true;
-    final response = await ApiService().kirimTopup(data);
+    var response = await ApiService().kirimTopup(data);
 
     print('Anjay $response');
 
@@ -354,14 +351,14 @@ class PayController extends GetxController {
 
   Future getDataTransak() async {
     // Ambil dan proses data dari JSON, misalnya:
-    final jsonDataWait = await ApiService().GetTransaksi();
+    var jsonDataWait = await ApiService().GetTransaksi();
 
     print('data $jsonDataWait');
     jsonDataTransaksi.assignAll(jsonDataWait);
   }
   Future getDataRate() async {
     // Ambil dan proses data dari JSON, misalnya:
-    final jsonDataWait = await ApiService().getRate();
+    var jsonDataWait = await ApiService().getRate();
 
     print('rate $jsonDataWait');
     jsonDataRate.assignAll(jsonDataWait);
@@ -369,7 +366,7 @@ class PayController extends GetxController {
 
   Future getDataMenu() async {
     // Ambil dan proses data dari JSON, misalnya:
-    final jsonDataWait = await ApiService().getMenu();
+    var jsonDataWait = await ApiService().getMenu();
 
     print('data $jsonDataWait');
     jsonDataMenu.assignAll(jsonDataWait);
@@ -377,7 +374,7 @@ class PayController extends GetxController {
 
   Future getDataRateTopup() async {
     // Ambil dan proses data dari JSON, misalnya:
-    final jsonDataWait = await ApiService().getRateTop();
+    var jsonDataWait = await ApiService().getRateTop();
 
     jsonRate.value = jsonDataWait;
     // print('topup $jsonDataWait');
@@ -385,7 +382,7 @@ class PayController extends GetxController {
 
   Future getDataRateWd() async {
     // Ambil dan proses data dari JSON, misalnya:
-    final jsonDataWait = await ApiService().getRateWdApi();
+    var jsonDataWait = await ApiService().getRateWdApi();
 
     jsonRateWd.value = jsonDataWait;
     // print('topup $jsonDataWait');
@@ -393,14 +390,14 @@ class PayController extends GetxController {
 
   Future getPayment() async {
 
-    final jsonDataWait = await ApiService().getPaymentApi();
+    var jsonDataWait = await ApiService().getPaymentApi();
 
     jsonPembayaran.assignAll(jsonDataWait);
 
   }
   Future getPaymentwd() async {
 
-    final jsonDataWait = await ApiService().getPaymentApiWd();
+    var jsonDataWait = await ApiService().getPaymentApiWd();
 
     jsonPembayaranWd.assignAll(jsonDataWait);
 
@@ -408,7 +405,7 @@ class PayController extends GetxController {
 
   Future getWithdraw() async {
 
-    final jsonDataWait = await ApiService().getWithdrawApi();
+    var jsonDataWait = await ApiService().getWithdrawApi();
 
     jsonWithdraw.assignAll(jsonDataWait);
 

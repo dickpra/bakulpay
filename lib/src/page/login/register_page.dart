@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bakulpay/src/router/constant.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:bakulpay/src/controller/login_controller.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/pembayaran_wd.dart';
@@ -106,6 +107,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                 SizedBox(height: 5),
                 if(widget.nama.isNotEmpty)
                 textForm(_nameController..text = widget.nama,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
+                if(widget.nama.isEmpty)
                 textForm(_nameController,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
                 SizedBox(height: 20),
                 Row(
@@ -128,6 +130,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   ],
                 ),
                 SizedBox(height: 5),
+                if(widget.email.isEmpty)
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
@@ -296,57 +299,97 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   child: ClipOval(
                     child:
                     _image == null ?
-                    CircleAvatar(
-                      radius: 80,
-                      backgroundColor: Color(0xff37398B),
+                    InkWell(
+
+                      onTap: () { showDialog(context: context, builder: (BuildContext context){
+                        return AlertDialog(
+                          title:  Text('Pilih Foto'),
+                          // content: Text('Pilih Foto'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Kamera'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                // payController.pickImageKamera();
+                                pickKamera();
+                                // Navigator.pop(context);
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Gallery'),
+                              onPressed: () {
+                                pickGallery();
+                                // payController.pickImageGallery();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      }); },
+                      child: const CircleAvatar(
+                        radius: 80,
+                        backgroundColor: Color(0xff37398B),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_a_photo,color: Colors.white,size: 60,),
+                            Text('Add Photo',style: TextStyle(
+                              color: Colors.white
+                            ),)
+                          ],
+                        ),
+                      ),
                     ):
-                    CircleAvatar(
-                      radius: 80,
-                      // backgroundImage: _image != null ? FileImage(_image!) : null,
-                      backgroundColor: Color(0xff37398B),
-                      child: ClipOval(
-                          child: Image.file(
-                            _image!,
-                            width: 160,
-                            height: 160,
-                            fit: BoxFit.cover,
-                          ),
+                    InkWell(
+                      onTap: () { showDialog(context: context, builder: (BuildContext context){
+                        return AlertDialog(
+                          title:  Text('Pilih Foto'),
+                          // content: Text('Pilih Foto'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Kamera'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                // payController.pickImageKamera();
+                                pickKamera();
+                                // Navigator.pop(context);
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Gallery'),
+                              onPressed: () {
+                                pickGallery();
+                                // payController.pickImageGallery();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      }); },
+                      child: CircleAvatar(
+                        radius: 80,
+                        // backgroundImage: _image != null ? FileImage(_image!) : null,
+                        backgroundColor: Color(0xff37398B),
+                        child: ClipOval(
+                            child: Image.file(
+                              _image!,
+                              width: 160,
+                              height: 160,
+                              fit: BoxFit.cover,
+                            ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    showDialog(context: context, builder: (BuildContext context){
-                      return AlertDialog(
-                        title:  Text('Pilih Foto'),
-                        // content: Text('Pilih Foto'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Kamera'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              // payController.pickImageKamera();
-                              pickKamera();
-                              // Navigator.pop(context);
-                            },
-                          ),
-                          TextButton(
-                            child: Text('Gallery'),
-                            onPressed: () {
-                              pickGallery();
-                              // payController.pickImageGallery();
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      );
-                    });
-                  },
-                  child: Text('Pilih Foto',style: TextStyle(
-                      color: Color(0xff37398B)
-                  ),),
-                ),
+                // TextButton(
+                //   onPressed: () {
+                //
+                //   },
+                //   child: Text('Pilih Foto',style: TextStyle(
+                //       color: Color(0xff37398B)
+                //   ),),
+                // ),
                 SizedBox(height: 30),
                 ElevatedButton(
                   style: ButtonStyle(
@@ -415,6 +458,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                     TextButton(
                       onPressed: () {
                         // TODO: Implement sign in logic
+                        Get.offAllNamed(loginApp);
                       },
                       child: Text('Sign In',style: TextStyle(fontWeight: FontWeight.bold)),
                     ),

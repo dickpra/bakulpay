@@ -24,6 +24,7 @@ class _transaksiState extends State<transaksi> {
   @override
   void initState() {
     super.initState();
+    payController.clearJsonDataTransaksi();
     payController.getDataTransak();
   }
 
@@ -63,17 +64,27 @@ class _transaksiState extends State<transaksi> {
                     .where((item) => item.type!.toLowerCase().contains(filter.toLowerCase()))
                     // .where((item) => item.status!.toLowerCase().contains(filter2.toLowerCase()))
                     .toList();
-                // print('daasdasdasdsa $data');
                 if (data.isEmpty) {
                   return Center(
                       child: RefreshIndicator(
                       onRefresh: payController.getDataTransak,
-                      child: const Text('Belum Ada Transaksi')));
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/images/warningTX.png'),
+                          Text('Kamu belum memiliki transaksi',style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold
+                          ),),
+                          Text('buat transaksi sekarang untuk melihatnya dihalaman ini',style: TextStyle(
+                            fontSize: 13, color: Colors.grey
+                          ),),
+                        ],
+                      )));
                 } else {
                   return RefreshIndicator(
                       onRefresh: payController.getDataTransak,
                       child: ListView.builder(
-                        itemCount: data.length,
+                        itemCount: filteredItems.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
@@ -82,8 +93,7 @@ class _transaksiState extends State<transaksi> {
                               //     builder: (context) => dataTransaksiPage(),
                               //   ),
                               // );
-                              Get.to(
-                                  DataTransaksiPage(data.elementAt(index)));
+                              Get.to(DataTransaksiPage(filteredItems.elementAt(index)));
                             },
                             child: Listdata(filteredItems, index),
                           );
@@ -117,11 +127,11 @@ class _transaksiState extends State<transaksi> {
                       onPressed: () {
                         var topup = filterController.isTopUpSelected.toString();
 
-                        if(topup.contains('true')){
+                        if(topup == 'true'){
                           setState((){
                             filter = 'Top-Up';
                           });
-                        }if(topup.contains('false')){
+                        }if(topup == 'false'){
                           setState((){
                             filter = 'Withdraw';
                           });
@@ -269,7 +279,7 @@ Container Listdata(List<model_history> data, index) {
     decoration: BoxDecoration(
       color: Colors.white,
       border: Border.all(color: Colors.grey.shade50),
-      // borderRadius: BorderRadius.circular(50),
+      borderRadius: BorderRadius.circular(10),
       boxShadow: [
         BoxShadow(
           color: Colors.grey.withOpacity(0.5),

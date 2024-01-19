@@ -69,7 +69,7 @@ class _profilWidgetState extends State<profilWidget> {
                       child: IconButton(
                         onPressed: () {
                           showAccessToken();
-                          payController.clearJsonDataTransaksi();
+                          // payController.clearJsonDataTransaksi();
                           print(payController.jsonDataTransaksi);
                         },
                         icon: Icon(Icons.edit_note),
@@ -171,10 +171,10 @@ class _profilWidgetState extends State<profilWidget> {
                                 onPressed: () {
                                   payController.clearJsonDataTransaksi();
                                   // removeToken();
-                                  print(payController.jsonDataTransaksi);
                                   removeUserFormLogin();
                                   Get.toNamed(root);
                                   showAccessToken();
+                                  print(payController.jsonDataTransaksi);
                                 },
                               ),
                             ],
@@ -183,7 +183,7 @@ class _profilWidgetState extends State<profilWidget> {
                       ) ?? false;
                     }, child: Row(
                       children: [
-                        Icon(Icons.logout_outlined, color: Color(0xff7AA4F5),size: 30,),
+                        Icon(Icons.logout_outlined, color: Colors.red,size: 30,),
                         SizedBox(width: 10),
                         Text('Logout', style: TextStyle(
                             fontSize: 16, color: Colors.black

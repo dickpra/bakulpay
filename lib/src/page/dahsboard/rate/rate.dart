@@ -113,7 +113,7 @@ Container ListRate(RxList<rate_model> data, index) {
     decoration: BoxDecoration(
       color: Colors.white,
       border: Border.all(color: Colors.grey.shade50),
-      // borderRadius: BorderRadius.circular(50),
+      borderRadius: BorderRadius.circular(10),
       boxShadow: [
         BoxShadow(
           color: Colors.grey.withOpacity(0.5),

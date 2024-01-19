@@ -115,7 +115,7 @@ class LoginController extends GetxController {
         sharedPreferences.setString('UserPhoto', photoUser);
         sharedPreferences.setString('UserEmail', emailUser);
         sharedPreferences.setString('UserNohp', nohpUser);
-        payController.clearJsonDataTransaksi();
+        // payController.clearJsonDataTransaksi();
         Get.offAllNamed(dashboard);
       }else{
         // Get.defaultDialog(
@@ -182,7 +182,7 @@ class LoginController extends GetxController {
         sharedPreferences.setString('UserPhoto', photoUser);
         sharedPreferences.setString('UserEmail', emailUser);
         sharedPreferences.setString('UserNohp', nohpUser);
-        payController.clearJsonDataTransaksi();
+        // payController.clearJsonDataTransaksi();
         Get.offAllNamed(dashboard);
 
       }else{
