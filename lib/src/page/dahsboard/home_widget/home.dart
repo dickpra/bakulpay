@@ -35,7 +35,7 @@ class ProfilDashboard extends StatelessWidget {
         // color: Colors.blue,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Diganti menjadi MainAxisAlignment.spaceBetween
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,// Diganti menjadi MainAxisAlignment.spaceBetween
         children: [
           Container(
             decoration: BoxDecoration(
@@ -64,9 +64,9 @@ class ProfilDashboard extends StatelessWidget {
               ],
             ),
           ),
-          // SizedBox(
-          //   width: 20, // Sesuaikan lebar sesuai kebutuhan
-          // ),
+          SizedBox(
+            width: 50, // Sesuaikan lebar sesuai kebutuhan
+          ),
           Container(
             padding: EdgeInsets.only(left: 80),
             decoration: BoxDecoration(

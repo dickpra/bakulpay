@@ -31,6 +31,7 @@ class _profilWidgetState extends State<profilWidget> {
                     Row(
                       children: [
                         CircleAvatar(
+                          backgroundColor: Colors.grey,
                           radius: 40,
                         child: Obx(() => ClipOval(
                           child:
@@ -40,7 +41,7 @@ class _profilWidgetState extends State<profilWidget> {
                             height: 160,
                             payController.respsonphoto.value,
                             fit: BoxFit.cover,
-                          ):Icon(CupertinoIcons.profile_circled,size: 70,color: Colors.blueAccent,)
+                          ):Icon(CupertinoIcons.profile_circled,size: 70,color: Colors.white,)
                         )),
                         ),
                         SizedBox(width: 10),

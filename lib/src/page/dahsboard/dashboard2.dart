@@ -180,6 +180,11 @@ class _DashboardNewState extends State<DashboardNew> {
           ?? false;
         },
       child: Scaffold(
+        // appBar: AppBar(
+        //   // automaticallyImplyLeading: false,
+        //   // centerTitle: true,
+        //   title: ProfilDashboard(),
+        // ),
         // backgroundColor: Color(0xFFf67280),
         extendBody: true,
         // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -270,9 +275,10 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: _refreshData,
-      child: Center(
+      child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+        
             children: [
               // profilDashboard(user: widget.user.displayName),
               ProfilDashboard(),
@@ -304,7 +310,7 @@ class _HomeTabState extends State<HomeTab> {
                 // height: 180,
                 child: NewsPage(),
               ),
-
+        
             ],
           ),
         ),

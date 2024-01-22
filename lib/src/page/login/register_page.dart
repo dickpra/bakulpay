@@ -99,193 +99,6 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                 Row(
                   children: [
                     SizedBox(width: 5),
-                    Text('Name', style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold
-                    ),),
-                  ],
-                ),
-                SizedBox(height: 5),
-                if(widget.nama.isNotEmpty)
-                textForm(_nameController..text = widget.nama,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
-                if(widget.nama.isEmpty)
-                textForm(_nameController,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    SizedBox(width: 5),
-                    Text('Username', style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold
-                    ),),
-                  ],
-                ),
-                SizedBox(height: 5),
-                textForm(_usernameController,"Username",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your username','',false),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    SizedBox(width: 5),
-                    Text('Email', style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold
-                    ),),
-                  ],
-                ),
-                SizedBox(height: 5),
-                if(widget.email.isEmpty)
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                    // labelText: 'Email',
-                    hintText: 'Email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    labelStyle: TextStyle(
-                      // color: Colors.blue,
-                    ),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-
-                  obscureText: false,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (!value.contains('@')) {
-                      return 'Masukkan email yang benar!!';
-                    } else if (!value.contains('.')) {
-                      return 'Masukkan email yang benar!!';
-                    }
-                    return null;
-                  },
-                ),
-                if(widget.email.isNotEmpty)
-                TextFormField(
-                  controller: _emailController..text = widget.email,
-                  readOnly: widget.statusLoginGoolge,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                    // labelText: 'Email',
-                    hintText: 'Email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    labelStyle: TextStyle(
-                      // color: Colors.blue,
-                    ),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-
-                  obscureText: false,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (!value.contains('@')) {
-                      return 'Masukkan email yang benar!!';
-                    } else if (!value.contains('.')) {
-                      return 'Masukkan email yang benar!!';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    SizedBox(width: 5),
-                    Text('Phone Number', style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold
-                    ),),
-                  ],
-                ),
-                SizedBox(height: 5),
-                textForm(_phoneController,"Phone Number",[FilteringTextInputFormatter.digitsOnly],TextInputType.number, 'Please enter your Phone Number','',false),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    SizedBox(width: 5),
-                    Text('Password', style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold
-                    ),),
-                  ],
-                ),
-                SizedBox(height: 5),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: passwordHide,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      icon: passwordHide ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          passwordHide = !passwordHide;
-                        });
-                      },),
-                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                    hintText: 'Passsword',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    labelStyle: TextStyle(
-                      // color: Colors.blue,
-                    ),
-                  ),
-                  keyboardType: TextInputType.text,
-                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your Password';
-                    } else if (value.length <= 6) {
-                      return 'Password min 6 karakter';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    SizedBox(width: 5),
-                    Text('Confirm Password', style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold
-                    ),),
-                  ],
-                ),
-                SizedBox(height: 5),
-                TextFormField(
-                  obscureText: passwordHide2,
-                  controller: _confirmPasswordController,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      icon: passwordHide2 ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          passwordHide2 = !passwordHide2;
-                        });
-                      },),
-                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                    hintText: 'Confirm Passsword',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    labelStyle: TextStyle(
-                      // color: Colors.blue,
-                    ),
-                  ),
-                  keyboardType: TextInputType.text,
-                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your Password';
-                    } else if (value.length <= 6) {
-                      return 'Password min 6 karakter';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    SizedBox(width: 5),
                     Text('Pilih Foto Profil', style: TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold
                     ),),
@@ -295,7 +108,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                 CircleAvatar(
                   radius: 80,
                   // backgroundImage: _image != null ? FileImage(_image!) : null,
-                  backgroundColor: Color(0xff37398B),
+                  backgroundColor: Colors.grey,
                   child: ClipOval(
                     child:
                     _image == null ?
@@ -328,13 +141,13 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                       }); },
                       child: const CircleAvatar(
                         radius: 80,
-                        backgroundColor: Color(0xff37398B),
+                        backgroundColor: Colors.grey,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.add_a_photo,color: Colors.white,size: 60,),
                             Text('Add Photo',style: TextStyle(
-                              color: Colors.white
+                                color: Colors.white
                             ),)
                           ],
                         ),
@@ -369,19 +182,300 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                       child: CircleAvatar(
                         radius: 80,
                         // backgroundImage: _image != null ? FileImage(_image!) : null,
-                        backgroundColor: Color(0xff37398B),
+                        backgroundColor: Colors.grey,
                         child: ClipOval(
-                            child: Image.file(
-                              _image!,
-                              width: 160,
-                              height: 160,
-                              fit: BoxFit.cover,
-                            ),
+                          child: Image.file(
+                            _image!,
+                            width: 160,
+                            height: 160,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Name', style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
+                if(widget.nama.isNotEmpty)
+                  TextFormField(
+                    controller: _nameController..text = widget.nama,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                      // labelText: 'Email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      labelStyle: TextStyle(
+                        // color: Colors.blue,
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                    obscureText: false,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                  ),
+                // textForm(_nameController..text = widget.nama,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
+                if(widget.nama.isEmpty)
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                      // labelText: 'Email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      labelStyle: TextStyle(
+                        // color: Colors.blue,
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                    obscureText: false,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                  ),
+                // textForm(_nameController,"Name",[FilteringTextInputFormatter.deny(RegExp(''))],TextInputType.text, 'Please enter your name','',false),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Username', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
+                TextFormField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    // labelText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.text,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                  obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your Username';
+                    }
+                    return null;
+                  },
+                ),
+                // textForm(_usernameController,"Username",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.text, 'Please enter your username','',false),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Email', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
+                if(widget.email.isEmpty)
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    // labelText: 'Email',
+                    // hintText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                  obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your email';
+                    } else if (!value.contains('@')) {
+                      return 'Masukkan email yang benar!!';
+                    } else if (!value.contains('.')) {
+                      return 'Masukkan email yang benar!!';
+                    }
+                    return null;
+                  },
+                ),
+                if(widget.email.isNotEmpty)
+                TextFormField(
+                  controller: _emailController..text = widget.email,
+                  readOnly: widget.statusLoginGoolge,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    // labelText: 'Email',
+                    // hintText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                  obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your email';
+                    } else if (!value.contains('@')) {
+                      return 'Masukkan email yang benar!!';
+                    } else if (!value.contains('.')) {
+                      return 'Masukkan email yang benar!!';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Phone Number', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
+                TextFormField(
+                  controller: _phoneController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    // labelText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+
+                  obscureText: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your Phone';
+                    }
+                    return null;
+                  },
+                ),
+                // textForm(_phoneController,"Phone Number",[FilteringTextInputFormatter.digitsOnly],TextInputType.number, 'Please enter your Phone Number','',false),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Password', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: passwordHide,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: passwordHide ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          passwordHide = !passwordHide;
+                        });
+                      },),
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    // hintText: 'Passsword',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.text,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your Password';
+                    } else if (value.length <= 5) {
+                      return 'Password min 6 karakter';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 5),
+                    Text('Confirm Password', style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+                SizedBox(height: 5),
+                TextFormField(
+                  obscureText: passwordHide2,
+                  controller: _confirmPasswordController,
+                  decoration: InputDecoration(
+                    fillColor: Colors.red,
+                    suffixIcon: IconButton(
+                      icon: passwordHide2 ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          passwordHide2 = !passwordHide2;
+                        });
+                      },),
+                    contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                    // hintText: 'Confirm Passsword',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelStyle: TextStyle(
+                      // color: Colors.blue,
+                    ),
+                  ),
+                  keyboardType: TextInputType.text,
+                  inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your Password';
+                    } else if (value.length <= 5) {
+                      return 'Password min 6 karakter';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+
                 // TextButton(
                 //   onPressed: () {
                 //
@@ -425,7 +519,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   child:
                   Obx(() =>
                   loginController.isLoading.value ? CircularProgressIndicator():
-                  Text('Sign In',style: TextStyle(color: Colors.white),),
+                  Text('Create Account',style: TextStyle(color: Colors.white),),
                   ),
                   // Text('Create Account',style: TextStyle(
                   //   color: Colors.white

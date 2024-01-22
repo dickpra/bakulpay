@@ -70,7 +70,35 @@ class _LoginState extends State<Login> {
                         ),),
                       ],
                     ),
-                    textForm(_emailController,"Masukkan E-Mail",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.emailAddress, 'Masukkan e-mail','@',false),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                        // labelText: 'Email',
+                        // hintText: 'Email',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        labelStyle: TextStyle(
+                          // color: Colors.blue,
+                        ),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
+
+                      obscureText: false,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your email';
+                        } else if (!value.contains('@')) {
+                          return 'Masukkan email yang benar!!';
+                        } else if (!value.contains('.')) {
+                          return 'Masukkan email yang benar!!';
+                        }
+                        return null;
+                      },
+                    ),
+                    // textForm(_emailController,"Masukkan E-Mail",[FilteringTextInputFormatter.deny(RegExp(' '))],TextInputType.emailAddress, 'Masukkan e-mail','@',false),
 
                     SizedBox(height: 20),
                     Row(
@@ -93,9 +121,9 @@ class _LoginState extends State<Login> {
                             });
                           },),
                         contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                        hintText: 'Passsword',
+                        // hintText: 'Passsword',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(50),
                         ),
                         labelStyle: TextStyle(
                           // color: Colors.blue,
