@@ -1,3 +1,4 @@
+import 'package:bakulpay/src/model/blockchain_model.dart';
 import 'package:bakulpay/src/model/history_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -424,10 +425,46 @@ class ApiService extends GetConnect with BaseController {
 
   }
 
+  Future<Iterable<blockchain_model>> getBlochainUsdtApi() async{
+    final response = await BaseClient()
+        .get(BASE_URL, '/blockchain/usdt',"")
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else if (error is ApiNotRespondingException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else {
+        handleError(error);
+      }
+    });
+
+    print("responsemenu $response");
+
+    final jsonData = jsonDecode(response);
+    print("jsonData $jsonData");
+
+    // final List<dynamic> responseData = jsonData['data'];
+    // print('responseDataMenu $responseData');
+    final List<dynamic> responseData = jsonData;
+
+    // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
+    final Iterable<blockchain_model> waitingModels = responseData.map((data) => blockchain_model.fromJson(data));
+    print("Itersble$waitingModels");
+
+
+    if (response != null) {
+      return waitingModels;
+    } else {
+      return response;
+    }
+
+  }
+
   Future<Iterable<payment_model>> getPaymentApi() async{
     final response = await BaseClient()
         .get(BASE_URL, '/metode_pembayaran',"")
-    // .get(URL_MOCK2, '/test',"")
         .catchError((error) {
       if (error is BadRequestException) {
         var apiError = json.decode(error.message!);

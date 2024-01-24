@@ -1,35 +1,35 @@
-class rate_model {
+class blockchain_model {
   dynamic id;
+  dynamic idRate;
   String? namaBank;
-  dynamic icons;
-  String? type;
+  dynamic namaBlockchain;
+  dynamic rekeningWallet;
+  dynamic type;
   dynamic price;
-  dynamic nama;
-  dynamic noRekening;
   dynamic active;
   String? createdAt;
   String? updatedAt;
 
-  rate_model(
+  blockchain_model(
       {this.id,
+        this.idRate,
         this.namaBank,
-        this.icons,
+        this.namaBlockchain,
+        this.rekeningWallet,
         this.type,
         this.price,
-        this.nama,
-        this.noRekening,
         this.active,
         this.createdAt,
         this.updatedAt});
 
-  rate_model.fromJson(Map<String, dynamic> json) {
+  blockchain_model.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    idRate = json['id_rate'];
     namaBank = json['nama_bank'];
-    icons = json['icons'];
+    namaBlockchain = json['nama_blockchain'];
+    rekeningWallet = json['rekening_wallet'];
     type = json['type'];
     price = json['price'];
-    nama = json['nama'];
-    noRekening = json['no_rekening'];
     active = json['active'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -38,12 +38,12 @@ class rate_model {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['id_rate'] = this.idRate;
     data['nama_bank'] = this.namaBank;
-    data['icons'] = this.icons;
+    data['nama_blockchain'] = this.namaBlockchain;
+    data['rekening_wallet'] = this.rekeningWallet;
     data['type'] = this.type;
     data['price'] = this.price;
-    data['nama'] = this.nama;
-    data['no_rekening'] = this.noRekening;
     data['active'] = this.active;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;

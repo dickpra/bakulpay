@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bakulpay/src/model/blockchain_model.dart';
 import 'package:bakulpay/src/model/history_model.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/bayarWd.dart';
 import 'package:bakulpay/src/router/constant.dart';
@@ -33,6 +34,8 @@ class PayController extends GetxController {
   final jsonPembayaran = <payment_model>[].obs;
   final jsonPembayaranWd = <payment_model>[].obs;
   final jsonWithdraw = <withdraw_model>[].obs;
+  final jsonChainUsdt = <blockchain_model>[].obs;
+  final jsonChainBusd = <blockchain_model>[].obs;
 
   final  responPembayaran =''.obs;
   final  responPembayaranWD =''.obs;
@@ -117,34 +120,12 @@ class PayController extends GetxController {
     selectedPaymentMethod.value = newValue!;
   }
 
-  Future<void> teeeeessss (String nama, File bukti) async {
-     isLoading.value = true;
-     var response = await ApiService().kirimBuktiWdApi(nama, bukti);
+  Future getBlockchainUsdt() async {
 
-    print('peler $response');
+    var jsonDataWait = await ApiService().getBlochainUsdtApi();
 
-    if (response != null) {
+    jsonChainUsdt.assignAll(jsonDataWait);
 
-      // isidata.value = waitingModel.fromJson(data);
-      // final prefs = await SharedPreferences.getInstance();
-      // prefs.setString("Token", response.data!.token!);
-      Get.snackbar(
-        backgroundColor: Colors.blue,
-        'Informasi', // Judul SnackBar
-        'Berhasil Memesan!', // Isi SnackBar
-        snackPosition: SnackPosition.BOTTOM, // Posisi SnackBar
-        duration: Duration(seconds: 3), // Durasi tampilan SnackBar
-        onTap: (snack) {
-          // Aksi yang diambil ketika SnackBar ditekan
-          print('SnackBar ditekan');
-        },);
-
-      Get.offAllNamed(dashboard);
-
-      isLoading.value = false;
-    } else {
-      isLoading.value = false;
-    }
   }
 
   Future<void> KirimWd (dynamic data) async {

@@ -51,4 +51,5 @@ Future<void> GetAllSync() async {
   payController.getWithdraw();
   payController.getDataRateWd();
   payController.getPenggunaPreference();
+  payController.getBlockchainUsdt();
 }

@@ -345,9 +345,13 @@ class BeliTopup extends StatelessWidget {
               CircleAvatar(
                 radius: 35,
                 backgroundColor: Colors.white,
-                child: Image(
-                  fit: BoxFit.contain,
-                  image: NetworkImage(imagePath),
+                child: ClipOval(
+                  child: Image(
+                    width: 160,
+                    height: 160,
+                    fit: BoxFit.contain,
+                    image: NetworkImage(imagePath),
+                  ),
                 ),
               ),
               SizedBox(height: 1),

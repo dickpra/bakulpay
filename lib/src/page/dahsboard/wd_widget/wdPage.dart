@@ -33,6 +33,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
     'TMRW'
   ];
   String? bankPilihan;
+  String? usdtChain;
   List<String> pilihanBlockchain = ['BEP20', 'ERC20', 'TRC20', 'Polygon', 'Solana'];
   String? pilihBlockChain;
 
@@ -214,30 +215,68 @@ class _WithdrawPageState extends State<WithdrawPage> {
                 ///USD
                 // SizedBox(height: 20),
                 if (pilihInstansi != null && pilihInstansi!.contains('USDT') || pilihInstansi != null && pilihInstansi!.contains('BUSD'))
-                  Container(
-                    // width: 200,
-                    decoration: BoxDecoration(),
-                    child: DropdownButton<String>(
-                      hint: Text('Pilih BlockChain'),
-                      isExpanded: true,
-                      value: pilihBlockChain,
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          setState(() {
-                            pilihBlockChain = newValue;
-                          });
-                        }
-                      },
-                      items: pilihanBlockchain.map<DropdownMenuItem<String>>(
-                            (String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
+                  Obx(() {
+                    final data = payController.jsonChainUsdt;
+                    if (data.isEmpty) {
+                      return Center(
+                        child:  Text('Belum Ada'),
+                      );
+                    } else {
+                      return DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                            border: InputBorder.none
+                        ),
+                        hint: Row(children: [ Icon(CupertinoIcons.money_dollar_circle, color: Color(0xff7AA4F5),),SizedBox(width: 10),Text('Pilih Blockchain', style: TextStyle(color: Color(0xff7AA4F5), fontSize: 18),)]),
+                        value: usdtChain,
+                        onChanged: (newValue) {
+                          if (newValue != null) {
+                            setState(() {
+                              usdtChain = newValue;
+                            });
+                          }
                         },
-                      ).toList(),
-                    ),
-                  ),
+                        items: payController.jsonChainUsdt.map<DropdownMenuItem<String>>(
+                              (paymentModel) {
+                            String value = paymentModel.namaBlockchain.toString();
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Row(
+                                children: [
+                                  Text(value),
+                                ],
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      );
+                    }
+                  },),
+                  // Container(
+                  //   // width: 200,
+                  //   decoration: BoxDecoration(),
+                  //   child: DropdownButton<String>(
+                  //     hint: Text('Pilih BlockChain'),
+                  //     isExpanded: true,
+                  //     value: pilihBlockChain,
+                  //     onChanged: (String? newValue) {
+                  //       if (newValue != null) {
+                  //         setState(() {
+                  //           pilihBlockChain = newValue;
+                  //         });
+                  //       }
+                  //     },
+                  //     items: pilihanBlockchain.map<DropdownMenuItem<String>>(
+                  //           (String value) {
+                  //         return DropdownMenuItem<String>(
+                  //           value: value,
+                  //           child: Text(value),
+                  //         );
+                  //       },
+                  //     ).toList(),
+                  //   ),
+                  // ),
+
+
 
                 ///BANK
                 // SizedBox(height: 20),
@@ -366,7 +405,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
   }
 
   void _confirmWithdraw(context) {
-    if(pilihInstansi!.contains('USDT') && pilihBlockChain == null || pilihInstansi!.contains('BUSD') && pilihBlockChain == null){
+    if(pilihInstansi!.contains('USDT') && usdtChain == null || pilihInstansi!.contains('BUSD') && pilihBlockChain == null){
 
       showDialog(context: context, builder: (BuildContext context){
         return AlertDialog(
@@ -393,17 +432,25 @@ class _WithdrawPageState extends State<WithdrawPage> {
       print('Bank: $bankPilihan');
       print('Nomor Rekening: ${nomorController.text}');
       print('BlockChain: $pilihBlockChain');
-      Navigator.push(
-          context,
-      MaterialPageRoute(
-        builder: (context) => pembayaranWd(
-            produk: pilihInstansi.toString(),
-            blockChain: pilihBlockChain.toString(),
-            amount: int.parse(dollarController.text),
-            bank: bankPilihan.toString(),
-            rekening: nomorController.text),
-      ),
-      );
+      // Navigator.push(
+      //     context,
+      // MaterialPageRoute(
+      //   builder: (context) => pembayaranWd(
+      //       produk: pilihInstansi.toString(),
+      //       blockChain: pilihBlockChain.toString(),
+      //       amount: int.parse(dollarController.text),
+      //       bank: bankPilihan.toString(),
+      //       rekening: nomorController.text),
+      // ),
+      // );
+      Get.to(
+          pembayaranWd(
+              produk: pilihInstansi.toString(),
+              amount: int.parse(dollarController.text),
+              bank: bankPilihan.toString(),
+              rekening: nomorController.text,
+              blockChain: usdtChain.toString()
+          ));
     }
   }
 }

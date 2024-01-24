@@ -46,20 +46,13 @@ class _transaksiState extends State<transaksi> {
           ),
         ],
       ),
-      // appBar: Tab(
-      //   child: Text('Riwayat Transaksi', style: TextStyle(
-      //     fontSize: 20,fontWeight: FontWeight.bold
-      //   )),
-      // ),
       body: Row(
         children: [
           Expanded(
             child: Container(
               // color: Colors.blue,
               child: Obx(() {
-
-                final data = payController.jsonDataTransaksi;
-
+                var data = payController.jsonDataTransaksi;
                 List<model_history> filteredItems = data
                     .where((item) => item.type!.toLowerCase().contains(filter.toLowerCase()))
                     // .where((item) => item.status!.toLowerCase().contains(filter2.toLowerCase()))
@@ -107,6 +100,7 @@ class _transaksiState extends State<transaksi> {
       ),
     );
   }
+
   void _showFilterDialog() {
     List<bool> isSelected = [true,false]; // Indeks 0: Topup, Indeks 1: Withdraw
     showModalBottomSheet(
@@ -267,11 +261,7 @@ class _transaksiState extends State<transaksi> {
     );
   }
 
-
-
 }
-
-
 
 Container Listdata(List<model_history> data, index) {
   return Container(

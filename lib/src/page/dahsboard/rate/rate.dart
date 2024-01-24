@@ -161,7 +161,11 @@ Container ListRate(RxList<rate_model> data, index) {
                   child: CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 36,
-                    child: Image.network('${data[index].icons}',fit: BoxFit.contain,),
+                    child: ClipOval(
+                        child: Image.network('${data[index].icons}',fit: BoxFit.contain,
+                        width: 160,
+                          height: 160,
+                        )),
                   ),
                 ),
                 // if(data[index].namaBank!.contains('Skrill'))

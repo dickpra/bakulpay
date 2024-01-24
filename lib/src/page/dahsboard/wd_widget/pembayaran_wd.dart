@@ -93,7 +93,6 @@ class _pembayaranWdState extends State<pembayaranWd> {
                 }
               }),
 
-              
               Container(
                 padding: EdgeInsets.symmetric(vertical: 1),
                 decoration: BoxDecoration(
@@ -192,7 +191,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                                     }
                                                     return Row(
                                                       children: [
-                                                
+
                                                         // Text('${item['price']}')
                                                         Expanded(
                                                           child: Text('Rp.$rateWD',style: TextStyle(
