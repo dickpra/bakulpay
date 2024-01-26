@@ -15,10 +15,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'home_widget/home.dart';
-
-
-import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter/material.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -53,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: pages[_currentIndex],
       bottomNavigationBar: Container(
-
         decoration: BoxDecoration(
               color: Color(0xFFffa4af),
               borderRadius: BorderRadius.only(
@@ -176,8 +174,7 @@ class _DashboardNewState extends State<DashboardNew> {
             color: Color.fromRGBO(0, 179, 134, 1.0),
           )
         ],
-      ).show()
-          ?? false;
+      ).show() ?? false;
         },
       child: Scaffold(
         // appBar: AppBar(
@@ -266,56 +263,10 @@ class _HomeTabState extends State<HomeTab> {
     super.initState();
     GetAllSync();
   }
-  Future<void> _refreshData() async {
-    setState(() {
-      GetAllSync();
-    });
-  }
+
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _refreshData,
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-        
-            children: [
-              // profilDashboard(user: widget.user.displayName),
-              ProfilDashboard(),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Promo'),
-                ),
-              ),
-              PromoBanner(),
-              SizedBox(height: 20),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Top Up/Beli'),
-                ),
-              ),
-              BeliTopup(),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Berita Terkini'),
-                ),
-              ),
-              Container(
-                // height: 180,
-                child: NewsPage(),
-              ),
-        
-            ],
-          ),
-        ),
-      ),
-    );
+    return HomeDashboard();
   }
 }
 
@@ -351,11 +302,9 @@ class ThirdTab extends StatelessWidget {
 class FourthTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: Container(
-          child: ratePage(),
-        ),
+    return Center(
+      child: Container(
+        child: ratePage(),
       ),
     );
   }

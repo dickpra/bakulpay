@@ -12,7 +12,7 @@ Future setToken(String value) async {
 Future getToken() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  return prefs.getString("Token");
+  return prefs.getString("authToken");
 }
 
 Future removeToken() async {
@@ -31,7 +31,7 @@ Future removeUserFormLogin() async {
 
 Future<void> showAccessToken() async {
   final sharedPreferences = await SharedPreferences.getInstance();
-  final accessToken = sharedPreferences.getString('UserId'); // Mengambil access_token dari SharedPreferences
+  final accessToken = sharedPreferences.getString('authToken'); // Mengambil access_token dari SharedPreferences
   if (accessToken != null) {
     print('Access Token: $accessToken');
     // Lakukan apa yang Anda butuhkan dengan access_token di sini

@@ -1,5 +1,6 @@
 import 'package:bakulpay/src/model/blockchain_model.dart';
 import 'package:bakulpay/src/model/history_model.dart';
+import 'package:bakulpay/src/service/preference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -33,7 +34,7 @@ class ApiService extends GetConnect with BaseController {
       if (error is BadRequestException) {
         var apiError = json.decode(error.message!);
         res = '{"success":"${apiError["success"]}","message":"${apiError["message"]}"}';
-        // Get.rawSnackbar(message: apiError["message"]);
+        Get.rawSnackbar(message: apiError["message"]);
       } else if (error is UnAuthorizedException) {
         var apiError = json.decode(error.message!);
         Get.rawSnackbar(message: apiError["message"]);
@@ -42,12 +43,38 @@ class ApiService extends GetConnect with BaseController {
       }
     });
     print(body);
+    final jdecodejson = json.decode(response);
     if (response != null) {
-      final jsonDecoded = jsonDecode(response);
-      return jsonDecoded;
+
+      return jdecodejson;
     } else {
       // final jsonDecoded = jsonDecode(res ?? "");
       // return jsonDecoded;
+      return null;
+    }
+  }
+
+  Future kirimBuktiWdApi2(String nama, File foto) async {
+    var idbayar = payController.responPembayaranWD.value;
+    dynamic body = ({
+      "nama": nama,
+    });
+    String? res;
+    // var token = await getToken();
+    try {
+      final response = await BaseClient()
+          .postMultipart(BASE_URL, '/payment/withdraw/$idbayar', body, '', foto);
+
+      print(body);
+
+      if (response != null) {
+        final jsonDecoded = jsonDecode(response);
+        return jsonDecoded;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      handleError(error);
       return null;
     }
   }
@@ -226,8 +253,9 @@ class ApiService extends GetConnect with BaseController {
 
   Future<Iterable<model_history>> GetTransaksi() async{
     var idPgn = payController.respsonIdPengguna.value;
+    var token = await getToken();
     final response = await BaseClient()
-        .get(BASE_URL, '/history/$idPgn',"")
+        .get(BASE_URL, '/history/$idPgn', '$token')
         .catchError((error) {
       if (error is BadRequestException) {
         var apiError = json.decode(error.message!);
@@ -287,8 +315,8 @@ class ApiService extends GetConnect with BaseController {
     final jsonData = jsonDecode(response);
     print("jsonData $jsonData");
 
-    final List<dynamic> responseData = jsonData['data'];
-    // final List<dynamic> responseData = jsonData;
+    // final List<dynamic> responseData = jsonData['data'];
+    final List<dynamic> responseData = jsonData;
     print('responseData $responseData');
     // final List<dynamic> responseData = jsonData;
 
@@ -382,9 +410,7 @@ class ApiService extends GetConnect with BaseController {
     });
 
     final jsonData = jsonDecode(response);
-
     return jsonData;
-
   }
 
   Future<Iterable<payment_model>> getPaymentApiWd() async{

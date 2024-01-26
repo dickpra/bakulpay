@@ -71,7 +71,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
               // ),
               // if(widget.produk.toString().contains('Skrill'))
               //   Center(child: Image.asset('assets/images/skrill.png',scale: 20,)),
-
+              ///Ikon
               Obx(() {
                 final data = payController.jsonWithdraw;
                 // final bank = data;
@@ -83,7 +83,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
 
                 if (topUpData.isEmpty) {
                   return Center(
-                      child: const Text('Belum Ada Transaksi'));
+                      child: const Text('Belum Ada'));
                 } else {
                   for (var item in topUpData){
                     iconBank = item.icons;
@@ -92,7 +92,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
                   return Center(child: Image.network(iconBank,scale: 0.3,));
                 }
               }),
-
+              const SizedBox(height: 20,),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 1),
                 decoration: BoxDecoration(
@@ -163,6 +163,18 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                               Expanded(child: Text('Jumlah')),
                                               Expanded(
                                                 child: Text('\$${widget.amount}',style: TextStyle(
+                                                    fontWeight: FontWeight.bold
+                                                )),
+                                              ),
+                                            ],
+                                          ),
+                                          if(widget.blockChain != 'null')
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(child: Text('Chain')),
+                                              Expanded(
+                                                child: Text('${widget.blockChain}',style: TextStyle(
                                                     fontWeight: FontWeight.bold
                                                 )),
                                               ),
@@ -517,6 +529,10 @@ class _pembayaranWdState extends State<pembayaranWd> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                    padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 80)),
+                    backgroundColor: MaterialStatePropertyAll(Color(0xff37398B))
+                  ),
                   onPressed: () {
 
                      print(totalTagihan);
@@ -525,7 +541,8 @@ class _pembayaranWdState extends State<pembayaranWd> {
                   child: Obx(() =>
                   payController.isLoading.value ? CircularProgressIndicator():
                   Text(style: TextStyle(
-                  ),'Bayar'),
+                    color: Colors.white
+                  ),'Selanjutnya'),
                   ),
                 ),
               ),

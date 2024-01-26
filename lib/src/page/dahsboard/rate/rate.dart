@@ -45,9 +45,10 @@ class _ratePageState extends State<ratePage> {
       //     },
       //   ),
       // ),
-      appBar: const Tab(
+      appBar: AppBar(
+        centerTitle: true,
         // icon: Icon(Icons.ice_skating),
-        child: Text('Rate Hari ini', style: TextStyle(
+        title: Text('Rate Hari ini', style: TextStyle(
             fontSize: 20,fontWeight: FontWeight.bold
         )),
       ),
@@ -206,7 +207,10 @@ Container ListRate(RxList<rate_model> data, index) {
                 //     ),
                 //   ),
                 // ),
-                Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),'Rp.${currencyFormat.format(myInt)}'),
+                Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),
+                    'Rp.${currencyFormat.format(myInt)}'
+                    // 'Rp.${data[index].price}'
+                ),
               ],
             ),
           ],

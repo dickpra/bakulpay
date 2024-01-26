@@ -139,10 +139,6 @@ class PayController extends GetxController {
       var stringdata = response['id_pembayaran'].toString();
       responPembayaranWD.value = stringdata;
 
-      // isidata.value = waitingModel.fromJson(data);
-      // final prefs = await SharedPreferences.getInstance();
-      // prefs.setString("Token", response.data!.token!);
-      // Get.offAllNamed(dashboardSalesRoute);
       Get.to(() => BuatPesananWd(data: data));
       isLoading.value = false;
     } else {
@@ -337,6 +333,7 @@ class PayController extends GetxController {
     print('data $jsonDataWait');
     jsonDataTransaksi.assignAll(jsonDataWait);
   }
+
   Future getDataRate() async {
     // Ambil dan proses data dari JSON, misalnya:
     var jsonDataWait = await ApiService().getRate();

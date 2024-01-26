@@ -13,11 +13,10 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
-
+import 'package:dotted_border/dotted_border.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 class BuatPesananWd extends StatefulWidget {
   final model_topup data;
-
 
 
   BuatPesananWd({required this.data});
@@ -372,35 +371,67 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                             });
                           },
                           child: _image == null ?
-                          Row(
-                            children: [
-                              Expanded(child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  border: Border.all(color: Colors.grey.shade50),
-                                  // borderRadius: BorderRadius.circular(50),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 2,
-                                      offset: Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                padding: EdgeInsets.all(5),
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.add,
-                                      color: Colors.grey[800],
-                                      size: 50.0,
-                                    ),
-                                    Text('Pilih bukti Pembayaran')
-                                  ],
-                                ),
-                              ))
-                            ],
+                          DottedBorder(
+                            color: Colors.black,
+                            dashPattern: [15, 10],
+                            strokeWidth: 1.2,
+                            child: Row(
+                              children: [
+                                Expanded(child: Container(
+                                  height: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    // color: Colors.grey[200],
+                                    // border: Border.all(
+                                    //     // color: Colors.grey.shade50
+                                    //   color: Colors.black, // Warna garis
+                                    //   width: 2,
+                                    // ),
+                                    // borderRadius: BorderRadius.circular(50),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 2,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  padding: EdgeInsets.all(5),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.add_photo_alternate_outlined,
+                                        color: Color(0xffA3A3A3),
+                                        size: 50.0,
+                                      ),
+                                      Text('Pilih bukti Pembayaran',style: TextStyle(
+                                          color: Color(0xffA3A3A3)
+                                      ),)
+                                    ],
+                                  ),
+                                  // child: CustomPaint(
+                                  //   child: CustomPaint(
+                                  //     painter: DashedBorderPainter(),
+                                  //     child:  Column(
+                                  //       mainAxisAlignment: MainAxisAlignment.center,
+                                  //       children: [
+                                  //         Icon(
+                                  //           Icons.add_photo_alternate_outlined,
+                                  //           color: Color(0xffA3A3A3),
+                                  //           size: 50.0,
+                                  //         ),
+                                  //         Text('Pilih bukti Pembayaran',style: TextStyle(
+                                  //             color: Color(0xffA3A3A3)
+                                  //         ),)
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ))
+                              ],
+                            ),
                           )
                               : Image.file(
                             _image!,
@@ -421,45 +452,51 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                         SizedBox(height: 20),
                         Align(
                           alignment: Alignment.bottomCenter,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: CupertinoColors.activeBlue, // warna latar belakang
-                            ),
-                            onPressed: () {
-                              if(_image != null && namaPengirim.text.isNotEmpty){
-                                payController.KirimBuktiWd(namaPengirim.text, _image!);
-                                // Get.offAllNamed();
-                              }else{
-                                showDialog(context: context,builder: (context) {
-                                  return AlertDialog(
-                                    title: Center(
-                                        child: Icon(Icons.warning)),
-                                    content: Text('Nama dan Bukti Harus diisi'),
-                                    alignment: Alignment.center,
-
-                                    // content: Text('Bank Harus Dipilih'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text('Ok'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(true);
-                                        },
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                  padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 80)),
+                                  backgroundColor: MaterialStatePropertyAll(Color(0xff37398B))
+                              ),
+                              // style: ElevatedButton.styleFrom(
+                              //   primary: CupertinoColors.activeBlue, // warna latar belakang
+                              // ),
+                              onPressed: () {
+                                if(_image != null && namaPengirim.text.isNotEmpty){
+                                  payController.KirimBuktiWd(namaPengirim.text, _image!);
+                                  // Get.offAllNamed();
+                                }else{
+                                  Alert(
+                                    context: context,
+                                    // onWillPopActive: true,
+                                    type: AlertType.warning,
+                                    title: "Peringatan",
+                                    desc: "Nama dan Bukti harus diisi!",
+                                    buttons: [
+                                      DialogButton(
+                                        child: Text(
+                                          "Ok",
+                                          style: TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        onPressed: () => Navigator.pop(context),
+                                        color: Colors.red,
                                       ),
                                     ],
-                                  );
-                                },);
-                              }
-                              print(_image);
-                              // kirimData();
-                              // _sendData();
+                                  ).show();
+                                }
+                                print(_image);
+                                // kirimData();
+                                // _sendData();
 
-                              // _confirmWithdraw(context);
-                            },
-                            child: Obx(() =>
-                            payController.isLoading.value ? CircularProgressIndicator():
-                            Text(style: TextStyle(
-                                color: Colors.white
-                            ),'Bayar'),
+                                // _confirmWithdraw(context);
+                              },
+                              child: Obx(() =>
+                              payController.isLoading.value ? CircularProgressIndicator():
+                              Text(style: TextStyle(
+                                  color: Colors.white
+                              ),'Bayar'),
+                              ),
                             ),
                           ),
                         ),
@@ -469,32 +506,32 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
               ),
             ],
           ),
-        ), onWillPop: () async {
-          // Menampilkan dialog konfirmasi
-          return await showDialog<bool>(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Icon(Icons.warning),
-                backgroundColor: CupertinoColors.systemYellow,
-                content: Text('Apakah Anda ingin keluar dari Pembayaran'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('Batal'),
-                    onPressed: () {
-                      Navigator.of(context).pop(false);
-                    },
-                  ),
-                  TextButton(
-                    child: Text('Keluar'),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                ],
-              );
-            },
-          ) ?? false;
+        ), onWillPop: () async{ return await
+        Alert(
+          context: context,
+          // onWillPopActive: true,
+          type: AlertType.warning,
+          title: "Warning",
+          desc: "Apakah anda ingin keluar pembayaran ini?",
+          buttons: [
+            DialogButton(
+              child: Text(
+                "Ya",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
+              color: Colors.red,
+            ),
+            DialogButton(
+              child: Text(
+                "Tidak",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.pop(context),
+              color: Color.fromRGBO(0, 179, 134, 1.0),
+            )
+          ],
+        ).show() ?? false;
         },),
       ),
     );
@@ -551,5 +588,6 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
 
   }
 }
+
 
 

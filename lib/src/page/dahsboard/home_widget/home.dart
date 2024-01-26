@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:bakulpay/src/router/constant.dart';
+import 'package:bakulpay/src/service/preference.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,6 +20,72 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:get/get.dart';
+
+class HomeDashboard extends StatefulWidget {
+  const HomeDashboard({super.key});
+
+  @override
+  State<HomeDashboard> createState() => _HomeDashboardState();
+}
+
+class _HomeDashboardState extends State<HomeDashboard> {
+
+  Future<void> _refreshData() async {
+    setState(() {
+      GetAllSync();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: _refreshData,
+      child: Scaffold(
+        extendBody: true,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                // profilDashboard(user: widget.user.displayName),
+                ProfilDashboard(),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Promo'),
+                  ),
+                ),
+                PromoBanner(),
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Top Up/Beli'),
+                  ),
+                ),
+                BeliTopup(),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Berita Terkini'),
+                  ),
+                ),
+                Container(
+                  // height: 180,
+                  child: NewsPage(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );;
+  }
+}
+
+
 
 class ProfilDashboard extends StatelessWidget {
   // final String? user;
@@ -198,7 +265,7 @@ class PromoItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.white70.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 2,
             offset: Offset(0, 2),
