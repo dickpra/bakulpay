@@ -30,14 +30,14 @@ class _MyPaginatedListViewState extends State<MyPaginatedListView> {
     // Gantilah dengan logika pengambilan data sesuai dengan kebutuhan Anda.
     final data = payController.jsonDataTransaksi;
     final List<model_history> newData = data;
-    final isLastPage = newData.length > 4;
+    final isLastPage = newData.length > 1;
     // Simulasikan waktu tunggu pengambilan data.
     await Future.delayed(Duration(seconds: 1));
 
     if (isLastPage.isNull) {
       _pagingController.appendLastPage(data);
     } else {
-      final nextPageKey = pageKey + 1;
+      final nextPageKey = pageKey + 100;
       _pagingController.appendPage(newData, nextPageKey);
     }
   }

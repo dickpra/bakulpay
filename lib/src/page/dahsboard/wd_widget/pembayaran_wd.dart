@@ -23,7 +23,6 @@ class pembayaranWd extends StatefulWidget {
 
 class _pembayaranWdState extends State<pembayaranWd> {
 
-
   String rateWD = '';
   String totalTagihan = '';
   PayController payController = Get.put(PayController());
@@ -37,7 +36,6 @@ class _pembayaranWdState extends State<pembayaranWd> {
   };
 
   String iconBank = '';
-
 
   @override
   void initState() {
@@ -74,8 +72,6 @@ class _pembayaranWdState extends State<pembayaranWd> {
               ///Ikon
               Obx(() {
                 final data = payController.jsonWithdraw;
-                // final bank = data;
-                // print(data);
 
                 final topUpData = data
                     .where((item) => item.namaBank == widget.produk)
@@ -83,11 +79,10 @@ class _pembayaranWdState extends State<pembayaranWd> {
 
                 if (topUpData.isEmpty) {
                   return Center(
-                      child: const Text('Belum Ada'));
+                      child: Text('Belum Ada'));
                 } else {
                   for (var item in topUpData){
                     iconBank = item.icons;
-
                   }
                   return Center(child: Image.network(iconBank,scale: 0.3,));
                 }
