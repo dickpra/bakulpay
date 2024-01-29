@@ -4,6 +4,7 @@ import 'package:bakulpay/src/page/dahsboard/profil_widget/profil_widget.dart';
 import 'package:bakulpay/src/page/dahsboard/rate/rate.dart';
 import 'package:bakulpay/src/page/dahsboard/transaksi_widget/history.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/wdPage.dart';
+import 'package:bakulpay/src/page/tester_page/testpage.dart';
 import 'package:bakulpay/src/service/preference.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

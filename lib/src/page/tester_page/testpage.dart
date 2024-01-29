@@ -2,6 +2,7 @@ import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/model/history_model.dart';
 import 'package:bakulpay/src/model/rate_model.dart';
 import 'package:bakulpay/src/page/dahsboard/transaksi_widget/history.dart';
+import 'package:bakulpay/src/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:get/get.dart';
@@ -35,7 +36,7 @@ class _MyPaginatedListViewState extends State<MyPaginatedListView> {
     await Future.delayed(Duration(seconds: 1));
 
     if (isLastPage.isNull) {
-      _pagingController.appendLastPage(data);
+      _pagingController.appendLastPage(newData);
     } else {
       final nextPageKey = pageKey + 100;
       _pagingController.appendPage(newData, nextPageKey);
@@ -49,6 +50,7 @@ class _MyPaginatedListViewState extends State<MyPaginatedListView> {
         title: Text('PaginatedListView Example'),
       ),
       body: PagedListView<int, model_history>(
+
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<model_history>(
           itemBuilder: (context, item, index) {
@@ -314,4 +316,100 @@ class _MyPaginatedListViewState extends State<MyPaginatedListView> {
     );
   }
 }
+
+
+class MenuItem {
+  final String title;
+  final IconData icon;
+
+  MenuItem({required this.title, required this.icon});
+}
+
+class MyApp22 extends StatelessWidget {
+  PayController payController = Get.put(PayController());
+  final List<MenuItem> menuItems = [
+    MenuItem(title: 'Item 1', icon: Icons.home),
+    MenuItem(title: 'Item 2', icon: Icons.search),
+    MenuItem(title: 'Item 3', icon: Icons.favorite),
+    MenuItem(title: 'Item 4', icon: Icons.shopping_cart),
+    MenuItem(title: 'Item 5', icon: Icons.person),
+    MenuItem(title: 'Item 6', icon: Icons.settings),
+    MenuItem(title: 'Item 7', icon: Icons.mail),
+    MenuItem(title: 'Item 8', icon: Icons.notifications),
+    MenuItem(title: 'Item 9', icon: Icons.cloud),
+    MenuItem(title: 'Item 10', icon: Icons.star),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Menu Items'),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text('data'),
+              Text('data'),
+              Text('data'),
+              Text('data'),
+              Text('data'),
+              Text('data'),
+              Text('data'),
+              Text('data'),
+              Text('data'),
+              Text('data'),
+              MenuItems(menuItems: menuItems)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MenuItems extends StatelessWidget {
+  final List<MenuItem> menuItems;
+
+  MenuItems({required this.menuItems});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 5, // Maksimal 5 item per baris
+        crossAxisSpacing: 8.0,
+        mainAxisSpacing: 8.0,
+      ),
+      shrinkWrap: true,
+      itemCount: menuItems.length,
+      itemBuilder: (BuildContext context, int index) {
+        return MenuItemWidget(menuItem: menuItems[index]);
+      },
+    );
+  }
+}
+
+class MenuItemWidget extends StatelessWidget {
+  final MenuItem menuItem;
+
+  MenuItemWidget({required this.menuItem});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Icon(menuItem.icon, size: 40.0),
+          SizedBox(height: 8.0),
+          Text(menuItem.title),
+        ],
+      ),
+    );
+  }
+}
+
+
 

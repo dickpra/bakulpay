@@ -1,4 +1,5 @@
 import 'package:bakulpay/src/controller/controller.dart';
+import 'package:bakulpay/src/page/dahsboard/home_widget/home.dart';
 import 'package:bakulpay/src/page/tester_page/testpage.dart';
 import 'package:bakulpay/src/router/constant.dart';
 import 'package:bakulpay/src/service/preference.dart';
@@ -70,7 +71,7 @@ class _profilWidgetState extends State<profilWidget> {
                     Align(
                       child: IconButton(
                         onPressed: () {
-                          Get.to(MyPaginatedListView());
+                          Get.to(MyApp22());
                           showAccessToken();
                           // payController.clearJsonDataTransaksi();
                           print(payController.jsonDataTransaksi);

@@ -174,3 +174,47 @@ Widget TextRate(RxList<rate_model> data, index) {
   final myInt = int.parse(data[index].price);
   return Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].price}');
 }
+
+Widget menuButtonTopup(String imagePath, String jdulText) {
+  return Column(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            CircleAvatar(
+              radius: 35,
+              backgroundColor: Colors.white,
+              child: ClipOval(
+                child: Image(
+                  width: 160,
+                  height: 160,
+                  fit: BoxFit.contain,
+                  image: NetworkImage(imagePath),
+                ),
+              ),
+            ),
+            SizedBox(height: 1),
+          ],
+        ),
+      ),
+      Text(
+        jdulText,
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ],
+  );
+}

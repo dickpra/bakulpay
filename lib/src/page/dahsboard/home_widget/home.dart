@@ -287,82 +287,128 @@ class BeliTopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-
       children: [
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Obx(() {
+            var data = payController.jsonDataMenu;
+            int maxItemsPerRow = 4; // Ubah sesuai kebutuhan
+            double itemWidth = 160.0; // Ukuran lebar setiap item
+            double itemHeight = 200.0; // Ukuran tinggi setiap item
+
+            if (data.isEmpty) {
+              return Center(child: Text('Belum ada menu'));
+            } else {
+              return GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: data.length,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: maxItemsPerRow,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                    // childAspectRatio: itemWidth / itemHeight,
+                  ),
+                 itemBuilder: (BuildContext context, int index) {
+                   // Jika hanya ada satu item, atur item ke kiri
+                   return GestureDetector(
+                     onTap: () {
+                       if(data[index].namaBank!.contains('USDT')||data[index].namaBank!.contains('BUSD')){
+                         // Navigator.of(context).push(
+                         //   MaterialPageRoute(
+                         //     builder: (context) => TopupPaypal(),
+                         //   ),
+                         // );
+                       }else{
+                         Get.toNamed(topUp,arguments: [data[index].icons as String,data[index].namaBank.toString()]);
+                       }
+                     },
+                     child: menuButtonTopup(data[index].icons.toString(), data[index].namaBank.toString()),
+                   );
+                 }
+             );
+            }
+          }),
+        ),
+        // Text('data'),
         // ElevatedButton(
         //   onPressed: payController.getDataMenu,
         //   child: Text('Ambil Data API'),
         // ),
         // buildCircularMenuList()
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Obx(() {
-            final data = payController.jsonDataMenu;
-            List<Widget> menuButtons = [];
-
-            for (int i = 0; i < data.length; i += 4) {
-              List<Widget> rowItems = [];
-
-              for (int j = i; j < i + 4 && j < data.length; j++) {
-                rowItems.add(
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        // if (jsonData[j]["data"])
-                        //   print('Menu ${j + 1} tapped');
-                        //   print('Menu ${j} tapped');
-
-                          if(data[j].namaBank!.contains('USDT')||data[j].namaBank!.contains('BUSD')){
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (context) => TopupPaypal(),
-                            //   ),
-                            // );
-                          }else{
-                            Get.toNamed(topUp,arguments: [data[j].icons as String,data[j].namaBank.toString()]);
-                          }
-                        // if(data[j].namaBank!.contains('Paypal')){
-                          //   Navigator.of(context).push(
-                          //     MaterialPageRoute(
-                          //       builder: (context) => TopupPaypal(),
-                          //     ),
-                          //   );
-                          // }
-                          // if(data[j].namaBank!.contains('Perfect Money')){
-                          //   Navigator.of(context).push(
-                          //     MaterialPageRoute(
-                          //       builder: (context) => TopupPerfectMoney(),
-                          //     ),
-                          //   );
-                          // }
-                      },
-                      child: menuButtonTopup(
-                        data[j].icons as String,
-                        data[j].namaBank.toString(),
-                      ),
-                    ),
-                  ),
-                );
-              }
-
-              menuButtons.add(
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    // Atur properti ini agar widget sejajar di atas
-                    children: rowItems,
-                  ),
-                ),
-              );
-            }
-
-            return Column(
-              children: menuButtons,
-            );
-          }),
-        )
+        // Padding(
+        //   padding: EdgeInsets.all(8.0),
+        //   child: Obx(() {
+        //     final data = payController.jsonDataMenu;
+        //
+        //
+        //     List<Widget> menuButtons = [];
+        //
+        //     for (int i = 0; i < data.length; i += 4) {
+        //       List<Widget> menuItems = [];
+        //
+        //       for (int j = i; j < i + 4 && j < data.length; j++) {
+        //         menuItems.add(
+        //           GestureDetector(
+        //             onTap: () {
+        //               // if (jsonData[j]["data"])
+        //               //   print('Menu ${j + 1} tapped');
+        //               //   print('Menu ${j} tapped');
+        //
+        //                 if(data[j].namaBank!.contains('USDT')||data[j].namaBank!.contains('BUSD')){
+        //                   // Navigator.of(context).push(
+        //                   //   MaterialPageRoute(
+        //                   //     builder: (context) => TopupPaypal(),
+        //                   //   ),
+        //                   // );
+        //                 }else{
+        //                   Get.toNamed(topUp,arguments: [data[j].icons as String,data[j].namaBank.toString()]);
+        //                 }
+        //               // if(data[j].namaBank!.contains('Paypal')){
+        //                 //   Navigator.of(context).push(
+        //                 //     MaterialPageRoute(
+        //                 //       builder: (context) => TopupPaypal(),
+        //                 //     ),
+        //                 //   );
+        //                 // }
+        //                 // if(data[j].namaBank!.contains('Perfect Money')){
+        //                 //   Navigator.of(context).push(
+        //                 //     MaterialPageRoute(
+        //                 //       builder: (context) => TopupPerfectMoney(),
+        //                 //     ),
+        //                 //   );
+        //                 // }
+        //             },
+        //             child: Padding(
+        //               padding: EdgeInsets.all(12),
+        //               child:
+        //                 menuButtonTopup(
+        //                   data[j].icons as String,
+        //                   data[j].namaBank.toString(),
+        //                 ),
+        //             ),
+        //           ),
+        //         );
+        //       }
+        //
+        //       menuButtons.add(
+        //         Padding(
+        //           padding: EdgeInsets.symmetric(vertical: 8.0),
+        //           child: Row(
+        //             mainAxisAlignment: MainAxisAlignment.start,
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             // Atur properti ini agar widget sejajar di atas
+        //             children: menuItems,
+        //           ),
+        //         ),
+        //       );
+        //     }
+        //
+        //     return Column(
+        //       children: menuButtons,
+        //     );
+        //   }),
+        // )
 
       ],
     );

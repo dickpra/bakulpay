@@ -52,54 +52,48 @@ class _ratePageState extends State<ratePage> {
             fontSize: 20,fontWeight: FontWeight.bold
         )),
       ),
-      body: Row(
-        children: [
-          Expanded(
-            child: Container(
-              // color: Colors.blue,
-              child: Obx(() {
-                final data = payController.jsonDataRate;
-                // print('daasdasdasdsa $data');
-                if (data.isEmpty) {
-                  return Center(
-                      child: RefreshIndicator(
-                          onRefresh: payController.getDataRate,
-                          child: const Text('Belum Ada Transaksi')));
-                } else {
-                  return RefreshIndicator(
-                      onRefresh: payController.getDataRate,
-                      child: ListView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              if(data[index].type == 'Top Up' || data[index].type == 'Top-Up' || data[index].type == 'TopUp'){
-                                Get.toNamed(topUp,arguments: [data[index].icons as String, data[index].namaBank as String]);
-                              }
+      body: Container(
+        // color: Colors.blue,
+        child: Obx(() {
+          final data = payController.jsonDataRate;
+          // print('daasdasdasdsa $data');
+          if (data.isEmpty) {
+            return Center(
+                child: RefreshIndicator(
+                    onRefresh: payController.getDataRate,
+                    child: const Text('Belum Ada Transaksi')));
+          } else {
+            return RefreshIndicator(
+                onRefresh: payController.getDataRate,
+                child: ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        if(data[index].type == 'Top Up' || data[index].type == 'Top-Up' || data[index].type == 'TopUp'){
+                          Get.toNamed(topUp,arguments: [data[index].icons as String, data[index].namaBank as String]);
+                        }
 
-                              // if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Paypal')){
-                              //   Navigator.of(context).push(
-                              //     MaterialPageRoute(
-                              //       builder: (context) => Topup(),
-                              //     ),
-                              //   );
-                              // }else if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Perfect Money')){
-                              //   Navigator.of(context).push(
-                              //     MaterialPageRoute(
-                              //       builder: (context) => TopupPerfectMoney(),
-                              //     ),
-                              //   );
-                              // }
-                            },
-                            child: ListRate(data, index),
-                          );
-                        },
-                      ));
-                }
-              }),
-            ),
-          ),
-        ],
+                        // if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Paypal')){
+                        //   Navigator.of(context).push(
+                        //     MaterialPageRoute(
+                        //       builder: (context) => Topup(),
+                        //     ),
+                        //   );
+                        // }else if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Perfect Money')){
+                        //   Navigator.of(context).push(
+                        //     MaterialPageRoute(
+                        //       builder: (context) => TopupPerfectMoney(),
+                        //     ),
+                        //   );
+                        // }
+                      },
+                      child: ListRate(data, index),
+                    );
+                  },
+                ));
+          }
+        }),
       ),
     );
   }
