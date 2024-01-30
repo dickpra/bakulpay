@@ -3,6 +3,7 @@ import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/model/model_topup.dart';
 import 'package:bakulpay/src/model/payment_model.dart';
 import 'package:bakulpay/src/model/pembayaran_model.dart';
+import 'package:bakulpay/src/model/rate_model.dart';
 import 'package:bakulpay/src/page/topUp/bayarTopUp.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:bakulpay/src/widget/widget.dart';
@@ -1757,8 +1758,9 @@ class PembayaranTopUp extends StatefulWidget {
   final String rekProduk;
   final int amount;
   final String iconNetwork;
+  final String blockchain;
 
-  PembayaranTopUp({required this.amount, required this.produk, required this.rekProduk, required this.iconNetwork});
+  PembayaranTopUp({required this.amount, required this.produk, required this.rekProduk, required this.iconNetwork, required this.blockchain});
 
 
   @override
@@ -1773,14 +1775,13 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
   String? selectedPaymentMethod;
 
   String totalTagihan = '';
-
-  // String produkTopup = 'Paypal';
+  String subtotalTagihan = '';
 
   String rateTopup = '';
+  String biayaTransaksi = '';
+  String chain = '';
 
-  File? _image;
 
-  // int satuanHargaa = 16000;
 
   @override
   void initState() {
@@ -1805,465 +1806,1014 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
         padding: const EdgeInsets.all(5.0),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // if(widget.produk.contains('Paypal'))
-              // SizedBox(
-              //     height: 120,
-              //     width: MediaQuery.sizeOf(context).width,
-              //     child: Image.asset('assets/images/paypal.png')
-              // ),
-              // if(widget.produk.contains('Perfect Money'))
-              // SizedBox(
-              //     height: 120,
-              //     width: MediaQuery.sizeOf(context).width,
-              //     child: Image.asset('assets/images/perfectmoney.png')
-              // ),
-
-              SizedBox(
-                  height: 120,
-                  width: MediaQuery.sizeOf(context).width,
-                  child: Image.network(widget.iconNetwork, scale: 0.5,)
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 1),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Colors.grey
-                  ),
-                  // color: Colors.red
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              // color: Colors.blue
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            // color: Colors.blue
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Icon(Icons.list_alt,color: Colors.blue),
-                                              SizedBox(width: 10),
-                                              Text('Total Pesanan',style: TextStyle(
-                                                  fontWeight: FontWeight.bold
-                                              )),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(child: Divider(color: Colors.grey,)),
-                                    ],
-                                  ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                      decoration: BoxDecoration(
-                                        // color: Colors.green
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(child: Text('Jenis Produk')),
-                                              Expanded(
-                                                child: Text(widget.produk,style: TextStyle(
-                                                    fontWeight: FontWeight.bold
-                                                )),
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              // if(widget.produk.contains('Paypal'))
-                                              //   Expanded(child: Text('Email Paypal')),
-                                              // if(widget.produk.contains('Perfect Money'))
-                                              //   Expanded(child: Text('No Uid')),
-                                              Expanded(child: Text('Rek Pembeli')),
-                                              Expanded(
-                                                child: Text('${widget.rekProduk}',style: TextStyle(
-                                                    fontWeight: FontWeight.bold
-                                                )),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(child: Text('Jumlah')),
-                                              Expanded(
-                                                child: Text('\$${widget.amount}',style: TextStyle(
-                                                    fontWeight: FontWeight.bold
-                                                )),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(child: Text('Harga Satuan')),
-                                              // Text('Rp.${currencyFormat.format(satuanHargaa)}',style: TextStyle(
-                                              //     fontWeight: FontWeight.bold
-                                              // )),
-                                              Expanded(
-                                                child: Obx(() {
-                                                  var data = payController.jsonRate;
-                                                  var bank = data['data'];
-                                                  var topUpData = bank
-                                                      .where((item) => item['nama_bank'] == widget.produk)
-                                                      .toList();
-                                                  // print('daasdasdasdsa $data');
-                                                  if (topUpData.isEmpty) {
-                                                    return Center(
-                                                        child: RefreshIndicator(
-                                                            onRefresh: payController.getDataTransak,
-                                                            child: const Text('Belum Ada Transaksi')));
-                                                  } else {
-                                                    for (var item in topUpData){
-                                                      rateTopup = currencyFormat.format(int.parse(item['price'].toString()));
-                                                    }
-                                                    return Row(
-                                                      children: [
-                                                        // Text('${item['price']}')
-                                                        Expanded(
-                                                          child: Text('Rp.$rateTopup',style: TextStyle(
-                                                              fontWeight: FontWeight.bold
-                                                          )),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  }
-                                                }),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      )
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Colors.grey
-                  ),
-                  // color: Colors.red
-                ),
-                padding: EdgeInsets.symmetric(vertical: 1),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                // color: Colors.blue
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  Icon(Icons.account_balance_wallet_rounded, color: Colors.blue,),
-                                                  SizedBox(width: 10),
-                                                  Text('Detail Pembayaran',style: TextStyle(
-                                                      fontWeight: FontWeight.bold
-                                                  )),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Expanded(child: Divider(color: Colors.grey,)),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5),
-
-                                      /// Total Pembayaran
-
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            // color: Colors.green
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Expanded(child: Text('Subtotal Tagihan')),
-                                                  // Text('Rp.${currencyFormat.format(totalPayment)}',style: TextStyle(
-                                                  //     fontWeight: FontWeight.bold
-                                                  // )),
-                                                  Expanded(
-                                                    child: Obx(() {
-                                                      var data = payController.jsonRate;
-                                                      var bank = data['data'];
-                                                      var topUpData = bank
-                                                          .where((item) => item['nama_bank'] == widget.produk)
-                                                          .toList();
-                                                      // print('daasdasdasdsa $data');
-                                                      if (topUpData.isEmpty) {
-                                                        return Center(
-                                                            child: RefreshIndicator(
-                                                                onRefresh: payController.getDataRateTopup,
-                                                                child: const Text('Belum Ada Transaksi')));
-                                                      } else {
-                                                        for (var item in topUpData){
-                                                          totalTagihan = '${currencyFormat.format(int.parse(item['price'].toString()) * widget.amount)}';
-                                                        }
-                                                        return Row(
-                                                          children: [
-                                                            // Text('${item['price']}')
-                                                            Expanded(
-                                                              child: Text('Rp.$totalTagihan',style: TextStyle(
-                                                                  fontWeight: FontWeight.bold
-                                                              )),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      }
-                                                    }),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Expanded(child: Text('Biaya Transaksi')),
-                                                  Expanded(
-                                                    child: Text('Rp.0,00',style: TextStyle(
-                                                        fontWeight: FontWeight.bold
-                                                    )),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          )
-                                      ),
-                                      SizedBox(height: 10),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    // BoxShadow(
-                    //   color: Colors.grey.withOpacity(0.5), // Warna bayangan
-                    //   spreadRadius: 2, // Seberapa luas bayangan menyebar
-                    //   blurRadius: 5, // Seberapa kabur bayangan
-                    //   offset: Offset(0, 3), // Perpindahan bayangan secara horizontal dan vertikal
-                    // ),
-                  ],
-                  border: Border.all(
-                      color: Colors.grey
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            // color: Colors.blue
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Total Tagihan Pembayaran',style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
-                              )),
-
-                              /// Rate PayPal API
-                              Obx(() {
-                                final data = payController.jsonRate;
-                                final bank = data['data'];
-                                final topUpData = bank
-                                    .where((item) => item['nama_bank'] == widget.produk)
-                                    .where((item) => item['type'] == 'Top Up')
-                                    .toList();
-                                // print('daasdasdasdsa $data');
-                                if (topUpData.isEmpty) {
-                                  return Center(
-                                    child: RefreshIndicator(
-                                      onRefresh: payController.getDataRateTopup,
-                                      child: Text('Belum Ada Transaksi'),
-                                    ),
-                                  );
-                                } else {
-                                  for  (var item in topUpData) {
-                                    totalTagihan = currencyFormat.format(int.parse(item['price'].toString()) * widget.amount);
-                                  }
-                                  return Column(
-                                    children: [
-                                      // for (var item in topUpData)
-                                      // Text('${item['price']}')
-                                      Text(
-                                        'Rp.$totalTagihan',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                }
-                              }),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 20),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Obx(() {
-                      final data = payController.jsonPembayaran;
-                      // print('daasdasdasdsa $data');
-                      if (data.isEmpty) {
-                        return Center(
-                          child:  Text('Belum Ada Metode Pembayaran'),
-                        );
-                      } else {
-                        return DropdownButtonFormField<String>(
-                          hint: const Text('Pilih Metode Pencairan'),
-                          value: selectedPaymentMethod, // Gunakan selectedPaymentMethod dari payController
-                          onChanged: (newValue) {
-                            selectedPaymentMethod = newValue;
-                          },
-                          items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
-                                (paymentModel) {
-                              // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
-                              String value = paymentModel.namaBank.toString();
-
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Row(
-                                  children: [
-                                    // Sesuaikan dengan struktur objek model Anda
-                                    Image.network(
-                                      paymentModel.icons,
-                                      height: 30,
-                                      width: 30,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(value),
-                                  ],
-                                ),
-                              );
-                            },
-                          ).toList(),
-                        );
-                      }
-                    },
-                    )
-
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  onPressed: () {
-
-                    print(widget.rekProduk);
-                    print(widget.amount);
-                    print(totalTagihan);
-                    print(selectedPaymentMethod.toString());
-                    print(rateTopup);
-                    print(widget.iconNetwork);
-                    if(selectedPaymentMethod != null){
-
-                      kirimData();
-                    }else{
-                      showDialog(context: context,builder: (context) {
-                        return AlertDialog(
-                          title: Center(child: Text('Bank Harus Dipilih')),
-                          // content: Text('Bank Harus Dipilih'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('Ok'),
-                              onPressed: () {
-                                Navigator.of(context).pop(true);
-                              },
-                            ),
-                          ],
-                        );
-                      },);
-                    }
-
-                  },
-                  child:
-                  Obx(() => payController.isLoading.value ? CircularProgressIndicator():
-                  const Text('Bayar'),
-                  ),
-                ),
-              ),
-
+              if(widget.blockchain == 'null')
+              pembayaranWidget(context, currencyFormat),
+              if(widget.blockchain != 'null')
+              pembayaranChain(context, currencyFormat),
             ],
           ),
         ),
       ),
     ),
     );
+  }
+
+  Column pembayaranChain(BuildContext context, NumberFormat currencyFormat) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+            height: 120,
+            width: MediaQuery.sizeOf(context).width,
+            child: Image.network(widget.iconNetwork, scale: 0.5,)
+        ),
+        SizedBox(height: 20,),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 1),
+          decoration: BoxDecoration(
+            border: Border.all(
+                color: Colors.grey
+            ),
+            // color: Colors.red
+          ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.list_alt,color: Colors.blue),
+                              SizedBox(width: 10),
+                              Text('Total Pesanan',style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(child: Divider(color: Colors.grey,)),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                              decoration: BoxDecoration(
+                                // color: Colors.green
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(child: Text('Jenis Produk')),
+                                      Expanded(
+                                        child: Text(widget.produk,style: TextStyle(
+                                            fontWeight: FontWeight.bold
+                                        )),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(child: Text('Rek Pembeli')),
+                                      Expanded(
+                                        child: Text('${widget.rekProduk}',style: TextStyle(
+                                            fontWeight: FontWeight.bold
+                                        )),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(child: Text('Chain')),
+                                      Expanded(
+                                        child: Text('${widget.blockchain}',style: TextStyle(
+                                            fontWeight: FontWeight.bold
+                                        )),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(child: Text('Jumlah')),
+                                      Expanded(
+                                        child: Text('\$${widget.amount}',style: TextStyle(
+                                            fontWeight: FontWeight.bold
+                                        )),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(child: Text('Harga Satuan')),
+                                      // Text('Rp.${currencyFormat.format(satuanHargaa)}',style: TextStyle(
+                                      //     fontWeight: FontWeight.bold
+                                      // )),
+                                      Expanded(
+                                        child: Obx(() {
+                                          var data = payController.jsonRate;
+                                          var bank = data['data'];
+                                          var topUpData = bank
+                                              .where((item) => item['nama_bank'] == widget.produk)
+                                              .toList();
+                                          // print('daasdasdasdsa $data');
+                                          if (topUpData.isEmpty) {
+                                            return Center(
+                                                child: RefreshIndicator(
+                                                    onRefresh: payController.getDataTransak,
+                                                    child: const Text('Belum Ada Transaksi')));
+                                          } else {
+                                            for (var item in topUpData){
+                                              rateTopup = currencyFormat.format(int.parse(item['price'].toString()));
+                                            }
+                                            return Row(
+                                              children: [
+                                                // Text('${item['price']}')
+                                                Expanded(
+                                                  child: Text('Rp.$rateTopup',style: TextStyle(
+                                                      fontWeight: FontWeight.bold
+                                                  )),
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                        }),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        SizedBox(height: 8),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+                color: Colors.grey
+            ),
+            // color: Colors.red
+          ),
+          padding: EdgeInsets.symmetric(vertical: 1),
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          // color: Colors.blue
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.account_balance_wallet_rounded, color: Colors.blue,),
+                                            SizedBox(width: 10),
+                                            Text('Detail Pembayaran',style: TextStyle(
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(child: Divider(color: Colors.grey,)),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+
+                                /// Total Pembayaran
+
+                                Container(
+                                    decoration: BoxDecoration(
+                                      // color: Colors.green
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(child: Text('Subtotal Tagihan')),
+                                            // Text('Rp.${currencyFormat.format(totalPayment)}',style: TextStyle(
+                                            //     fontWeight: FontWeight.bold
+                                            // )),
+                                            Expanded(
+                                              child: Obx(() {
+                                                var data = payController.jsonRate;
+                                                var bank = data['data'];
+                                                var topUpData = bank
+                                                    .where((item) => item['nama_bank'] == widget.produk)
+                                                    .toList();
+                                                // print('daasdasdasdsa $data');
+                                                if (topUpData.isEmpty) {
+                                                  return Center(
+                                                      child: RefreshIndicator(
+                                                          onRefresh: payController.getDataRateTopup,
+                                                          child: const Text('Belum Ada Transaksi')));
+                                                } else {
+                                                  for (var item in topUpData){
+                                                    subtotalTagihan = '${int.parse(item['price'].toString()) * widget.amount}';
+                                                  }
+                                                  return Row(
+                                                    children: [
+                                                      // Text('${item['price']}')
+                                                      Expanded(
+                                                        child: Text('Rp.${currencyFormat.format(int.parse(subtotalTagihan))}',style: TextStyle(
+                                                            fontWeight: FontWeight.bold
+                                                        )),
+                                                      ),
+                                                    ],
+                                                  );
+                                                }
+                                              }),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(child: Text('Biaya Transaksi')),
+                                            Expanded(
+                                              child: Obx(() {
+                                                var data = payController.jsonDataRate;
+                                                var topUpData = data
+                                                    .where((item) => item.namaBank == widget.produk)
+                                                    .where((item) => item.type == 'Top Up')
+                                                    .toList();
+
+                                                if (topUpData.isEmpty) {
+                                                  return ElevatedButton(onPressed: (){
+                                                    print(topUpData);
+                                                  }, child: Icon(Icons.telegram_sharp));
+                                                } else {
+                                                  for (var rateModel in topUpData) {
+                                                    var blockchainData = rateModel
+                                                        .blockchainData ?? [];
+                                                    for (var blockchainItem in blockchainData) {
+
+                                                      var namaBlockchain = blockchainItem.namaBlockchain;
+                                                      var rekeningWallet = blockchainItem.rekeningWallet;
+                                                      var type = blockchainItem.type;
+
+                                                      if(namaBlockchain == widget.blockchain){
+                                                        biayaTransaksi = blockchainItem.biayaTransaksi.toString();
+                                                      }
+
+                                                      // Lakukan sesuatu dengan informasi yang diakses
+                                                      print('Nama Blockchain: $namaBlockchain');
+                                                      print('Rekening Wallet: $rekeningWallet');
+                                                      print('Type: $type');
+
+                                                      print('---');
+                                                    }
+                                                  }
+
+                                                  return Row(
+                                                    children: [
+                                                      // Text('${item['price']}')
+                                                      Expanded(
+                                                        child: Text('Rp.${currencyFormat.format(int.parse(biayaTransaksi))}',style: TextStyle(
+                                                            fontWeight: FontWeight.bold
+                                                        )),
+                                                      ),
+                                                    ],
+                                                  );
+                                                }
+                                              }),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                ),
+                                SizedBox(height: 10),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              // BoxShadow(
+              //   color: Colors.grey.withOpacity(0.5), // Warna bayangan
+              //   spreadRadius: 2, // Seberapa luas bayangan menyebar
+              //   blurRadius: 5, // Seberapa kabur bayangan
+              //   offset: Offset(0, 3), // Perpindahan bayangan secara horizontal dan vertikal
+              // ),
+            ],
+            border: Border(bottom: BorderSide(
+                color: Colors.grey
+            ),
+              top: BorderSide(
+                  color: Colors.grey
+              ),
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      // color: Colors.blue
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Total Tagihan Pembayaran',style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                        )),
+
+                        /// Total Tagihan
+                        Obx(() {
+                          final data = payController.jsonRate;
+                          if (data.isEmpty) {
+                            return Center(
+                              child: RefreshIndicator(
+                                onRefresh: payController.getDataRateTopup,
+                                child: Text('Belum Ada Transaksi'),
+                              ),
+                            );
+                          } else {
+                            totalTagihan = (int.parse(subtotalTagihan) + int.parse(biayaTransaksi)).toString();
+                            return Column(
+                              children: [
+                                Text(
+                                  'Rp.${currencyFormat.format(int.parse(totalTagihan))}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                        }),
+                        // Obx(() {
+                        //   var total = int.parse(subtotalTagihan) + int.parse(biayaTransaksi);
+                        //   totalTagihan = total.toString();
+                        //   if(total != null){
+                        //     return Text('Kosong');
+                        //   }else{
+                        //     return Column(
+                        //       children: [
+                        //         Text(
+                        //           'Rp.${currencyFormat.format(int.parse(totalTagihan))}',
+                        //           style: TextStyle(
+                        //             fontWeight: FontWeight.bold,
+                        //             fontSize: 16,
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     );
+                        //   }
+                        // }
+                        // ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // SizedBox(height: 20),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(child: Divider()),
+                ],
+              ),
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Text('Metode Pencairan')),
+              Obx(() {
+                final data = payController.jsonPembayaran;
+                // print('daasdasdasdsa $data');
+                if (data.isEmpty) {
+                  return Center(
+                    child:  Text('Belum Ada Metode Pembayaran'),
+                  );
+                } else {
+                  return DropdownButtonFormField<String>(
+                    hint: Row(
+                      children: [
+                        Text('Pilih Metode Pencairan'),
+                      ],
+                    ),
+                    value: selectedPaymentMethod, // Gunakan selectedPaymentMethod dari payController
+                    onChanged: (newValue) {
+                      selectedPaymentMethod = newValue;
+                    },
+                    items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
+                          (paymentModel) {
+                        // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
+                        String value = paymentModel.namaBank.toString();
+
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Row(
+                            children: [
+                              // Sesuaikan dengan struktur objek model Anda
+                              Image.network(
+                                paymentModel.icons,
+                                height: 30,
+                                width: 30,
+                              ),
+                              SizedBox(width: 10),
+                              Text(value),
+                            ],
+                          ),
+                        );
+                      },
+                    ).toList(),
+                  );
+                }
+              },
+              ),
+              Row(
+                children: [
+                  Expanded(child: Divider()),
+                ],
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 20),
+
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: ElevatedButton(
+            style: ButtonStyle(
+                padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 80)),
+                backgroundColor: MaterialStatePropertyAll(Color(0xff37398B))
+            ),
+            onPressed: () {
+
+              print(widget.rekProduk);
+              print(widget.amount);
+              print(totalTagihan);
+              print(selectedPaymentMethod.toString());
+              print(rateTopup);
+              print(widget.iconNetwork);
+              if(selectedPaymentMethod != null){
+
+                kirimData();
+              }else{
+                showDialog(context: context,builder: (context) {
+                  return AlertDialog(
+                    title: Center(child: Text('Bank Harus Dipilih')),
+                    // content: Text('Bank Harus Dipilih'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Ok'),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                    ],
+                  );
+                },);
+              }
+
+            },
+            child:
+            Obx(() =>
+            payController.isLoading.value ? CircularProgressIndicator():
+            Text(style: TextStyle(
+                color: Colors.white
+            ),'Selanjutnya'),
+            ),
+          ),
+        ),
+
+      ],
+    );
+  }
+
+  Column pembayaranWidget(BuildContext context, NumberFormat currencyFormat) {
+    return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+                height: 120,
+                width: MediaQuery.sizeOf(context).width,
+                child: Image.network(widget.iconNetwork, scale: 0.5,)
+            ),
+            SizedBox(height: 20,),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 1),
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Colors.grey
+                ),
+                // color: Colors.red
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.list_alt,color: Colors.blue),
+                                  SizedBox(width: 10),
+                                  Text('Total Pesanan',style: TextStyle(
+                                      fontWeight: FontWeight.bold
+                                  )),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(child: Divider(color: Colors.grey,)),
+                                ],
+                              ),
+                              SizedBox(height: 5),
+                              Container(
+                                  decoration: BoxDecoration(
+                                    // color: Colors.green
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(child: Text('Jenis Produk')),
+                                          Expanded(
+                                            child: Text(widget.produk,style: TextStyle(
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(child: Text('Rek Pembeli')),
+                                          Expanded(
+                                            child: Text('${widget.rekProduk}',style: TextStyle(
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(child: Text('Jumlah')),
+                                          Expanded(
+                                            child: Text('\$${widget.amount}',style: TextStyle(
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(child: Text('Harga Satuan')),
+                                          // Text('Rp.${currencyFormat.format(satuanHargaa)}',style: TextStyle(
+                                          //     fontWeight: FontWeight.bold
+                                          // )),
+                                          Expanded(
+                                            child: Obx(() {
+                                              var data = payController.jsonRate;
+                                              var bank = data['data'];
+                                              var topUpData = bank
+                                                  .where((item) => item['nama_bank'] == widget.produk)
+                                                  .toList();
+                                              // print('daasdasdasdsa $data');
+                                              if (topUpData.isEmpty) {
+                                                return Center(
+                                                    child: RefreshIndicator(
+                                                        onRefresh: payController.getDataTransak,
+                                                        child: const Text('Belum Ada Transaksi')));
+                                              } else {
+                                                for (var item in topUpData){
+                                                  rateTopup = currencyFormat.format(int.parse(item['price'].toString()));
+                                                }
+                                                return Row(
+                                                  children: [
+                                                    // Text('${item['price']}')
+                                                    Expanded(
+                                                      child: Text('Rp.$rateTopup',style: TextStyle(
+                                                          fontWeight: FontWeight.bold
+                                                      )),
+                                                    ),
+                                                  ],
+                                                );
+                                              }
+                                            }),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 8),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Colors.grey
+                ),
+                // color: Colors.red
+              ),
+              padding: EdgeInsets.symmetric(vertical: 1),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              // color: Colors.blue
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Icon(Icons.account_balance_wallet_rounded, color: Colors.blue,),
+                                                SizedBox(width: 10),
+                                                Text('Detail Pembayaran',style: TextStyle(
+                                                    fontWeight: FontWeight.bold
+                                                )),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(child: Divider(color: Colors.grey,)),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+
+                                    /// Total Pembayaran
+
+                                    Container(
+                                        decoration: BoxDecoration(
+                                          // color: Colors.green
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(child: Text('Subtotal Tagihan')),
+                                                // Text('Rp.${currencyFormat.format(totalPayment)}',style: TextStyle(
+                                                //     fontWeight: FontWeight.bold
+                                                // )),
+                                                Expanded(
+                                                  child: Obx(() {
+                                                    var data = payController.jsonRate;
+                                                    var bank = data['data'];
+                                                    var topUpData = bank
+                                                        .where((item) => item['nama_bank'] == widget.produk)
+                                                        .toList();
+                                                    // print('daasdasdasdsa $data');
+                                                    if (topUpData.isEmpty) {
+                                                      return Center(
+                                                          child: RefreshIndicator(
+                                                              onRefresh: payController.getDataRateTopup,
+                                                              child: const Text('Belum Ada Transaksi')));
+                                                    } else {
+                                                      for (var item in topUpData){
+                                                        subtotalTagihan = '${currencyFormat.format(int.parse(item['price'].toString()) * widget.amount)}';
+                                                      }
+                                                      return Row(
+                                                        children: [
+                                                          // Text('${item['price']}')
+                                                          Expanded(
+                                                            child: Text('Rp.$subtotalTagihan',style: TextStyle(
+                                                                fontWeight: FontWeight.bold
+                                                            )),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
+                                                  }),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(child: Text('Biaya Transaksi')),
+                                                Expanded(
+                                                  child: Obx(() {
+                                                    var data = payController.jsonRate;
+                                                    var bank = data['data'];
+                                                    var topUpData = bank
+                                                        .where((item) => item['nama_bank'] == widget.produk)
+                                                        .toList();
+                                                    // print('daasdasdasdsa $data');
+                                                    if (topUpData.isEmpty) {
+                                                      return Center(
+                                                          child: RefreshIndicator(
+                                                              onRefresh: payController.getDataRate,
+                                                              child: const Text('Belum Ada Transaksi')));
+                                                    } else {
+                                                      for (var item in topUpData){
+                                                        biayaTransaksi = item['biaya_transaksi'].toString();
+                                                      }
+                                                      return Row(
+                                                        children: [
+                                                          // Text('${item['price']}')
+                                                          Expanded(
+                                                            child: Text('Rp.${currencyFormat.format(int.parse(biayaTransaksi))}',style: TextStyle(
+                                                                fontWeight: FontWeight.bold
+                                                            )),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
+                                                  }),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  // BoxShadow(
+                  //   color: Colors.grey.withOpacity(0.5), // Warna bayangan
+                  //   spreadRadius: 2, // Seberapa luas bayangan menyebar
+                  //   blurRadius: 5, // Seberapa kabur bayangan
+                  //   offset: Offset(0, 3), // Perpindahan bayangan secara horizontal dan vertikal
+                  // ),
+                ],
+                border: Border(bottom: BorderSide(
+                    color: Colors.grey
+                ),
+                top: BorderSide(
+                    color: Colors.grey
+                ),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          // color: Colors.blue
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Total Tagihan Pembayaran',style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold
+                            )),
+
+                            /// Rate PayPal API
+                            Obx(() {
+                              final data = payController.jsonRate;
+                              final bank = data['data'];
+                              final topUpData = bank
+                                  .where((item) => item['nama_bank'] == widget.produk)
+                                  .where((item) => item['type'] == 'Top Up')
+                                  .toList();
+                              // print('daasdasdasdsa $data');
+                              if (topUpData.isEmpty) {
+                                return Center(
+                                  child: RefreshIndicator(
+                                    onRefresh: payController.getDataRateTopup,
+                                    child: Text('Belum Ada Transaksi'),
+                                  ),
+                                );
+                              } else {
+                                for  (var item in topUpData) {
+                                  totalTagihan = currencyFormat.format(int.parse(item['price'].toString()) * widget.amount + int.parse(biayaTransaksi));
+                                }
+                                return Column(
+                                  children: [
+                                    // for (var item in topUpData)
+                                    // Text('${item['price']}')
+                                    Text(
+                                      'Rp.$totalTagihan',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            }),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // SizedBox(height: 20),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: Divider()),
+                    ],
+                  ),
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: Text('Metode Pencairan')),
+                  Obx(() {
+                    final data = payController.jsonPembayaran;
+                    // print('daasdasdasdsa $data');
+                    if (data.isEmpty) {
+                      return Center(
+                        child:  Text('Belum Ada Metode Pembayaran'),
+                      );
+                    } else {
+                      return DropdownButtonFormField<String>(
+                        hint: Row(
+                          children: [
+                            Text('Pilih Metode Pencairan'),
+                          ],
+                        ),
+                        value: selectedPaymentMethod, // Gunakan selectedPaymentMethod dari payController
+                        onChanged: (newValue) {
+                          selectedPaymentMethod = newValue;
+                        },
+                        items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
+                              (paymentModel) {
+                            // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
+                            String value = paymentModel.namaBank.toString();
+
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Row(
+                                children: [
+                                  // Sesuaikan dengan struktur objek model Anda
+                                  Image.network(
+                                    paymentModel.icons,
+                                    height: 30,
+                                    width: 30,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(value),
+                                ],
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      );
+                    }
+                  },
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: Divider()),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 80)),
+                    backgroundColor: MaterialStatePropertyAll(Color(0xff37398B))
+                ),
+                onPressed: () {
+
+                  print(widget.rekProduk);
+                  print(widget.amount);
+                  print(totalTagihan);
+                  print(selectedPaymentMethod.toString());
+                  print(rateTopup);
+                  print(widget.iconNetwork);
+                  if(selectedPaymentMethod != null){
+
+                    kirimData();
+                  }else{
+                    showDialog(context: context,builder: (context) {
+                      return AlertDialog(
+                        title: Center(child: Text('Bank Harus Dipilih')),
+                        // content: Text('Bank Harus Dipilih'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        ],
+                      );
+                    },);
+                  }
+
+                },
+                child:
+                Obx(() =>
+                payController.isLoading.value ? CircularProgressIndicator():
+                Text(style: TextStyle(
+                    color: Colors.white
+                ),'Selanjutnya'),
+                ),
+                ),
+              ),
+
+          ],
+        );
   }
 
   void kirimData(){
@@ -2274,7 +2824,7 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
         jumlah: widget.amount,
         totalPembayaran: totalTagihan,
         namaBank: selectedPaymentMethod,
-        // nama: ,
+        namaBlockchain: widget.blockchain,
         rekClient: widget.rekProduk
     );
 

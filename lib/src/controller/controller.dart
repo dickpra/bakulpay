@@ -350,6 +350,7 @@ class PayController extends GetxController {
     jsonDataMenu.assignAll(jsonDataWait);
   }
 
+
   Future getDataRateTopup() async {
     // Ambil dan proses data dari JSON, misalnya:
     var jsonDataWait = await ApiService().getRateTop();

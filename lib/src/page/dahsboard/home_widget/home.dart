@@ -313,15 +313,16 @@ class BeliTopup extends StatelessWidget {
                    // Jika hanya ada satu item, atur item ke kiri
                    return GestureDetector(
                      onTap: () {
-                       if(data[index].namaBank!.contains('USDT')||data[index].namaBank!.contains('BUSD')){
-                         // Navigator.of(context).push(
-                         //   MaterialPageRoute(
-                         //     builder: (context) => TopupPaypal(),
-                         //   ),
-                         // );
-                       }else{
-                         Get.toNamed(topUp,arguments: [data[index].icons as String,data[index].namaBank.toString()]);
-                       }
+                       Get.toNamed(topUp,arguments: [data[index].icons as String,data[index].namaBank.toString()]);
+                       // if(data[index].namaBank!.contains('USDT')||data[index].namaBank!.contains('BUSD')){
+                       //   // Navigator.of(context).push(
+                       //   //   MaterialPageRoute(
+                       //   //     builder: (context) => TopupPaypal(),
+                       //   //   ),
+                       //   // );
+                       // }else{
+                       //   Get.toNamed(topUp,arguments: [data[index].icons as String,data[index].namaBank.toString()]);
+                       // }
                      },
                      child: menuButtonTopup(data[index].icons.toString(), data[index].namaBank.toString()),
                    );

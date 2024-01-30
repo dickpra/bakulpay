@@ -393,6 +393,26 @@ class ApiService extends GetConnect with BaseController {
 
   }
 
+  Future getRateChainApi() async{
+    final response = await BaseClient()
+        .get(BASE_URL, '/rate',"")
+        // .get(URL_MOCK2, '/test',"")
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else if (error is ApiNotRespondingException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else {
+        handleError(error);
+      }
+    });
+
+    final jsonData = jsonDecode(response);
+    return jsonData;
+  }
+
   Future getRateTop() async{
     final response = await BaseClient()
         .get(BASE_URL, '/payment/top%20up',"")

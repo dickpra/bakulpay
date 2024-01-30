@@ -173,7 +173,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                           child: Padding(
                             padding: EdgeInsets.all(3),
                             child: Text(
-                                'Rp.${widget.data.totalPembayaran}',
+                                'Rp.${currencyFormat.format(int.parse(widget.data.totalPembayaran))}',
                                 style: TextStyle(color: Color(0xffFF0000),fontSize: 18  ,fontWeight: FontWeight.bold,)
                             ),
                           ),
