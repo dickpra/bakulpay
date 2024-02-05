@@ -28,13 +28,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
   PayController payController = Get.put(PayController());
   int totalPayment = 0;
   String? selectedPaymentMethod;
-  List<String> paymentMethods = ['Dana','OVO'];
-  Map<String, String> paymentMethodIcons = {
-    'Dana': 'assets/images/paypal.png',
-    'OVO': 'assets/images/paypal.png',
-    'GoPay': 'assets/gopay_icon.png',
-  };
-
+  String biayaTransaksi = '';
   String iconBank = '';
 
   @override
@@ -308,7 +302,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                                         );
                                                       } else {
                                                         for  (var item in topUpData) {
-                                                          totalTagihan = '${currencyFormat.format(int.parse(item['price'].toString()) * widget.amount)}';
+                                                          totalTagihan = '${(int.parse(item['price'].toString()) * widget.amount)}';
                                                         }
                                                         return Row(
                                                           children: [
@@ -316,7 +310,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                                             // Text('${item['price']}')
                                                             Expanded(
                                                               child: Text(
-                                                                'Rp.$totalTagihan',
+                                                                'Rp.${currencyFormat.format(int.parse(totalTagihan))}',
                                                                 style: TextStyle(
                                                                   fontWeight: FontWeight.bold,
                                                                   // fontSize: 16,
@@ -335,9 +329,52 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                                 children: [
                                                   Expanded(child: Text('Biaya Transaksi')),
                                                   Expanded(
-                                                    child: Text('Rp.0,00',style: TextStyle(
-                                                        fontWeight: FontWeight.bold
-                                                    )),
+                                                    child: Obx(() {
+                                                      var data = payController.jsonDataRate;
+                                                      var topUpData = data
+                                                          .where((item) => item.namaBank == widget.produk)
+                                                          .where((item) => item.type == 'Top Up')
+                                                          .toList();
+
+                                                      if (topUpData.isEmpty) {
+                                                        return ElevatedButton(onPressed: (){
+                                                          print(topUpData);
+                                                        }, child: Icon(Icons.telegram_sharp));
+                                                      } else {
+                                                        for (var rateModel in topUpData) {
+                                                          var blockchainData = rateModel
+                                                              .blockchainData ?? [];
+                                                          for (var blockchainItem in blockchainData) {
+
+                                                            var namaBlockchain = blockchainItem.namaBlockchain;
+                                                            var rekeningWallet = blockchainItem.rekeningWallet;
+                                                            var type = blockchainItem.type;
+
+                                                            if(namaBlockchain == widget.blockChain){
+                                                              biayaTransaksi = blockchainItem.biayaTransaksi.toString();
+                                                            }
+
+                                                            // Lakukan sesuatu dengan informasi yang diakses
+                                                            print('Nama Blockchain: $namaBlockchain');
+                                                            print('Rekening Wallet: $rekeningWallet');
+                                                            print('Type: $type');
+
+                                                            print('---');
+                                                          }
+                                                        }
+
+                                                        return Row(
+                                                          children: [
+                                                            // Text('${item['price']}')
+                                                            Expanded(
+                                                              child: Text('Rp.${currencyFormat.format(int.parse(biayaTransaksi))}',style: TextStyle(
+                                                                  fontWeight: FontWeight.bold
+                                                              )),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      }
+                                                    }),
                                                   ),
                                                 ],
                                               ),
@@ -449,14 +486,14 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                       );
                                     } else {
                                       for  (var item in topUpData) {
-                                        totalTagihan = '${currencyFormat.format(int.parse(item['price'].toString()) * widget.amount)}';
+                                        totalTagihan = '${int.parse(item['price'].toString()) * widget.amount}';
                                       }
                                       return Column(
                                         children: [
                                           // for (var item in topUpData)
                                           // Text('${item['price']}')
                                           Text(
-                                            'Rp.$totalTagihan',
+                                            'Rp.${currencyFormat.format(int.parse(totalTagihan))}',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16,
@@ -529,8 +566,6 @@ class _pembayaranWdState extends State<pembayaranWd> {
                     backgroundColor: MaterialStatePropertyAll(Color(0xff37398B))
                   ),
                   onPressed: () {
-
-                     print(totalTagihan);
                     kirimDataWd();
                   },
                   child: Obx(() =>
@@ -552,6 +587,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
 
 
   void kirimDataWd(){
+
     model_topup data = model_topup(
         userId: payController.respsonIdPengguna.value,
         product: widget.produk,
@@ -559,13 +595,12 @@ class _pembayaranWdState extends State<pembayaranWd> {
         jumlah: totalTagihan,
         totalPembayaran: widget.amount,
         namaBank: widget.bank,
-        rekClient: widget.rekening
+        rekClient: widget.rekening,
+        namaBlockchain: widget.blockChain
     );
 
-    // Mengirim data ke API
-    print('wasoo$data');
+    print('wasoo${data.jumlah}');
     payController.KirimWd(data);
-
   }
 
 

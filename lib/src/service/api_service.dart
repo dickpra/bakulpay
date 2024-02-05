@@ -250,12 +250,42 @@ class ApiService extends GetConnect with BaseController {
       return null;
     }
   }
+  Future GetHistoryApi() async{
+    var idPgn = payController.respsonIdPengguna.value;
+    var page = payController.page;
+    var token = await getToken();
+    final response = await BaseClient()
+        .get(BASE_URL, '/history/$idPgn/?page=$page&limit=10', '$token')
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        // Get.rawSnackbar(message: apiError["message"]);
+      }else if (error is ApiNotRespondingException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else if (error is FetchDataException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else {
+        handleError(error);
+      }
+    });
+    // final jsonData = jsonDecode(response);
+    final Map<String, dynamic> data = json.decode(response);
+
+    final List<model_history> newItems = (data['data']['data'] as List<dynamic>)
+        .map((dynamic item) => model_history.fromJson(item))
+        .toList();
+
+    return newItems;
+  }
 
   Future<Iterable<model_history>> GetTransaksi() async{
     var idPgn = payController.respsonIdPengguna.value;
+    var page = payController.page;
     var token = await getToken();
     final response = await BaseClient()
-        .get(BASE_URL, '/history/$idPgn', '$token')
+        .get(BASE_URL, '/history/$idPgn/?page=$page&limit=10', '$token')
         .catchError((error) {
       if (error is BadRequestException) {
         var apiError = json.decode(error.message!);
@@ -271,12 +301,13 @@ class ApiService extends GetConnect with BaseController {
       }
     });
 
-    print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm $response");
+    print("mmmmmmmmmm $response");
+
 
     final jsonData = jsonDecode(response);
-
-    if (response != null) {
-      final List<dynamic> responseData = jsonData['data'];
+    print("peleeer ${jsonData['success']}");
+    if (jsonData['success'] == true) {
+      final List<dynamic> responseData = jsonData['data']['data'];
       // print('responseData $responseData');
       // List<dynamic> transactions = [];
       // transactions.addAll(jsonData['data']['withdraws']);
@@ -287,6 +318,58 @@ class ApiService extends GetConnect with BaseController {
       final Iterable<model_history> waitingModels = responseData.map((data) => model_history.fromJson(data));
       print("Itersble$waitingModels");
       return waitingModels;
+      if(jsonData['success'] == true){
+
+      }
+      return response;
+    } else {
+      // var peler = response['data'].toString();
+      // print(' dasasdaadasdasdsa asdas dsa asdsa  as sa $peler');
+      return jsonData['success'];
+    }
+
+  }
+  Future<Iterable<model_history>> getHistoryApi() async{
+    var idPgn = payController.respsonIdPengguna.value;
+    var page = payController.page;
+    var token = await getToken();
+    final response = await BaseClient()
+        .get(BASE_URL, '/history/$idPgn/?page=1&limit=10', '$token')
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        // Get.rawSnackbar(message: apiError["message"]);
+      }else if (error is ApiNotRespondingException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else if (error is FetchDataException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      }else {
+        handleError(error);
+      }
+    });
+
+    print("mmmmmmmmmm $response");
+
+
+    final jsonData = jsonDecode(response);
+    print("peleeer ${jsonData['success']}");
+    if (response != null) {
+      if(jsonData['success'] == true){
+        final List<dynamic> responseData = jsonData['data']['data'];
+        // print('responseData $responseData');
+        // List<dynamic> transactions = [];
+        // transactions.addAll(jsonData['data']['withdraws']);
+        // transactions.addAll(jsonData['data']['topups']);
+        // final List<dynamic> responseData = jsonData;
+
+        // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
+        final Iterable<model_history> waitingModels = responseData.map((data) => model_history.fromJson(data));
+        print("Itersble$waitingModels");
+        return waitingModels;
+      }
+      return response;
     } else {
       var peler = response['data'].toString();
       print(' dasasdaadasdasdsa asdas dsa asdsa  as sa $peler');
@@ -294,6 +377,8 @@ class ApiService extends GetConnect with BaseController {
     }
 
   }
+
+
   Future<Iterable<rate_model>> getRate() async{
 
     final response = await BaseClient()

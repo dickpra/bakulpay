@@ -5,6 +5,7 @@ import 'package:bakulpay/src/page/dahsboard/transaksi_widget/transaksi_data/deta
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
 class transaksi extends StatefulWidget {
@@ -18,7 +19,7 @@ class _transaksiState extends State<transaksi> {
 
   PayController payController = Get.put(PayController());
   PayController filterController = Get.put(PayController());
-
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   String filter = '';
 
   @override
@@ -46,58 +47,126 @@ class _transaksiState extends State<transaksi> {
           ),
         ],
       ),
-      body: Row(
-        children: [
-          Expanded(
-            child: Container(
-              // color: Colors.blue,
-              child: Obx(() {
-                var data = payController.jsonDataTransaksi;
-                List<model_history> filteredItems = data
-                    .where((item) => item.type!.toLowerCase().contains(filter.toLowerCase()))
-                    // .where((item) => item.status!.toLowerCase().contains(filter2.toLowerCase()))
-                    .toList();
-                if (data.isEmpty) {
-                  return Center(
-                      child: RefreshIndicator(
-                      onRefresh: payController.getDataTransak,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/images/warningTX.png'),
-                          Text('Kamu belum memiliki transaksi',style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold
-                          ),),
-                          Text('buat transaksi sekarang untuk melihatnya dihalaman ini',style: TextStyle(
-                            fontSize: 13, color: Colors.grey
-                          ),),
-                        ],
-                      )));
+      body: GetBuilder<PayController>(
+        builder: (_) {
+          return SmartRefresher(
+            controller: _refreshController,
+            enablePullUp: true,
+            enablePullDown: false,
+            footer: CustomFooter(
+              builder: (BuildContext context, LoadStatus? mode) {
+                Widget body;
+                if (mode == LoadStatus.loading) {
+                  // Menampilkan animasi loading ketika sedang loading
+                  body = CircularProgressIndicator();
                 } else {
-                  return RefreshIndicator(
-                      onRefresh: payController.getDataTransak,
-                      child: ListView.builder(
-                        itemCount: filteredItems.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) => dataTransaksiPage(),
-                              //   ),
-                              // );
-                              Get.to(DataTransaksiPage(filteredItems.elementAt(index)));
-                            },
-                            child: Listdata(filteredItems, index),
-                          );
-                        },
-                      ));
+                  // Menampilkan teks sesuai dengan status
+                  String text = "";
+                  if (mode == LoadStatus.failed) {
+                    text = "Failed to load";
+                  } else if (mode == LoadStatus.canLoading) {
+                    text = "Release to load more";
+                  } else if (mode == LoadStatus.noMore) {
+                    text = "No more data";
+                  }
+                  body = Text(text, style: TextStyle(color: Colors.grey));
                 }
-              }),
+                return Container(
+                  height: 55.0,
+                  child: Center(child: body),
+                );
+              },
             ),
-          ),
-        ],
+            onRefresh: () {
+              payController.getHistoryrefresh();
+              _refreshController.loadComplete();
+            },
+            onLoading: () async {
+              await Future.delayed(const Duration(seconds: 1));
+              payController.getDataTransak();
+              _refreshController.loadComplete();
+            },
+            child: ListView.builder(
+              controller: payController.scrollController,
+              itemCount: payController.historyItems.length + (payController.isLoadinghistory ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index < payController.historyItems.length) {
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(DataTransaksiPage(payController.historyItems.elementAt(index)));
+                    },
+                    child: Listdata(payController.historyItems, index),
+                  );
+
+
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          );
+        },
       ),
+
+      // Row(
+      //   children: [
+      //     Expanded(
+      //       child: Container(
+      //         // color: Colors.blue,
+      //         child: Obx(() {
+      //           var data = payController.jsonDataTransaksi;
+      //           // List<model_history> filteredItems = data
+      //           //     .where((item) => item.type!.toLowerCase().contains(filter.toLowerCase()))
+      //           //     // .where((item) => item.status!.toLowerCase().contains(filter2.toLowerCase()))
+      //           //     .toList();
+      //           if (data.isEmpty) {
+      //             return Center(
+      //                 child: RefreshIndicator(
+      //                 onRefresh: payController.getDataTransak,
+      //                 child: Column(
+      //                   mainAxisAlignment: MainAxisAlignment.center,
+      //                   children: [
+      //                     ElevatedButton(onPressed: (){
+      //                       print(payController.historyItems);
+      //                     }, child: Text('kontool')),
+      //                     Image.asset('assets/images/warningTX.png'),
+      //                     Text('Kamu belum memiliki transaksi',style: TextStyle(
+      //                       fontSize: 20, fontWeight: FontWeight.bold
+      //                     ),),
+      //                     Text('buat transaksi sekarang untuk melihatnya dihalaman ini',style: TextStyle(
+      //                       fontSize: 13, color: Colors.grey
+      //                     ),),
+      //                   ],
+      //                 )));
+      //           } else {
+      //             return RefreshIndicator(
+      //                 onRefresh: payController.getDataTransak,
+      //                 child: ListView.builder(
+      //
+      //                   itemCount: data.length,
+      //                   itemBuilder: (context, index) {
+      //                     return GestureDetector(
+      //                       onTap: () {
+      //                         // Navigator.of(context).push(
+      //                         //   MaterialPageRoute(
+      //                         //     builder: (context) => dataTransaksiPage(),
+      //                         //   ),
+      //                         // );
+      //                         Get.to(DataTransaksiPage(data.elementAt(index)));
+      //                       },
+      //                       child: Listdata(data, index),
+      //                     );
+      //                   },
+      //                 ));
+      //           }
+      //         }),
+      //       ),
+      //     ),
+      //   ],
+      // ),
+
     );
   }
 

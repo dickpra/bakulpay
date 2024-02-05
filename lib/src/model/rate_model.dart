@@ -5,9 +5,9 @@ class rate_model {
   dynamic type;
   dynamic price;
   dynamic biayaTransaksi;
-  String? nama;
+  dynamic nama;
   dynamic noRekening;
-  String? active;
+  dynamic active;
   String? createdAt;
   String? updatedAt;
   List<BlockchainData>? blockchainData;
@@ -68,16 +68,16 @@ class rate_model {
 }
 
 class BlockchainData {
-  int? id;
-  int? idRate;
-  String? namaBank;
-  String? namaBlockchain;
-  String? rekeningWallet;
-  String? type;
-  String? price;
-  String? biayaTransaksi;
-  String? active;
-  String? createdAt;
+  dynamic id;
+  dynamic idRate;
+  dynamic namaBank;
+  dynamic namaBlockchain;
+  dynamic rekeningWallet;
+  dynamic type;
+  dynamic price;
+  dynamic biayaTransaksi;
+  dynamic active;
+  dynamic createdAt;
   String? updatedAt;
 
   BlockchainData(

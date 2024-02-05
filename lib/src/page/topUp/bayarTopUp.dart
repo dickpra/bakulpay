@@ -174,6 +174,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                             padding: EdgeInsets.all(3),
                             child: Text(
                                 'Rp.${currencyFormat.format(int.parse(widget.data.totalPembayaran))}',
+                                // 'Rp.${widget.data.totalPembayaran}',
                                 style: TextStyle(color: Color(0xffFF0000),fontSize: 18  ,fontWeight: FontWeight.bold,)
                             ),
                           ),
@@ -236,15 +237,9 @@ class _BuatPesananState extends State<BuatPesanan> {
                         children: [
                           Obx(() {
                             final data = payController.jsonPembayaran;
-                            // final bank = data;
-                            // print(data);
-
                             final topUpData = data
                                 .where((item) => item.namaBank == widget.data.namaBank)
                                 .toList();
-                            // print('meki $topUpData');
-                            // print('dasdasdsa $data');
-                            // print('daasdasdasdsa $data');
                             if (topUpData.isEmpty) {
                               return Center(
                                   child: RefreshIndicator(
@@ -253,7 +248,6 @@ class _BuatPesananState extends State<BuatPesanan> {
                             } else {
                               for (var item in topUpData){
                                 iconBank = item.icons;
-
                               }
                               return Image.network(iconBank);
                             }

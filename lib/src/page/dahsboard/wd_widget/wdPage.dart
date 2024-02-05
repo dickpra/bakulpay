@@ -15,8 +15,8 @@ class WithdrawPage extends StatefulWidget {
 class _WithdrawPageState extends State<WithdrawPage> {
 
   PayController payController = Get.put(PayController());
-  List<String> pilihanInstansi = ['Paypal','Skrill', 'Perfect Money', 'Payeer', 'USDT', 'BUSD'];
-  String? pilihInstansi;
+  // List<String> pilihanInstansi = ['Paypal','Skrill', 'Perfect Money', 'Payeer', 'USDT', 'BUSD'];
+  String? pilihProduk;
   final _formKey = GlobalKey<FormState>();
   List<String> pilihanBank = [
     'Bank Jago',
@@ -34,8 +34,8 @@ class _WithdrawPageState extends State<WithdrawPage> {
     'TMRW'
   ];
   String? bankPilihan;
-  String? usdtChain;
-  List<String> pilihanBlockchain = ['BEP20', 'ERC20', 'TRC20', 'Polygon', 'Solana'];
+  String? blockChain;
+  // List<String> pilihanBlockchain = ['BEP20', 'ERC20', 'TRC20', 'Polygon', 'Solana'];
   String? pilihBlockChain;
   String selectedPaymentWd = '';
 
@@ -125,7 +125,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                 }
                                 return null;
                               },
-                                value: pilihInstansi, // Gunakan selectedPaymentMethod dari payController
+                                value: pilihProduk, // Gunakan selectedPaymentMethod dari payController
                                 // onChanged: (newValue) {
                                 //   pilihInstansi = newValue;
                                 // },
@@ -134,9 +134,9 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                     setState(() {
                                       dollarController.text = '';
                                       nomorController.text = '';
-                                      usdtChain = null;
+                                      blockChain = null;
                                       bankPilihan = null;
-                                      pilihInstansi = newValue;
+                                      pilihProduk = newValue;
         
                                     });
                                   }
@@ -264,7 +264,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                   //   // Tidak perlu lagi menggunakan if karena myValue diinisialisasi dengan nilai default.
                   //   return Text(data.toString());
                   // }),
-                  if (pilihInstansi != null)
+                  if (pilihProduk != null)
                     Container(
                       child: Column(
                         children: [
@@ -326,7 +326,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
         
                   ///USD
                   // SizedBox(height: 20),
-                  if (pilihInstansi != null && pilihInstansi!.contains('USDT') || pilihInstansi != null && pilihInstansi!.contains('BUSD'))
+                  if (pilihProduk != null && pilihProduk!.contains('USDT') || pilihProduk != null && pilihProduk!.contains('BUSD'))
                     Container(
                       child: Column(
                         children: [
@@ -336,38 +336,59 @@ class _WithdrawPageState extends State<WithdrawPage> {
                             ],
                           ),
                           Obx(() {
-                            final data = payController.jsonChainUsdt;
+                            final data = payController.jsonDataRate;
+                            var topUpData = data
+                                .where((item) => item.namaBank == pilihProduk)
+                                .where((item) => item?.type == 'Withdraw')
+                                .toList();
                             if (data.isEmpty) {
                               return Center(
                                 child:  Text('Belum Ada'),
                               );
                             } else {
+                              List<String> chainList = [];
+                              for (var rateModel in topUpData) {
+                                var blockchainData = rateModel.blockchainData ?? [];
+                                for (var blockchainItem in blockchainData) {
+                                  var namaBlockchain = blockchainItem.namaBlockchain;
+                                  var rekeningWallet = blockchainItem.rekeningWallet;
+                                  var type = blockchainItem.type;
+
+                                  // Menambahkan namaBlockchain ke dalam chainList
+                                  chainList.add(namaBlockchain!);
+
+                                  // Lakukan sesuatu dengan informasi yang diakses
+                                  print('Nama Blockchain: $namaBlockchain');
+                                  print('Rekening Wallet: $rekeningWallet');
+                                  print('Type: $type');
+                                  print('---');
+                                }
+                              }
                               return DropdownButtonFormField<String>(
                                 decoration: InputDecoration(
                                     border: InputBorder.none
                                 ),
                                 hint: Row(children: [ Icon(CupertinoIcons.money_dollar_circle, color: Color(0xff7AA4F5),),SizedBox(width: 10),Text('Pilih Blockchain', style: TextStyle(color: Color(0xff7AA4F5), fontSize: 18),)]),
-                                value: usdtChain,
+                                value: blockChain,
                                 onChanged: (newValue) {
                                   if (newValue != null) {
                                     setState(() {
-                                      usdtChain = newValue;
+                                      blockChain = newValue;
                                     });
                                   }
                                 },
-                                items: payController.jsonChainUsdt.map<DropdownMenuItem<String>>(
-                                      (paymentModel) {
-                                    String value = paymentModel.namaBlockchain.toString();
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Row(
-                                        children: [
-                                          Text(value),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ).toList(),
+                                items: chainList
+                                    .map<DropdownMenuItem<String>>(
+                                      (namaBlockchain) => DropdownMenuItem<String>(
+                                    value: namaBlockchain,
+                                    child: Row(
+                                      children: [
+                                        Text(namaBlockchain),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                    .toList(),
                               );
                             }
                           },),
@@ -407,7 +428,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
         
                   ///BANK
                   // SizedBox(height: 20),
-                  if (pilihInstansi != null)
+                  if (pilihProduk != null)
                     Container(
                       child: Column(
                         children: [
@@ -533,7 +554,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
   }
 
   void _confirmWithdraw(context) {
-    if(pilihInstansi!.contains('USDT') && usdtChain == null
+    if(pilihProduk!.contains('USDT') && blockChain == null
         // || pilihInstansi!.contains('BUSD') && pilihBlockChain == null
     ){
 
@@ -556,7 +577,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
     } else if (_formKey.currentState!.validate()) {
 
       // Do something with the confirmed values
-      print('Opsi yang dipilih: $pilihInstansi');
+      print('Opsi yang dipilih: $pilihProduk');
       print('Jumlah: ${dollarController.text}');
       print('Bank: $bankPilihan');
       print('Nomor Rekening: ${nomorController.text}');
@@ -574,11 +595,11 @@ class _WithdrawPageState extends State<WithdrawPage> {
       // );
       Get.to(
           pembayaranWd(
-              produk: pilihInstansi.toString(),
+              produk: pilihProduk.toString(),
               amount: int.parse(dollarController.text),
               bank: bankPilihan.toString(),
               rekening: nomorController.text,
-              blockChain: usdtChain.toString()
+              blockChain: blockChain.toString()
           ));
     }
   }

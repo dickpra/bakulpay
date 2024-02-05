@@ -52,6 +52,8 @@ class PayController extends GetxController {
   ///Hapus Transaksi Logout
   void clearJsonDataTransaksi() {
     jsonDataTransaksi.value.clear();
+    historyItems.clear();
+    page = 1;
   }
 
   ///Pengguna Preference
@@ -325,13 +327,30 @@ class PayController extends GetxController {
     }
   }
 
-
+  ScrollController scrollController = ScrollController();
+  bool isLoadinghistory = false;
+  List<model_history> historyItems = [];
+  int page = 1;
   Future getDataTransak() async {
-    // Ambil dan proses data dari JSON, misalnya:
     var jsonDataWait = await ApiService().GetTransaksi();
 
+    if (jsonDataWait.isEmpty) {
+
+      isLoadinghistory = false;
+      update();
+    } else {
+      historyItems.addAll(jsonDataWait);
+      page++;
+      isLoadinghistory = false;
+      update();
+    }
+
     print('data $jsonDataWait');
-    jsonDataTransaksi.assignAll(jsonDataWait);
+    // jsonDataTransaksi.addAll(jsonDataWait);
+  }
+  Future getHistoryrefresh() async{
+    var data = await ApiService().getHistoryApi();
+    historyItems.addAll(data);
   }
 
   Future getDataRate() async {

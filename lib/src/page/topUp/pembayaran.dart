@@ -2321,7 +2321,6 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                   );
                 },);
               }
-
             },
             child:
             Obx(() =>
@@ -2673,7 +2672,8 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                                 );
                               } else {
                                 for  (var item in topUpData) {
-                                  totalTagihan = currencyFormat.format(int.parse(item['price'].toString()) * widget.amount + int.parse(biayaTransaksi));
+                                  totalTagihan = (int.parse(item['price'].toString()) * widget.amount + int.parse(biayaTransaksi)).toString();
+                                  // totalTagihan = currencyFormat.format(int.parse(item['price'].toString()) * widget.amount + int.parse(biayaTransaksi));
                                 }
                                 return Column(
                                   children: [
@@ -2815,6 +2815,7 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
           ],
         );
   }
+
 
   void kirimData(){
     model_topup data = model_topup(

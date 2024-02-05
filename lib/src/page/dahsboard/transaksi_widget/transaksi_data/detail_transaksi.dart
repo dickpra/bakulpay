@@ -111,6 +111,7 @@ class DataTransaksiPage extends StatelessWidget {
           
               // SizedBox(height: 10,),
               /// Detail Produk
+
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Column(
@@ -149,6 +150,18 @@ class DataTransaksiPage extends StatelessWidget {
                         ),
                       ],
                     ),
+                    if(data.namaBlockchain != '')
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Text('Chain')),
+                        Expanded(
+                          child: Text(data.namaBlockchain.toString(),style: TextStyle(
+                              fontWeight: FontWeight.bold
+                          )),
+                        ),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -165,13 +178,23 @@ class DataTransaksiPage extends StatelessWidget {
                       children: [
                         Expanded(child: Text('Potongan diskon')),
                         Expanded(
-                          child: Text('null',style: TextStyle(
+                          child: Text('0',style: TextStyle(
                               fontWeight: FontWeight.bold
                           )),
                         ),
                       ],
                     ),
-
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Text('Biaya Transaksi')),
+                        Expanded(
+                          child: Text('0',style: TextStyle(
+                              fontWeight: FontWeight.bold
+                          )),
+                        ),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

@@ -217,6 +217,11 @@ class _TopupState extends State<Topup> {
                     ),
                   Row(
                     children: [
+                      Expanded(child: Divider()),
+                    ],
+                  ),
+                  Row(
+                    children: [
                       SizedBox(width: 5),
                       Text('Masukkan Jumlah (\$)', style: TextStyle(
                         fontSize: 15,

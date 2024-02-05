@@ -110,22 +110,16 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                           padding: EdgeInsets.all(0),
                           child: Column(
                             children: [
-                              // if(widget.data.product.toString().contains('Skrill'))
-                              //   Image.asset('assets/images/skrill.png',scale: 5,),
-                              // if(widget.data.product.toString().contains('Perfect Money'))
-                              //   Image.asset('assets/images/perfectmoney.png',scale: 10,),
+
                               Obx(() {
                                 final data = payController.jsonWithdraw;
-                                // final bank = data;
-                                // print(data);
-
                                 final topUpData = data
                                     .where((item) => item.namaBank == widget.data.product)
                                     .toList();
 
                                 if (topUpData.isEmpty) {
                                   return Center(
-                                      child: const Text('Belum Ada Transaksi'));
+                                      child: const Text('Belum Ada'));
                                 } else {
                                   for (var item in topUpData){
                                     iconBank = item.icons!;
@@ -180,330 +174,10 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Container(
-                    decoration: BoxDecoration(
-                      // color: Colors.green
-                    ),
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),'Silahkan Transfer ke'),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Rekening ${widget.data.product}'),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                IconButton(
-                                  iconSize: 15,
-                                  color: Colors.blue,
-                                  onPressed: () {
-                                    Clipboard.setData(ClipboardData(text: kodebank));
-
-                                  },
-                                  icon: Icon(Icons.copy),
-                                ),
-                                Obx(() {
-                                  final data = payController.jsonWithdraw;
-
-                                  final topUpData = data
-                                      .where((item) => item.namaBank == widget.data.product)
-                                      .toList();
-
-                                  if (topUpData.isEmpty) {
-                                    return Center(
-                                      child: RefreshIndicator(
-                                        onRefresh: payController.getDataRateTopup,
-                                        child:  Text('Belum Ada Transaksi'),
-                                      ),
-                                    );
-                                  } else {
-                                    for  (var item in topUpData) {
-                                      kodebank = item.noRekening;
-
-                                    }
-                                    return Column(
-                                      children: [
-                                        // for (var item in topUpData)
-                                        // Text('${item['price']}')
-                                        Text(
-                                          kodebank,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.blueAccent,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                }),
-                                // Text(
-                                //   '087212223993',
-                                //   style: TextStyle(
-                                //     fontWeight:
-                                //     FontWeight.bold,
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        // SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Atas Nama'),
-                            Obx(() {
-                              final data = payController.jsonWithdraw;
-                              final topUpData = data
-                                  .where((item) => item.namaBank == widget.data.product)
-                                  .toList();
-                              if (topUpData.isEmpty) {
-                                return Center(
-                                  child: RefreshIndicator(
-                                    onRefresh: payController.getDataRateTopup,
-                                    child:  Text('Belum Ada Transaksi'),
-                                  ),
-                                );
-                              } else {
-                                for  (var item in topUpData) {
-                                  namaRekBank = item.nama!;
-
-                                }
-                                return Column(
-                                  children: [
-                                    // for (var item in topUpData)
-                                    // Text('${item['price']}')
-                                    Text(
-                                      namaRekBank,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }
-                            }),
-                            // Text('Jong Java',style: TextStyle(
-                            //     fontWeight: FontWeight.bold
-                            // )),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('id Pembayaran'),
-                            Obx(() {
-                              final data = payController.responPembayaranWD;
-                              return Text('$data',style: TextStyle(
-                                  fontWeight: FontWeight.bold
-                              ));
-                            }),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Color(0x3879a3f5)),
-                          child: Column(
-                            children: [
-                              Text('Transfer total pembayaran sesuai dengan rincian diatas ke nomor rekening atas nama Jong Java.'),
-                              SizedBox(height: 10),
-                              Text('Biaya transaksi ditanggung pengguna,Lalu upload bukti transfer pada kolom yang disediakan dibawah ini.'),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Nama Pengirim'),
-                          ),
-                        ),
-                        Form(key: _formKey,child: textForm(namaPengirim, 'Masukkan Nama Pengirim', [FilteringTextInputFormatter.deny(RegExp(' '))], TextInputType.text, 'Masukkan Nama Pengirim', '', false)),
-
-                        SizedBox(height: 20),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Upload Bukti Pembayaran'),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        InkWell(
-                          onTap: () {
-                            showDialog(context: context, builder: (BuildContext context){
-                              return AlertDialog(
-                                title:  Text('Pilih Bukti Pembayaran'),
-                                // content: Text('Apakah Anda yakin ingin keluar dari aplikasi?'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: Text('Kamera'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      // payController.pickImageKamera();
-                                      pickKamera();
-                                      // Navigator.pop(context);
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: Text('Gallery'),
-                                    onPressed: () {
-                                      pickGallery();
-                                      // payController.pickImageGallery();
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
-                          },
-                          child: _image == null ?
-                          DottedBorder(
-                            color: Colors.black,
-                            dashPattern: [15, 10],
-                            strokeWidth: 1.2,
-                            child: Row(
-                              children: [
-                                Expanded(child: Container(
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    // color: Colors.grey[200],
-                                    // border: Border.all(
-                                    //     // color: Colors.grey.shade50
-                                    //   color: Colors.black, // Warna garis
-                                    //   width: 2,
-                                    // ),
-                                    // borderRadius: BorderRadius.circular(50),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 2,
-                                        offset: Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  padding: EdgeInsets.all(5),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.add_photo_alternate_outlined,
-                                        color: Color(0xffA3A3A3),
-                                        size: 50.0,
-                                      ),
-                                      Text('Pilih bukti Pembayaran',style: TextStyle(
-                                          color: Color(0xffA3A3A3)
-                                      ),)
-                                    ],
-                                  ),
-                                  // child: CustomPaint(
-                                  //   child: CustomPaint(
-                                  //     painter: DashedBorderPainter(),
-                                  //     child:  Column(
-                                  //       mainAxisAlignment: MainAxisAlignment.center,
-                                  //       children: [
-                                  //         Icon(
-                                  //           Icons.add_photo_alternate_outlined,
-                                  //           color: Color(0xffA3A3A3),
-                                  //           size: 50.0,
-                                  //         ),
-                                  //         Text('Pilih bukti Pembayaran',style: TextStyle(
-                                  //             color: Color(0xffA3A3A3)
-                                  //         ),)
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ))
-                              ],
-                            ),
-                          )
-                              : Image.file(
-                            _image!,
-                            width: 150,
-                            height: 150,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        if(_image != null)
-                          TextButton(onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => FullScreenImage(imageFile: _image),
-                              ),
-                            );
-                          }, child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Lihat Bukti')),
-                        SizedBox(height: 20),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 80)),
-                                  backgroundColor: MaterialStatePropertyAll(Color(0xff37398B))
-                              ),
-                              // style: ElevatedButton.styleFrom(
-                              //   primary: CupertinoColors.activeBlue, // warna latar belakang
-                              // ),
-                              onPressed: () {
-                                if(_image != null && namaPengirim.text.isNotEmpty){
-                                  payController.KirimBuktiWd(namaPengirim.text, _image!);
-                                  // Get.offAllNamed();
-                                }else{
-                                  Alert(
-                                    context: context,
-                                    // onWillPopActive: true,
-                                    type: AlertType.warning,
-                                    title: "Peringatan",
-                                    desc: "Nama dan Bukti harus diisi!",
-                                    buttons: [
-                                      DialogButton(
-                                        child: Text(
-                                          "Ok",
-                                          style: TextStyle(color: Colors.white, fontSize: 20),
-                                        ),
-                                        onPressed: () => Navigator.pop(context),
-                                        color: Colors.red,
-                                      ),
-                                    ],
-                                  ).show();
-                                }
-                                print(_image);
-                                // kirimData();
-                                // _sendData();
-
-                                // _confirmWithdraw(context);
-                              },
-                              child: Obx(() =>
-                              payController.isLoading.value ? CircularProgressIndicator():
-                              Text(style: TextStyle(
-                                  color: Colors.white
-                              ),'Bayar'),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                ),
-              ),
+              if(widget.data.namaBlockchain == null)
+              notChain(context),
+              if(widget.data.namaBlockchain != null)
+                chainWidget(context)
             ],
           ),
         ), onWillPop: () async{ return await
@@ -535,6 +209,625 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
         },),
       ),
     );
+  }
+
+  Widget chainWidget(BuildContext context) {
+    return Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                  decoration: BoxDecoration(
+                    // color: Colors.green
+                  ),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),'Silahkan Transfer ke'),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Rekening ${widget.data.product}'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              IconButton(
+                                iconSize: 15,
+                                color: Colors.blue,
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: kodebank));
+                                },
+                                icon: Icon(Icons.copy),
+                              ),
+                              Obx(() {
+                                var data = payController.jsonDataRate;
+                                var topUpData = data
+                                    .where((item) => item.namaBank == widget.data.product)
+                                    .where((item) => item.type == 'Withdraw')
+                                    .toList();
+
+                                if (topUpData.isEmpty) {
+                                  return ElevatedButton(onPressed: (){
+                                    print(topUpData);
+                                  }, child: Icon(Icons.telegram_sharp));
+                                } else {
+                                  for (var rateModel in topUpData) {
+                                    var blockchainData = rateModel
+                                        .blockchainData ?? [];
+                                    for (var blockchainItem in blockchainData) {
+
+                                      var namaBlockchain = blockchainItem.namaBlockchain;
+                                      var rekeningWallet = blockchainItem.rekeningWallet;
+                                      var type = blockchainItem.type;
+
+                                      if(namaBlockchain == widget.data.namaBlockchain){
+                                        kodebank = blockchainItem.rekeningWallet.toString();
+                                      }
+                                    }
+                                  }
+
+                                  return Column(
+                                    children: [
+                                      Text(
+                                        kodebank,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueAccent,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                              }),
+                            ],
+                          ),
+                        ],
+                      ),
+                      // SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Chain'),
+                          Text(widget.data.namaBlockchain,style: TextStyle(
+                              fontWeight: FontWeight.bold
+                          )),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('id Pembayaran'),
+                          Obx(() {
+                            final data = payController.responPembayaranWD;
+                            return Text('$data',style: TextStyle(
+                                fontWeight: FontWeight.bold
+                            ));
+                          }),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0x3879a3f5)),
+                        child: Column(
+                          children: [
+                            Text('Transfer total pembayaran sesuai dengan rincian diatas ke nomor rekening atas nama Jong Java.'),
+                            SizedBox(height: 10),
+                            Text('Biaya transaksi ditanggung pengguna,Lalu upload bukti transfer pada kolom yang disediakan dibawah ini.'),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Nama Pengirim'),
+                        ),
+                      ),
+                      Form(key: _formKey,child: textForm(namaPengirim, 'Masukkan Nama Pengirim', [FilteringTextInputFormatter.deny(RegExp(' '))], TextInputType.text, 'Masukkan Nama Pengirim', '', false)),
+                      SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Upload Bukti Pembayaran'),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      InkWell(
+                        onTap: () {
+                          showDialog(context: context, builder: (BuildContext context){
+                            return AlertDialog(
+                              title:  Text('Pilih Bukti Pembayaran'),
+                              // content: Text('Apakah Anda yakin ingin keluar dari aplikasi?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('Kamera'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    // payController.pickImageKamera();
+                                    pickKamera();
+                                    // Navigator.pop(context);
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Gallery'),
+                                  onPressed: () {
+                                    pickGallery();
+                                    // payController.pickImageGallery();
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                        },
+                        child: _image == null ?
+                        DottedBorder(
+                          color: Colors.black,
+                          dashPattern: [15, 10],
+                          strokeWidth: 1.2,
+                          child: Row(
+                            children: [
+                              Expanded(child: Container(
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  // color: Colors.grey[200],
+                                  // border: Border.all(
+                                  //     // color: Colors.grey.shade50
+                                  //   color: Colors.black, // Warna garis
+                                  //   width: 2,
+                                  // ),
+                                  // borderRadius: BorderRadius.circular(50),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                padding: EdgeInsets.all(5),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add_photo_alternate_outlined,
+                                      color: Color(0xffA3A3A3),
+                                      size: 50.0,
+                                    ),
+                                    Text('Pilih bukti Pembayaran',style: TextStyle(
+                                        color: Color(0xffA3A3A3)
+                                    ),)
+                                  ],
+                                ),
+                                // child: CustomPaint(
+                                //   child: CustomPaint(
+                                //     painter: DashedBorderPainter(),
+                                //     child:  Column(
+                                //       mainAxisAlignment: MainAxisAlignment.center,
+                                //       children: [
+                                //         Icon(
+                                //           Icons.add_photo_alternate_outlined,
+                                //           color: Color(0xffA3A3A3),
+                                //           size: 50.0,
+                                //         ),
+                                //         Text('Pilih bukti Pembayaran',style: TextStyle(
+                                //             color: Color(0xffA3A3A3)
+                                //         ),)
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                              ))
+                            ],
+                          ),
+                        )
+                            : Image.file(
+                          _image!,
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      if(_image != null)
+                        TextButton(onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FullScreenImage(imageFile: _image),
+                            ),
+                          );
+                        }, child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Lihat Bukti')),
+                      SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 80)),
+                                backgroundColor: MaterialStatePropertyAll(Color(0xff37398B))
+                            ),
+                            // style: ElevatedButton.styleFrom(
+                            //   primary: CupertinoColors.activeBlue, // warna latar belakang
+                            // ),
+                            onPressed: () {
+                              if(_image != null && namaPengirim.text.isNotEmpty){
+                                payController.KirimBuktiWd(namaPengirim.text, _image!);
+                                // Get.offAllNamed();
+                              }else{
+                                Alert(
+                                  context: context,
+                                  // onWillPopActive: true,
+                                  type: AlertType.warning,
+                                  title: "Peringatan",
+                                  desc: "Nama dan Bukti harus diisi!",
+                                  buttons: [
+                                    DialogButton(
+                                      child: Text(
+                                        "Ok",
+                                        style: TextStyle(color: Colors.white, fontSize: 20),
+                                      ),
+                                      onPressed: () => Navigator.pop(context),
+                                      color: Colors.red,
+                                    ),
+                                  ],
+                                ).show();
+                              }
+                              print(_image);
+                              // kirimData();
+                              // _sendData();
+
+                              // _confirmWithdraw(context);
+                            },
+                            child: Obx(() =>
+                            payController.isLoading.value ? CircularProgressIndicator():
+                            Text(style: TextStyle(
+                                color: Colors.white
+                            ),'Bayar'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+              ),
+            );
+  }
+
+  Widget notChain(BuildContext context) {
+    return Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                  decoration: BoxDecoration(
+                    // color: Colors.green
+                  ),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),'Silahkan Transfer ke'),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Rekening ${widget.data.product}'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              IconButton(
+                                iconSize: 15,
+                                color: Colors.blue,
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: kodebank));
+
+                                },
+                                icon: Icon(Icons.copy),
+                              ),
+                              Obx(() {
+                                final data = payController.jsonWithdraw;
+
+                                final topUpData = data
+                                    .where((item) => item.namaBank == widget.data.product)
+                                    .toList();
+
+                                if (topUpData.isEmpty) {
+                                  return Center(
+                                    child: RefreshIndicator(
+                                      onRefresh: payController.getDataRateTopup,
+                                      child:  Text('Belum Ada Transaksi'),
+                                    ),
+                                  );
+                                } else {
+                                  for  (var item in topUpData) {
+                                    kodebank = item.noRekening;
+
+                                  }
+                                  return Column(
+                                    children: [
+                                      // for (var item in topUpData)
+                                      // Text('${item['price']}')
+                                      Text(
+                                        kodebank,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueAccent,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                              }),
+                              // Text(
+                              //   '087212223993',
+                              //   style: TextStyle(
+                              //     fontWeight:
+                              //     FontWeight.bold,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      // SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Atas Nama'),
+                          Obx(() {
+                            final data = payController.jsonWithdraw;
+                            final topUpData = data
+                                .where((item) => item.namaBank == widget.data.product)
+                                .toList();
+                            if (topUpData.isEmpty) {
+                              return Center(
+                                child: RefreshIndicator(
+                                  onRefresh: payController.getDataRateTopup,
+                                  child:  Text('Belum Ada Transaksi'),
+                                ),
+                              );
+                            } else {
+                              for  (var item in topUpData) {
+                                namaRekBank = item.nama!;
+
+                              }
+                              return Column(
+                                children: [
+                                  // for (var item in topUpData)
+                                  // Text('${item['price']}')
+                                  Text(
+                                    namaRekBank,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                          }),
+                          // Text('Jong Java',style: TextStyle(
+                          //     fontWeight: FontWeight.bold
+                          // )),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('id Pembayaran'),
+                          Obx(() {
+                            final data = payController.responPembayaranWD;
+                            return Text('$data',style: TextStyle(
+                                fontWeight: FontWeight.bold
+                            ));
+                          }),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0x3879a3f5)),
+                        child: Column(
+                          children: [
+                            Text('Transfer total pembayaran sesuai dengan rincian diatas ke nomor rekening atas nama Jong Java.'),
+                            SizedBox(height: 10),
+                            Text('Biaya transaksi ditanggung pengguna,Lalu upload bukti transfer pada kolom yang disediakan dibawah ini.'),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Nama Pengirim'),
+                        ),
+                      ),
+                      Form(key: _formKey,child: textForm(namaPengirim, 'Masukkan Nama Pengirim', [FilteringTextInputFormatter.deny(RegExp(' '))], TextInputType.text, 'Masukkan Nama Pengirim', '', false)),
+
+                      SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Upload Bukti Pembayaran'),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      InkWell(
+                        onTap: () {
+                          showDialog(context: context, builder: (BuildContext context){
+                            return AlertDialog(
+                              title:  Text('Pilih Bukti Pembayaran'),
+                              // content: Text('Apakah Anda yakin ingin keluar dari aplikasi?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Kamera'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    // payController.pickImageKamera();
+                                    pickKamera();
+                                    // Navigator.pop(context);
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('Gallery'),
+                                  onPressed: () {
+                                    pickGallery();
+                                    // payController.pickImageGallery();
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                        },
+                        child: _image == null ?
+                        DottedBorder(
+                          color: Colors.black,
+                          dashPattern: [15, 10],
+                          strokeWidth: 1.2,
+                          child: Row(
+                            children: [
+                              Expanded(child: Container(
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  // color: Colors.grey[200],
+                                  // border: Border.all(
+                                  //     // color: Colors.grey.shade50
+                                  //   color: Colors.black, // Warna garis
+                                  //   width: 2,
+                                  // ),
+                                  // borderRadius: BorderRadius.circular(50),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                padding: EdgeInsets.all(5),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add_photo_alternate_outlined,
+                                      color: Color(0xffA3A3A3),
+                                      size: 50.0,
+                                    ),
+                                    Text('Pilih bukti Pembayaran',style: TextStyle(
+                                        color: Color(0xffA3A3A3)
+                                    ),)
+                                  ],
+                                ),
+                                // child: CustomPaint(
+                                //   child: CustomPaint(
+                                //     painter: DashedBorderPainter(),
+                                //     child:  Column(
+                                //       mainAxisAlignment: MainAxisAlignment.center,
+                                //       children: [
+                                //         Icon(
+                                //           Icons.add_photo_alternate_outlined,
+                                //           color: Color(0xffA3A3A3),
+                                //           size: 50.0,
+                                //         ),
+                                //         Text('Pilih bukti Pembayaran',style: TextStyle(
+                                //             color: Color(0xffA3A3A3)
+                                //         ),)
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                              ))
+                            ],
+                          ),
+                        )
+                            : Image.file(
+                          _image!,
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      if(_image != null)
+                        TextButton(onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FullScreenImage(imageFile: _image),
+                            ),
+                          );
+                        }, child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Lihat Bukti')),
+                      SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 80)),
+                                backgroundColor: MaterialStatePropertyAll(Color(0xff37398B))
+                            ),
+                            // style: ElevatedButton.styleFrom(
+                            //   primary: CupertinoColors.activeBlue, // warna latar belakang
+                            // ),
+                            onPressed: () {
+                              if(_image != null && namaPengirim.text.isNotEmpty){
+                                payController.KirimBuktiWd(namaPengirim.text, _image!);
+                                // Get.offAllNamed();
+                              }else{
+                                Alert(
+                                  context: context,
+                                  // onWillPopActive: true,
+                                  type: AlertType.warning,
+                                  title: "Peringatan",
+                                  desc: "Nama dan Bukti harus diisi!",
+                                  buttons: [
+                                    DialogButton(
+                                      child: Text(
+                                        "Ok",
+                                        style: TextStyle(color: Colors.white, fontSize: 20),
+                                      ),
+                                      onPressed: () => Navigator.pop(context),
+                                      color: Colors.red,
+                                    ),
+                                  ],
+                                ).show();
+                              }
+                              print(_image);
+                              // kirimData();
+                              // _sendData();
+
+                              // _confirmWithdraw(context);
+                            },
+                            child: Obx(() =>
+                            payController.isLoading.value ? CircularProgressIndicator():
+                            Text(style: TextStyle(
+                                color: Colors.white
+                            ),'Bayar'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+              ),
+            );
   }
   Future<void> _sendData() async {
     var id = payController.responPembayaran;
