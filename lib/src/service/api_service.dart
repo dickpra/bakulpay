@@ -111,9 +111,7 @@ class ApiService extends GetConnect with BaseController {
     }
   }
 
-
   Future kirimWDapi (dynamic data) async{
-
     final response = await BaseClient()
         .post(BASE_URL, '/withdraw', data , "")
     // .post(URL_TEST, '/sales', data , "")
@@ -128,10 +126,7 @@ class ApiService extends GetConnect with BaseController {
         handleError(error);
       }
     });
-
     // print('response $response');
-
-
     if (response != null) {
       var kirimIsi = jsonDecode(response);
       // print('Response status: ${kirimIsi.statusCode}');
@@ -143,7 +138,6 @@ class ApiService extends GetConnect with BaseController {
   }
 
   Future kirimTopup (dynamic data) async{
-
     final response = await BaseClient()
         .post(BASE_URL, '/top_up', data , "")
     // .post(URL_TEST, '/sales', data , "")
@@ -158,10 +152,6 @@ class ApiService extends GetConnect with BaseController {
         handleError(error);
       }
     });
-
-    // print('response $response');
-
-
     if (response != null) {
       var kirimIsi = jsonDecode(response);
       // print('Response status: ${kirimIsi.statusCode}');
@@ -250,6 +240,7 @@ class ApiService extends GetConnect with BaseController {
       return null;
     }
   }
+
   Future GetHistoryApi() async{
     var idPgn = payController.respsonIdPengguna.value;
     var page = payController.page;
@@ -329,6 +320,7 @@ class ApiService extends GetConnect with BaseController {
     }
 
   }
+
   Future<Iterable<model_history>> getHistoryApi() async{
     var idPgn = payController.respsonIdPengguna.value;
     var page = payController.page;
@@ -378,9 +370,7 @@ class ApiService extends GetConnect with BaseController {
 
   }
 
-
   Future<Iterable<rate_model>> getRate() async{
-
     final response = await BaseClient()
         .get(BASE_URL, '/rate',"")
         .catchError((error) {
@@ -394,21 +384,14 @@ class ApiService extends GetConnect with BaseController {
         handleError(error);
       }
     });
-
-    print("response $response");
-
     final jsonData = jsonDecode(response);
     print("jsonData $jsonData");
-
     // final List<dynamic> responseData = jsonData['data'];
     final List<dynamic> responseData = jsonData;
     print('responseData $responseData');
     // final List<dynamic> responseData = jsonData;
-
-    // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
     final Iterable<rate_model> waitingModels = responseData.map((data) => rate_model.fromJson(data));
     print("Itersble$waitingModels");
-
 
     if (response != null) {
       return waitingModels;
@@ -419,7 +402,6 @@ class ApiService extends GetConnect with BaseController {
   }
 
   Future<Iterable<menu_model>> getMenu() async{
-
     final response = await BaseClient()
         .get(BASE_URL, '/payment/top%20up',"")
         .catchError((error) {
@@ -433,7 +415,6 @@ class ApiService extends GetConnect with BaseController {
         handleError(error);
       }
     });
-
     print("responsemenu $response");
 
     final jsonData = jsonDecode(response);
@@ -442,18 +423,14 @@ class ApiService extends GetConnect with BaseController {
     final List<dynamic> responseData = jsonData['data'];
     print('responseDataMenu $responseData');
     // final List<dynamic> responseData = jsonData;
-
     // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
     final Iterable<menu_model> waitingModels = responseData.map((data) => menu_model.fromJson(data));
     print("Itersble$waitingModels");
-
-
     if (response != null) {
       return waitingModels;
     } else {
       return response;
     }
-
   }
 
   Future getRateWdApi() async{

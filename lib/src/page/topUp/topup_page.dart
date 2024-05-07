@@ -94,7 +94,7 @@ class _TopupState extends State<Topup> {
                   Row(
                     children: [
                       SizedBox(width: 5),
-                      Text(title=="Paypal"?"E-Mail Paypal":title=="Pay Owner"?'E-Mail Payooner':title=="Skrill"?'E-Mail Skrill':"Masukkan Uid", style: TextStyle(
+                      Text(title=="Paypal"?"E-Mail Paypal":title=="Pay Owner"?'E-Mail Payooner':title=="Skrill"?'E-Mail Skrill':title=="USDT"?'Masukkan Wallet':title=="BUSD"?'Masukkan Wallet':"Masukkan Uid", style: TextStyle(
                         fontSize: 15,
                       ),),
                     ],
@@ -108,7 +108,7 @@ class _TopupState extends State<Topup> {
                           fontSize: 15, fontWeight: FontWeight.bold
                       ),
                       decoration: InputDecoration(
-                        hintText: title=="Paypal"?"E-Mail Paypal":title=="Pay Owner"?'E-Mail Payooner':title=="Skrill"?'E-Mail Skrill':"Masukkan Uid",
+                        hintText: title=="Paypal"?"":title=="Pay Owner"?'':title=="Skrill"?'':"",
                         // contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
                         // labelText: 'Masukkan Jumlah \$',
                         // border: OutlineInputBorder(

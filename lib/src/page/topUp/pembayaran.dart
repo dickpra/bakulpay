@@ -2680,7 +2680,7 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                                     // for (var item in topUpData)
                                     // Text('${item['price']}')
                                     Text(
-                                      'Rp.$totalTagihan',
+                                      'Rp.${currencyFormat.format(int.parse(totalTagihan))}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
@@ -2711,7 +2711,7 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                   ),
                   Align(
                       alignment: Alignment.topLeft,
-                      child: Text('Metode Pencairan')),
+                      child: Text('Metode Pembayaran')),
                   Obx(() {
                     final data = payController.jsonPembayaran;
                     // print('daasdasdasdsa $data');
@@ -2723,7 +2723,7 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                       return DropdownButtonFormField<String>(
                         hint: Row(
                           children: [
-                            Text('Pilih Metode Pencairan'),
+                            Text('Pilih'),
                           ],
                         ),
                         value: selectedPaymentMethod, // Gunakan selectedPaymentMethod dari payController
@@ -2775,14 +2775,13 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                 ),
                 onPressed: () {
 
-                  print(widget.rekProduk);
-                  print(widget.amount);
-                  print(totalTagihan);
-                  print(selectedPaymentMethod.toString());
-                  print(rateTopup);
-                  print(widget.iconNetwork);
+                  // print(widget.rekProduk);
+                  // print(widget.amount);
+                  // print(totalTagihan);
+                  // print(selectedPaymentMethod.toString());
+                  // print(rateTopup);
+                  // print(widget.iconNetwork);
                   if(selectedPaymentMethod != null){
-
                     kirimData();
                   }else{
                     showDialog(context: context,builder: (context) {

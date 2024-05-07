@@ -1,6 +1,8 @@
 import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/model/rate_model.dart';
 import 'package:bakulpay/src/model/test_model.dart';
+import 'package:bakulpay/src/page/dahsboard/wd_widget/wdPage.dart';
+import 'package:bakulpay/src/page/dahsboard/wd_widget/wdPagefromRate.dart';
 import 'package:bakulpay/src/page/topUp/topup_page.dart';
 import 'package:bakulpay/src/router/constant.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +74,8 @@ class _ratePageState extends State<ratePage> {
                       onTap: () {
                         if(data[index].type == 'Top Up' || data[index].type == 'Top-Up' || data[index].type == 'TopUp'){
                           Get.toNamed(topUp,arguments: [data[index].icons as String, data[index].namaBank as String]);
+                        }else{
+                          Get.to(WithdrawPageRate(),arguments: [data[index].namaBank as String]);
                         }
 
                         // if(data[index].type!.contains('Top Up')&&data[index].namaBank!.contains('Paypal')){
@@ -113,8 +117,8 @@ Container ListRate(RxList<rate_model> data, index) {
         BoxShadow(
           color: Colors.grey.withOpacity(0.5),
           spreadRadius: 1,
-          blurRadius: 2,
-          offset: Offset(0, 2),
+          blurRadius: 0.2,
+          offset: Offset(0, 1),
         ),
       ],
     ),

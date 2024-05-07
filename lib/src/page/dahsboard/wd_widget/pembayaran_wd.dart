@@ -285,9 +285,6 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Expanded(child: const Text('Jumlah yang diterima')),
-                                                  // Text('Rp.${currencyFormat.format(totalPayment)}',style: TextStyle(
-                                                  //     fontWeight: FontWeight.bold
-                                                  // )),
                                                   Expanded(
                                                     child: Obx(() {
                                                       final data = payController.jsonRateWd;
@@ -324,11 +321,46 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                                   ),
                                                 ],
                                               ),
+                                              // ElevatedButton(onPressed: (){
+                                              //   print(widget.blockChain);
+                                              // }, child: Text('kontol')),
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Expanded(child: Text('Biaya Transaksi')),
-                                                  Expanded(
+                                                  if(widget.blockChain == 'null')
+                                                    Expanded(
+                                                      child: Obx(() {
+                                                        var data = payController.jsonDataRate;
+                                                        var topUpData = data
+                                                            .where((item) => item.namaBank == widget.produk)
+                                                            .where((item) => item.type == 'Top Up')
+                                                            .toList();
+
+                                                        if (topUpData.isEmpty) {
+                                                          return ElevatedButton(onPressed: (){
+                                                            print(topUpData);
+                                                          }, child: Icon(Icons.telegram_sharp));
+                                                        } else {
+                                                          for (var item in topUpData) {
+                                                            biayaTransaksi = '${int.parse(item.biayaTransaksi.toString())}';
+                                                          }
+
+                                                          return Row(
+                                                            children: [
+                                                              // Text('${item['price']}')
+                                                              Expanded(
+                                                                child: Text('Rp.${currencyFormat.format(int.parse(biayaTransaksi))}',style: TextStyle(
+                                                                    fontWeight: FontWeight.bold
+                                                                )),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        }
+                                                      }),
+                                                    ),
+                                                  if(widget.blockChain != 'null')
+                                                    Expanded(
                                                     child: Obx(() {
                                                       var data = payController.jsonDataRate;
                                                       var topUpData = data
@@ -486,7 +518,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                       );
                                     } else {
                                       for  (var item in topUpData) {
-                                        totalTagihan = '${int.parse(item['price'].toString()) * widget.amount}';
+                                        totalTagihan = '${((int.parse(item['price']) * widget.amount) - int.parse(biayaTransaksi))}';
                                       }
                                       return Column(
                                         children: [

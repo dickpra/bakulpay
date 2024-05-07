@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your Password';
-                        } else if (value.length <= 6) {
+                        } else if (value.length <= 5) {
                           return 'Password min 6 karakter';
                         }
                         return null;

@@ -97,8 +97,6 @@ class _transaksiState extends State<transaksi> {
                     },
                     child: Listdata(payController.historyItems, index),
                   );
-
-
                 } else {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -487,9 +485,10 @@ Container Listdata(List<model_history> data, index) {
                   child: CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 36,
-                    child: Image(image: AssetImage('assets/images/busd-logo.png'),),
+                    child: Image(image: AssetImage('assets/images/usdt.png'),),
                   ),
-                ),if(data[index].product == 'BUSD')
+                ),
+                if(data[index].product == 'BUSD')
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -508,13 +507,14 @@ Container Listdata(List<model_history> data, index) {
                     child: Image(image: AssetImage('assets/images/busd-logo.png'),),
                   ),
                 ),
-                SizedBox(width: 5),
+                SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('${data[index].type}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
-                    SizedBox(height: 5),
+                    // SizedBox(height: 5),
                     Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].product}'),
+                    Text(style: TextStyle(fontSize: 13,fontWeight: FontWeight.normal,color: Colors.grey),'${data[index].rekClient}'),
                   ],
                 ),
 

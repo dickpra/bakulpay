@@ -303,14 +303,13 @@ class BeliTopup extends StatelessWidget {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: data.length,
                   shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: maxItemsPerRow,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
                     crossAxisSpacing: 8.0,
                     mainAxisSpacing: 8.0,
                     // childAspectRatio: itemWidth / itemHeight,
                   ),
-                 itemBuilder: (BuildContext context, int index) {
-                   // Jika hanya ada satu item, atur item ke kiri
+                 itemBuilder: (context, index) {
                    return GestureDetector(
                      onTap: () {
                        Get.toNamed(topUp,arguments: [data[index].icons as String,data[index].namaBank.toString()]);

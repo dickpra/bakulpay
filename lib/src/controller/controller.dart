@@ -19,7 +19,7 @@ import 'package:http/http.dart' as http;
 
 
 class PayController extends GetxController {
-  Rx<File?> imageFile = Rx<File?>(null);
+
   final isTopUpSelected = false.obs;
   final isLoading = false.obs;
   final jsonDataTransaksi = <model_history>[].obs;
@@ -105,18 +105,6 @@ class PayController extends GetxController {
   //   }
   // }
 
-  Future<void> pickImageGallery() async {
-    var pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      imageFile.value = File(pickedFile.path);
-    }
-  }
-  Future<void> pickImageKamera() async {
-    var pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      imageFile.value = File(pickedFile.path);
-    }
-  }
 
   void updateString(String? newValue) {
     selectedPaymentMethod.value = newValue!;
