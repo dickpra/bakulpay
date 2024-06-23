@@ -39,14 +39,14 @@ class _transaksiState extends State<transaksi> {
         title: const Text('Riwayat Transaksi', style: TextStyle(
             fontSize: 20,fontWeight: FontWeight.bold),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () {
-              _showFilterDialog();
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.filter_list),
+        //     onPressed: () {
+        //       _showFilterDialog();
+        //     },
+        //   ),
+        // ],
       ),
       body: GetBuilder<PayController>(
         builder: (_) {

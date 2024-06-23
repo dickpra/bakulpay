@@ -79,20 +79,20 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   // width: MediaQuery.of(context).size.width,
                   child: NewsPage(),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: CupertinoColors.activeBlue, // warna latar belakang
-                    ),
-                    onPressed: () {
-                      Get.to(NewsPage());
-                    },
-                    child: Text(style: TextStyle(
-                        color: Colors.white
-                    ),'Selanjutnya'),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: CupertinoColors.activeBlue, // warna latar belakang
+                //     ),
+                //     onPressed: () {
+                //       Get.to(NewsPage());
+                //     },
+                //     child: Text(style: TextStyle(
+                //         color: Colors.white
+                //     ),'Selanjutnya'),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -156,7 +156,7 @@ class ProfilDashboard extends StatelessWidget {
             decoration: BoxDecoration(
               // color: Colors.grey,
             ),
-            width: MediaQuery.of(context).size.width * 0.5, // Gunakan ukuran relatif untuk gambar
+            width: MediaQuery.of(context).size.width * 0.45, // Gunakan ukuran relatif untuk gambar
             child: Image.asset('assets/images/LOGO.png'),
           ),
         ],

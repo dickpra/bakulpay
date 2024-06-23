@@ -94,6 +94,25 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
+                Row(
+                  children: [
+                    Expanded(child: Divider(color: Colors.grey,)),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.all(3),
+                    child: Text(
+                        'Withdraw',
+                        style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black87)),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(child: Divider(color: Colors.grey,)),
+                  ],
+                ),
                 // Padding(
                 //   padding: EdgeInsets.all(10),
                 //   child: Container(
@@ -293,13 +312,14 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                     SizedBox(height: 5,),
                     Row(
                       children: [
-                        Expanded(child: Text('Rekening ${widget.data.product} ')),
+                        Expanded(child: Text('Jaringan ${widget.data.product} ')),
                         Expanded(child: Text('${widget.data.namaBlockchain}')),
                       ],
                     ),
                     Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        Expanded(child: Text('Alamat')),
                         Expanded(
                           child: Obx(() {
                             var data = payController.jsonDataRate;
@@ -327,7 +347,6 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                                   }
                                 }
                               }
-                          
                               return Column(
                                 children: [
                                   Text(
@@ -338,23 +357,34 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                                       fontSize: 16,
                                     ),
                                   ),
+
                                 ],
                               );
                             }
                           }),
                         ),
-                        Expanded(
-                          child: IconButton(
-                            iconSize: 15,
-                            color: Colors.blue,
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: kodebank));
-                            },
-                            icon: Icon(Icons.copy),
-                          ),
-                        ),
+
                       ],
                     ),
+                    Row(
+                      children: [
+                      Expanded(child: Text('Salin Alamat')),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text('Salin'),
+                            IconButton(
+                              iconSize: 15,
+                              color: Colors.blue,
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(text: kodebank));
+                              },
+                              icon: Icon(Icons.copy),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],)
                   ],
                 ),
                 Row(
@@ -371,9 +401,9 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                       color: Color(0x3879a3f5)),
                   child: Column(
                     children: [
-                      Text('Transfer total pembayaran sesuai dengan rincian diatas ke nomor rekening atas nama Jong Java.'),
+                      Text('Transfer total pembayaran sesuai dengan rincian diatas ke nomor rekening atau alamat wallet di atas.'),
                       SizedBox(height: 10),
-                      Text('Biaya transaksi ditanggung pengguna,Lalu upload bukti transfer pada kolom yang disediakan dibawah ini.'),
+                      Text('Biaya transaksi ditanggung pengguna, Lalu upload bukti transfer pada kolom yang disediakan dibawah ini.'),
                     ],
                   ),
                 ),

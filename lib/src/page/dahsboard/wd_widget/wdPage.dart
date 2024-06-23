@@ -326,7 +326,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
         
                   ///USD
                   // SizedBox(height: 20),
-                  if (pilihProduk != null && pilihProduk!.contains('USDT') || pilihProduk != null && pilihProduk!.contains('BUSD'))
+                  if (pilihProduk != null && pilihProduk!.contains('USDT') || pilihProduk != null && pilihProduk!.contains('BUSD') ||  pilihProduk != null && pilihProduk!.contains('USDC'))
                     Container(
                       child: Column(
                         children: [
@@ -339,7 +339,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                             final data = payController.jsonDataRate;
                             var topUpData = data
                                 .where((item) => item.namaBank == pilihProduk)
-                                .where((item) => item?.type == 'Withdraw')
+                                .where((item) => item.type == 'Withdraw')
                                 .toList();
                             if (data.isEmpty) {
                               return Center(
@@ -377,8 +377,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                     });
                                   }
                                 },
-                                items: chainList
-                                    .map<DropdownMenuItem<String>>(
+                                items: chainList.map<DropdownMenuItem<String>>(
                                       (namaBlockchain) => DropdownMenuItem<String>(
                                     value: namaBlockchain,
                                     child: Row(

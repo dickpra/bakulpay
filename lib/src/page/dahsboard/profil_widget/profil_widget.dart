@@ -8,6 +8,8 @@ import 'package:bakulpay/src/service/preference.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class profilWidget extends StatefulWidget {
   const profilWidget({super.key});
@@ -18,6 +20,16 @@ class profilWidget extends StatefulWidget {
 
 class _profilWidgetState extends State<profilWidget> {
   PayController payController = Get.put(PayController());
+
+  final Uri _url = Uri.parse('https://wa.me/6285850220309');
+  Future<void> _launchURL() async {
+    if (await launchUrl(_url)) {
+      throw Exception('Could not launch');
+    } else {
+      // throw 'Could not launch $url';
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -131,12 +143,24 @@ class _profilWidgetState extends State<profilWidget> {
                 Padding(padding: EdgeInsets.all(6),
                 child: Column(
                   children: [
-                    TextButton(onPressed: (){}, child: Row(
+                    // TextButton(onPressed: (){}, child: Row(
+                    //   children: [
+                    //     Icon(Icons.help_outline, color: Color(0xff7AA4F5),size: 30,),
+                    //     SizedBox(width: 10),
+                    //     Text('FAQ (Frequently Asked Questions)', style: TextStyle(
+                    //       fontSize: 16, color: Colors.black
+                    //     ),)
+                    //   ],
+                    // ),),
+
+                    TextButton(
+                      onPressed: _launchURL,
+                      child: Row(
                       children: [
-                        Icon(Icons.help_outline, color: Color(0xff7AA4F5),size: 30,),
+                        Icon(Icons.contact_phone_outlined, color: Color(0xff7AA4F5),size: 30,),
                         SizedBox(width: 10),
-                        Text('FAQ (Frequently Asked Questions)', style: TextStyle(
-                          fontSize: 16, color: Colors.black
+                        Text('Bantuan Hubungi Kami', style: TextStyle(
+                            fontSize: 16, color: Colors.black
                         ),)
                       ],
                     ),),
@@ -145,15 +169,6 @@ class _profilWidgetState extends State<profilWidget> {
                         Icon(Icons.info_outline, color: Color(0xff7AA4F5),size: 30,),
                         SizedBox(width: 10),
                         Text('About Me', style: TextStyle(
-                            fontSize: 16, color: Colors.black
-                        ),)
-                      ],
-                    ),),
-                    TextButton(onPressed: (){}, child: Row(
-                      children: [
-                        Icon(Icons.contact_phone_outlined, color: Color(0xff7AA4F5),size: 30,),
-                        SizedBox(width: 10),
-                        Text('Hubungi Kami', style: TextStyle(
                             fontSize: 16, color: Colors.black
                         ),)
                       ],

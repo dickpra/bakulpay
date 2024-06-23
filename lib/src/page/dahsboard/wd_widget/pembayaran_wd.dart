@@ -334,7 +334,7 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                                         var data = payController.jsonDataRate;
                                                         var topUpData = data
                                                             .where((item) => item.namaBank == widget.produk)
-                                                            .where((item) => item.type == 'Top Up')
+                                                            .where((item) => item.type == 'Withdraw')
                                                             .toList();
 
                                                         if (topUpData.isEmpty) {
@@ -365,13 +365,11 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                                       var data = payController.jsonDataRate;
                                                       var topUpData = data
                                                           .where((item) => item.namaBank == widget.produk)
-                                                          .where((item) => item.type == 'Top Up')
+                                                          .where((item) => item.type == 'Withdraw')
                                                           .toList();
 
                                                       if (topUpData.isEmpty) {
-                                                        return ElevatedButton(onPressed: (){
-                                                          print(topUpData);
-                                                        }, child: Icon(Icons.telegram_sharp));
+                                                        return Text('tidak ada data');
                                                       } else {
                                                         for (var rateModel in topUpData) {
                                                           var blockchainData = rateModel

@@ -39,7 +39,7 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('News')),
+      // appBar: AppBar(title: Text('News')),
       body: Container(
         color: Colors.white,
         child: Obx(() {
@@ -73,6 +73,8 @@ class NewsPage extends StatelessWidget {
                             padding: EdgeInsets.all(8.0),
                             child: Text(
                               article.title ?? 'No Title',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontSize: 16.0, fontWeight: FontWeight.bold),
                             ),

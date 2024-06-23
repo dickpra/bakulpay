@@ -221,7 +221,7 @@ class _WithdrawPageRateState extends State<WithdrawPageRate> {
           
                     ///USD
                     // SizedBox(height: 20),
-                    if (namaBankWD != 'null' && namaBankWD.contains('USDT') || namaBankWD != 'null' && namaBankWD.contains('BUSD'))
+                    if (namaBankWD != 'null' && namaBankWD.contains('USDT') || namaBankWD != 'null' && namaBankWD.contains('BUSD')|| namaBankWD != 'null' && namaBankWD.contains('USDC'))
                       Container(
                         child: Column(
                           children: [
