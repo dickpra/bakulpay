@@ -82,17 +82,17 @@ class _profilWidgetState extends State<profilWidget> {
                         ),
                       ],
                     ),
-                    Align(
-                      child: IconButton(
-                        onPressed: () {
-                          Get.to(MyAppGetx());
-                          showAccessToken();
-                          // payController.clearJsonDataTransaksi();
-                          // print(payController.jsonDataTransaksi);
-                        },
-                        icon: Icon(Icons.edit_note),
-                      ),
-                    ),
+                    // Align(
+                    //   child: IconButton(
+                    //     onPressed: () {
+                    //       Get.to(MyAppGetx());
+                    //       showAccessToken();
+                    //       // payController.clearJsonDataTransaksi();
+                    //       // print(payController.jsonDataTransaksi);
+                    //     },
+                    //     icon: Icon(Icons.edit_note),
+                    //   ),
+                    // ),
                   ],
                 ),
                 ///Email Hp

@@ -510,6 +510,25 @@ Container Listdata(List<model_history> data, index, NumberFormat currencyFormat)
                     child: Image(image: AssetImage('assets/images/busd-logo.png'),),
                   ),
                 ),
+                if(data[index].product == 'USDC')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 36,
+                    child: Image(image: AssetImage('assets/images/usdc.png'),),
+                  ),
+                ),
                 SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

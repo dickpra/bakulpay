@@ -51,13 +51,14 @@ class NewsPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final article = newsController.newsList[index];
                 return Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(5.0),
                   child: GestureDetector(
                     onTap: () {
                       _launchURL(article.url!);
                       print('${article.url}');
                     },
                     child: Card(
+                      margin: EdgeInsets.all(9),
                       color: Colors.white,
                       elevation: 5.0,
                       child: Column(
@@ -65,6 +66,9 @@ class NewsPage extends StatelessWidget {
                         children: [
                           article.urlToImage != null
                               ? Image.network(
+                            // height: MediaQuery.of(context).size.height * 0.5, // atur tinggi sesuai kebutuhan
+                            // width: MediaQuery.of(context).size.width * 0.8,
+                            // width: MediaQuery.of(context).size.height,
                             article.urlToImage!,
                             // scale: 5,
                           )
@@ -84,7 +88,7 @@ class NewsPage extends StatelessWidget {
                             child: article.urlToImage != null
                                 ? Text(
                               article.description ?? 'No Description',
-                              maxLines: 1,
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             )
                                 : Text(

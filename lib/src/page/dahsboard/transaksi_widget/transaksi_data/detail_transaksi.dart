@@ -1,11 +1,14 @@
 import 'package:bakulpay/src/model/history_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DataTransaksiPage extends StatelessWidget {
   late final model_history data;
 
   DataTransaksiPage(this.data);
+
+  final currencyFormat = NumberFormat.decimalPattern('en_US');
 
   @override
   Widget build(BuildContext context) {
@@ -20,506 +23,1119 @@ class DataTransaksiPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    // color: Colors.blue,
-                    border: Border.all(
-                      color: Colors.grey
-                    )
-                  ),
-                  child: Column(
+              if(data.type == 'Top-Up')
+                Column(
+                children: [
+                  Row(
                     children: [
-                      if(data.type == 'Top-Up')
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: EdgeInsets.all(0),
-                          child: Text('Rp.${data.totalPembayaran.toString()}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
-                        ),
-                      ),
-                      if(data.type == 'Withdraw')
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.all(0),
-                            child: Text('\$${data.totalPembayaran.toString()}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
-                          ),
-                        ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: EdgeInsets.all(0),
-                          child: Text(data.status.toString(), style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: getStatusColor(data.status.toString()),)),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: EdgeInsets.all(0),
-                          child: Text(data.tanggal.toString(), style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
-                        ),
-                      ),
+                      Expanded(child: Divider(color: Colors.grey,)),
                     ],
                   ),
-                ),
-              ),
-              // SizedBox(height: 10),
-
-              /// Kode Transaksi
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(child: Divider()),
-                      ],
+                  Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.all(3),
+                      child: Text(
+                          'TopUp',
+                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black87)),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text('Kode Transaksi')),
-                        Expanded(
-                          child: Text(data.idPembayaran.toString(),style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text('Produk')),
-                        Expanded(
-                          child: Text(data.product.toString(),style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: Divider()),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-          
-              // SizedBox(height: 10,),
-              /// Detail Produk
-
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(child: Divider()),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(3),
-                        child: Text('Detail Produk', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: Divider(color: Colors.grey,)),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        // color: Colors.blue,
+                        border: Border.all(
+                          color: Colors.grey
+                        )
+                      ),
+                      child: Column(
+                        children: [
+                          if(data.type == 'Top-Up')
+                          Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: EdgeInsets.all(0),
+                              child: Text('Rp.${currencyFormat.format(int.parse(data.totalPembayaran))}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                            ),
+                          ),
+                          if(data.type == 'Withdraw')
+                            Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: EdgeInsets.all(0),
+                                child: Text('\$${data.totalPembayaran.toString()}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                              ),
+                            ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: EdgeInsets.all(0),
+                              child: Text(data.status.toString(), style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: getStatusColor(data.status.toString()),)),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: EdgeInsets.all(0),
+                              child: Text(data.tanggal.toString(), style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+                  // SizedBox(height: 10),
+
+                  /// Kode Transaksi
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
                       children: [
-                        Expanded(child: Text('Jenis Produk')),
-                        Expanded(
-                          child: Text('${data.product.toString()} ${data.type.toString()}',style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Kode Transaksi')),
+                            Expanded(
+                              child: Text(data.idPembayaran.toString(),style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Produk')),
+                            Expanded(
+                              child: Text(data.product.toString(),style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+
+                  // SizedBox(height: 10,),
+                  /// Detail Produk
+
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
                       children: [
-                        Expanded(child: Text('Rek/email')),
-                        Expanded(
-                          child: Text(data.rekClient.toString(),style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
                         ),
-                      ],
-                    ),
-                    if(data.namaBlockchain != '')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text('Chain')),
-                        Expanded(
-                          child: Text(data.namaBlockchain.toString(),style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(3),
+                            child: Text('Detail Produk', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                          ),
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text('Harga Satuan')),
-                        Expanded(
-                          child: Text('Rp.${data.priceRate.toString()}',style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Jenis Produk')),
+                            Expanded(
+                              child: Text('${data.product.toString()} ${data.type.toString()}',style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text('Potongan diskon')),
-                        Expanded(
-                          child: Text('0',style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Rek/email')),
+                            Expanded(
+                              child: Text(data.rekClient.toString(),style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text('Biaya Transaksi')),
-                        Expanded(
-                          child: Text('0',style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
+                        if(data.namaBlockchain != '')
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Chain')),
+                            Expanded(
+                              child: Text(data.namaBlockchain.toString(),style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text('Total Tagihan')),
-                        if(data.type == 'Top-Up')
-                        Expanded(
-                          child: Text('\$${data.jumlah.toString()}',style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Harga Satuan')),
+                            Expanded(
+                              child: Text('Rp.${data.priceRate.toString()}',style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                          ],
                         ),
-                        if(data.type == 'Withdraw')
-                        Expanded(
-                          child: Text('Rp.${data.jumlah.toString()}',style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Expanded(child: Text('Potongan diskon')),
+                        //     Expanded(
+                        //       child: Text('0',style: TextStyle(
+                        //           fontWeight: FontWeight.bold
+                        //       )),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Expanded(child: Text('Biaya Transaksi')),
+                        //     Expanded(
+                        //       child: Text('Rp${data.}',style: TextStyle(
+                        //           fontWeight: FontWeight.bold
+                        //       )),
+                        //     ),
+                        //   ],
+                        // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Total Tagihan')),
+                            if(data.type == 'Top-Up')
+                            Expanded(
+                              child: Text('\$${data.jumlah.toString()}',style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                            if(data.type == 'Withdraw')
+                            Expanded(
+                              child: Text('Rp.${currencyFormat.format(int.parse(data.jumlah))}',style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 10,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text('Total Diterima',style: TextStyle(
-                            fontWeight: FontWeight.bold
-                        ))),
-                        if(data.type == 'Withdraw')
-                        Expanded(
-                          child: Text('\$${data.totalPembayaran.toString()}',style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
-                        ),
-                        if(data.type == 'Top-Up')
-                          Expanded(
-                            child: Text('Rp.${data.totalPembayaran.toString()}',style: TextStyle(
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Total Diterima',style: TextStyle(
                                 fontWeight: FontWeight.bold
-                            )),
-                          ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: Divider()),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-
-              /// Rincian Pembayaran
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(child: Divider()),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(3),
-                        child: Text('Rincian Pembayaran', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text('Metode Pembayaran')),
-                        Expanded(
-                          child: Text(data.namaBank.toString(),style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
+                            ))),
+                            if(data.type == 'Withdraw')
+                            Expanded(
+                              child: Text('\$${data.totalPembayaran.toString()}',style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                            if(data.type == 'Top-Up')
+                              Expanded(
+                                child: Text('Rp.${currencyFormat.format(int.parse(data.totalPembayaran))}',style: TextStyle(
+                                    fontWeight: FontWeight.bold
+                                )),
+                              ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+
+
+                  /// Rincian Pembayaran
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
                       children: [
-                        Expanded(child: Text('Status Pembayaran')),
-                        Expanded(
-                          child: Text(
-                            data.status.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: getStatusColor(data.status.toString()),
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(3),
+                            child: Text('Rincian Pembayaran', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Metode Pembayaran')),
+                            Expanded(
+                              child: Text(data.namaBank.toString(),style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text('Status Pembayaran')),
+                            Expanded(
+                              child: Text(
+                                data.status.toString(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: getStatusColor(data.status.toString()),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(3),
+                            child: Text('Bukti Pembayaran', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                          ),
+                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Expanded(child: Text('Metode Pembayaran')),
+                        //     Expanded(
+                        //       child: Text('Skrill',style: TextStyle(
+                        //           fontWeight: FontWeight.bold
+                        //       )),
+                        //     ),
+                        //   ],
+                        // ),
+                        Image.network(
+                          '${data.buktiPembayaran}',
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          (loadingProgress.expectedTotalBytes ?? 1)
+                                      : null,
+                                ),
+                              );
+                            }
+                          },
+                          errorBuilder: (BuildContext context, Object error,
+                              StackTrace? stackTrace) {
+                            return Text('Error loading image');
+                          },
+                        ),
+
+                        SizedBox(width: 20,),
+                        if(data.type == 'Withdraw')
+                          Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.all(3),
+                                  child: Text('Bukti Pembayaran Admiin', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                ),
+                              ),
+                              Image.network(
+                                '${data.buktiTf}',
+                                loadingBuilder: (BuildContext context, Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress.expectedTotalBytes != null
+                                            ? loadingProgress.cumulativeBytesLoaded /
+                                            (loadingProgress.expectedTotalBytes ?? 1)
+                                            : null,
+                                      ),
+                                    );
+                                  }
+                                },
+                                errorBuilder: (BuildContext context, Object error,
+                                    StackTrace? stackTrace) {
+                                  return Text('Error loading image');
+                                },
+                              ),
+                            ],
+                          ),
+
+
+                        Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Padding(
+                  //   padding: EdgeInsets.all(10),
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //         // color: Colors.blue,
+                  //         border: Border.all(
+                  //             color: Colors.grey
+                  //         )
+                  //     ),
+                  //     child: Column(
+                  //       children: [
+                  //         Align(
+                  //           alignment: Alignment.topLeft,
+                  //           child: Padding(
+                  //             padding: const EdgeInsets.all(3),
+                  //             child: Text(style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),'Isi Saldo Dari'),
+                  //           ),
+                  //         ),
+                  //         SizedBox(height: 5),
+                  //         Row(
+                  //           children: [
+                  //             Image(image: AssetImage('assets/images/gopay.png')),
+                  //             SizedBox(width: 10),
+                  //             Align(
+                  //               alignment: Alignment.topLeft,
+                  //               child: Padding(
+                  //                 padding: EdgeInsets.all(0),
+                  //                 child: Text(style: TextStyle(fontSize: 18,fontWeight: FontWeight.normal,),'Gopay'),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.all(10),
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       border: Border.all(
+                  //         color: Colors.grey,
+                  //       )
+                  //     ),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.all(3),
+                  //       child: Column(
+                  //         children: [
+                  //           Row(
+                  //             children: [
+                  //               Expanded(
+                  //                 child: Container(
+                  //                   decoration: BoxDecoration(
+                  //                     // color: Colors.green
+                  //                   ),
+                  //                   child: Row(
+                  //                     children: [
+                  //                       Icon(Icons.list_alt,color: Colors.blue),
+                  //                       SizedBox(width: 10),
+                  //                       Text('Rincian Pesanan',style: TextStyle(
+                  //                           fontWeight: FontWeight.bold
+                  //                       )),
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //           SizedBox(height: 5),
+                  //           Container(
+                  //               decoration: BoxDecoration(
+                  //                 // color: Colors.green
+                  //               ),
+                  //               child: Column(
+                  //                 children: [
+                  //                   Padding(
+                  //                     padding: const EdgeInsets.all(0),
+                  //                     child: Row(
+                  //                       children: [
+                  //                         Expanded(
+                  //                           child: Text(
+                  //                             'Jenis Produk',
+                  //                             style: TextStyle(fontSize: 16),
+                  //                           ),
+                  //                         ),
+                  //                         Expanded(
+                  //                           child: Text(
+                  //                             'Paypal',
+                  //                             style: TextStyle(fontSize: 16),
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                   Padding(
+                  //                     padding: const EdgeInsets.all(0),
+                  //                     child: Row(
+                  //                       children: [
+                  //                         Expanded(
+                  //                           child: Text(
+                  //                             'Email',
+                  //                             style: TextStyle(fontSize: 16),
+                  //                           ),
+                  //                         ),
+                  //                         Expanded(
+                  //                           child: Text(
+                  //                             'Shilanadila123@gmail.com',
+                  //                             style: TextStyle(fontSize: 14),
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                   Padding(
+                  //                     padding: const EdgeInsets.all(0),
+                  //                     child: Row(
+                  //                       children: [
+                  //                         Expanded(
+                  //                           child: Text(
+                  //                             'Jumlah',
+                  //                             style: TextStyle(fontSize: 16),
+                  //                           ),
+                  //                         ),
+                  //                         Expanded(
+                  //                           child: Text(
+                  //                             '\$10',
+                  //                             style: TextStyle(fontSize: 16),
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                   Padding(
+                  //                     padding: const EdgeInsets.all(0),
+                  //                     child: Row(
+                  //                       children: [
+                  //                         Expanded(
+                  //                           child: Text(
+                  //                             'Total Pembayaran',
+                  //                             style: TextStyle(fontSize: 16),
+                  //                           ),
+                  //                         ),
+                  //                         Expanded(
+                  //                           child: Text(
+                  //                             'Rp40.000',
+                  //                             style: TextStyle(fontSize: 16),
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               )
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // )
+                ],
+              ),
+              if(data.type == 'Withdraw')
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(child: Divider(color: Colors.grey,)),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.all(3),
+                        child: Text(
+                            'Withdraw',
+                            style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black87)),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(child: Divider(color: Colors.grey,)),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // color: Colors.blue,
+                            border: Border.all(
+                                color: Colors.grey
+                            )
+                        ),
+                        child: Column(
+                          children: [
+                            if(data.type == 'Top-Up')
+                              Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: EdgeInsets.all(0),
+                                  child: Text('Rp.${currencyFormat.format(int.parse(data.totalPembayaran))}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                                ),
+                              ),
+                            if(data.type == 'Withdraw')
+                              Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: EdgeInsets.all(0),
+                                  child: Text('\$${data.totalPembayaran.toString()}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                                ),
+                              ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: EdgeInsets.all(0),
+                                child: Text(data.status.toString(), style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: getStatusColor(data.status.toString()),)),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: EdgeInsets.all(0),
+                                child: Text(data.tanggal.toString(), style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // SizedBox(height: 10),
+
+                    /// Kode Transaksi
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Text('Kode Transaksi')),
+                              Expanded(
+                                child: Text(data.idPembayaran.toString(),style: TextStyle(
+                                    fontWeight: FontWeight.bold
+                                )),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Text('Produk')),
+                              Expanded(
+                                child: Text(data.product.toString(),style: TextStyle(
+                                    fontWeight: FontWeight.bold
+                                )),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // SizedBox(height: 10,),
+                    /// Detail Produk
+
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: EdgeInsets.all(3),
+                              child: Text('Detail Produk', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-
-                    Row(
-                      children: [
-                        Expanded(child: Divider()),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(child: Divider()),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(3),
-                        child: Text('Bukti Pembayaran', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Text('Jenis Produk')),
+                              Expanded(
+                                child: Text('${data.product.toString()} ${data.type.toString()}',style: TextStyle(
+                                    fontWeight: FontWeight.bold
+                                )),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Text('Rek/email')),
+                              Expanded(
+                                child: Text(data.rekClient.toString(),style: TextStyle(
+                                    fontWeight: FontWeight.bold
+                                )),
+                              ),
+                            ],
+                          ),
+                          if(data.namaBlockchain != '')
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(child: Text('Chain')),
+                                Expanded(
+                                  child: Text(data.namaBlockchain.toString(),style: TextStyle(
+                                      fontWeight: FontWeight.bold
+                                  )),
+                                ),
+                              ],
+                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Text('Harga Satuan')),
+                              Expanded(
+                                child: Text('Rp.${data.priceRate.toString()}',style: TextStyle(
+                                    fontWeight: FontWeight.bold
+                                )),
+                              ),
+                            ],
+                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Expanded(child: Text('Potongan diskon')),
+                          //     Expanded(
+                          //       child: Text('0',style: TextStyle(
+                          //           fontWeight: FontWeight.bold
+                          //       )),
+                          //     ),
+                          //   ],
+                          // ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Expanded(child: Text('Biaya Transaksi')),
+                          //     Expanded(
+                          //       child: Text('Rp${data.}',style: TextStyle(
+                          //           fontWeight: FontWeight.bold
+                          //       )),
+                          //     ),
+                          //   ],
+                          // ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Text('Total Tagihan')),
+                              if(data.type == 'Top-Up')
+                                Expanded(
+                                  child: Text('\$${data.jumlah.toString()}',style: TextStyle(
+                                      fontWeight: FontWeight.bold
+                                  )),
+                                ),
+                              if(data.type == 'Withdraw')
+                                Expanded(
+                                  child: Text('Rp.${currencyFormat.format(int.parse(data.jumlah))}',style: TextStyle(
+                                      fontWeight: FontWeight.bold
+                                  )),
+                                ),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Text('Total Diterima',style: TextStyle(
+                                  fontWeight: FontWeight.bold
+                              ))),
+                              if(data.type == 'Withdraw')
+                                Expanded(
+                                  child: Text('\$${data.totalPembayaran.toString()}',style: TextStyle(
+                                      fontWeight: FontWeight.bold
+                                  )),
+                                ),
+                              if(data.type == 'Top-Up')
+                                Expanded(
+                                  child: Text('Rp.${currencyFormat.format(int.parse(data.totalPembayaran))}',style: TextStyle(
+                                      fontWeight: FontWeight.bold
+                                  )),
+                                ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Expanded(child: Text('Metode Pembayaran')),
-                    //     Expanded(
-                    //       child: Text('Skrill',style: TextStyle(
-                    //           fontWeight: FontWeight.bold
-                    //       )),
+
+
+                    /// Rincian Pembayaran
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: EdgeInsets.all(3),
+                              child: Text('Rincian Pembayaran', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Text('Metode Pembayaran')),
+                              Expanded(
+                                child: Text(data.namaBank.toString(),style: TextStyle(
+                                    fontWeight: FontWeight.bold
+                                )),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: Text('Status Pembayaran')),
+                              Expanded(
+                                child: Text(
+                                  data.status.toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: getStatusColor(data.status.toString()),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: EdgeInsets.all(3),
+                              child: Text('Bukti Pembayaran', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                            ),
+                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Expanded(child: Text('Metode Pembayaran')),
+                          //     Expanded(
+                          //       child: Text('Skrill',style: TextStyle(
+                          //           fontWeight: FontWeight.bold
+                          //       )),
+                          //     ),
+                          //   ],
+                          // ),
+                          Image.network(
+                            '${data.buktiPembayaran}',
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ?? 1)
+                                        : null,
+                                  ),
+                                );
+                              }
+                            },
+                            errorBuilder: (BuildContext context, Object error,
+                                StackTrace? stackTrace) {
+                              return Text('Error loading image');
+                            },
+                          ),
+
+                          SizedBox(width: 20,),
+                          if(data.type == 'Withdraw' && data.status == 'Success')
+                            Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(3),
+                                    child: Text('Bukti Pembayaran Admiin', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                  ),
+                                ),
+                                Image.network(
+                                  '${data.buktiTf}',
+                                  loadingBuilder: (BuildContext context, Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress.expectedTotalBytes != null
+                                              ? loadingProgress.cumulativeBytesLoaded /
+                                              (loadingProgress.expectedTotalBytes ?? 1)
+                                              : null,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  errorBuilder: (BuildContext context, Object error,
+                                      StackTrace? stackTrace) {
+                                    return Text('Error loading image');
+                                  },
+                                ),
+                              ],
+                            ),
+
+
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Padding(
+                    //   padding: EdgeInsets.all(10),
+                    //   child: Container(
+                    //     decoration: BoxDecoration(
+                    //         // color: Colors.blue,
+                    //         border: Border.all(
+                    //             color: Colors.grey
+                    //         )
                     //     ),
-                    //   ],
+                    //     child: Column(
+                    //       children: [
+                    //         Align(
+                    //           alignment: Alignment.topLeft,
+                    //           child: Padding(
+                    //             padding: const EdgeInsets.all(3),
+                    //             child: Text(style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),'Isi Saldo Dari'),
+                    //           ),
+                    //         ),
+                    //         SizedBox(height: 5),
+                    //         Row(
+                    //           children: [
+                    //             Image(image: AssetImage('assets/images/gopay.png')),
+                    //             SizedBox(width: 10),
+                    //             Align(
+                    //               alignment: Alignment.topLeft,
+                    //               child: Padding(
+                    //                 padding: EdgeInsets.all(0),
+                    //                 child: Text(style: TextStyle(fontSize: 18,fontWeight: FontWeight.normal,),'Gopay'),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
                     // ),
-                    Image.network(
-                      '${data.buktiPembayaran}',
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        } else {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      (loadingProgress.expectedTotalBytes ?? 1)
-                                  : null,
-                            ),
-                          );
-                        }
-                      },
-                      errorBuilder: (BuildContext context, Object error,
-                          StackTrace? stackTrace) {
-                        return Text('Error loading image');
-                      },
-                    ),
-
-                    Row(
-                      children: [
-                        Expanded(child: Divider()),
-                      ],
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.all(10),
+                    //   child: Container(
+                    //     decoration: BoxDecoration(
+                    //       border: Border.all(
+                    //         color: Colors.grey,
+                    //       )
+                    //     ),
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.all(3),
+                    //       child: Column(
+                    //         children: [
+                    //           Row(
+                    //             children: [
+                    //               Expanded(
+                    //                 child: Container(
+                    //                   decoration: BoxDecoration(
+                    //                     // color: Colors.green
+                    //                   ),
+                    //                   child: Row(
+                    //                     children: [
+                    //                       Icon(Icons.list_alt,color: Colors.blue),
+                    //                       SizedBox(width: 10),
+                    //                       Text('Rincian Pesanan',style: TextStyle(
+                    //                           fontWeight: FontWeight.bold
+                    //                       )),
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //           SizedBox(height: 5),
+                    //           Container(
+                    //               decoration: BoxDecoration(
+                    //                 // color: Colors.green
+                    //               ),
+                    //               child: Column(
+                    //                 children: [
+                    //                   Padding(
+                    //                     padding: const EdgeInsets.all(0),
+                    //                     child: Row(
+                    //                       children: [
+                    //                         Expanded(
+                    //                           child: Text(
+                    //                             'Jenis Produk',
+                    //                             style: TextStyle(fontSize: 16),
+                    //                           ),
+                    //                         ),
+                    //                         Expanded(
+                    //                           child: Text(
+                    //                             'Paypal',
+                    //                             style: TextStyle(fontSize: 16),
+                    //                           ),
+                    //                         ),
+                    //                       ],
+                    //                     ),
+                    //                   ),
+                    //                   Padding(
+                    //                     padding: const EdgeInsets.all(0),
+                    //                     child: Row(
+                    //                       children: [
+                    //                         Expanded(
+                    //                           child: Text(
+                    //                             'Email',
+                    //                             style: TextStyle(fontSize: 16),
+                    //                           ),
+                    //                         ),
+                    //                         Expanded(
+                    //                           child: Text(
+                    //                             'Shilanadila123@gmail.com',
+                    //                             style: TextStyle(fontSize: 14),
+                    //                           ),
+                    //                         ),
+                    //                       ],
+                    //                     ),
+                    //                   ),
+                    //                   Padding(
+                    //                     padding: const EdgeInsets.all(0),
+                    //                     child: Row(
+                    //                       children: [
+                    //                         Expanded(
+                    //                           child: Text(
+                    //                             'Jumlah',
+                    //                             style: TextStyle(fontSize: 16),
+                    //                           ),
+                    //                         ),
+                    //                         Expanded(
+                    //                           child: Text(
+                    //                             '\$10',
+                    //                             style: TextStyle(fontSize: 16),
+                    //                           ),
+                    //                         ),
+                    //                       ],
+                    //                     ),
+                    //                   ),
+                    //                   Padding(
+                    //                     padding: const EdgeInsets.all(0),
+                    //                     child: Row(
+                    //                       children: [
+                    //                         Expanded(
+                    //                           child: Text(
+                    //                             'Total Pembayaran',
+                    //                             style: TextStyle(fontSize: 16),
+                    //                           ),
+                    //                         ),
+                    //                         Expanded(
+                    //                           child: Text(
+                    //                             'Rp40.000',
+                    //                             style: TextStyle(fontSize: 16),
+                    //                           ),
+                    //                         ),
+                    //                       ],
+                    //                     ),
+                    //                   ),
+                    //                 ],
+                    //               )
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
-              ),
-
-
-
-
-
-              // Padding(
-              //   padding: EdgeInsets.all(10),
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //         // color: Colors.blue,
-              //         border: Border.all(
-              //             color: Colors.grey
-              //         )
-              //     ),
-              //     child: Column(
-              //       children: [
-              //         Align(
-              //           alignment: Alignment.topLeft,
-              //           child: Padding(
-              //             padding: const EdgeInsets.all(3),
-              //             child: Text(style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),'Isi Saldo Dari'),
-              //           ),
-              //         ),
-              //         SizedBox(height: 5),
-              //         Row(
-              //           children: [
-              //             Image(image: AssetImage('assets/images/gopay.png')),
-              //             SizedBox(width: 10),
-              //             Align(
-              //               alignment: Alignment.topLeft,
-              //               child: Padding(
-              //                 padding: EdgeInsets.all(0),
-              //                 child: Text(style: TextStyle(fontSize: 18,fontWeight: FontWeight.normal,),'Gopay'),
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: EdgeInsets.all(10),
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //       border: Border.all(
-              //         color: Colors.grey,
-              //       )
-              //     ),
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(3),
-              //       child: Column(
-              //         children: [
-              //           Row(
-              //             children: [
-              //               Expanded(
-              //                 child: Container(
-              //                   decoration: BoxDecoration(
-              //                     // color: Colors.green
-              //                   ),
-              //                   child: Row(
-              //                     children: [
-              //                       Icon(Icons.list_alt,color: Colors.blue),
-              //                       SizedBox(width: 10),
-              //                       Text('Rincian Pesanan',style: TextStyle(
-              //                           fontWeight: FontWeight.bold
-              //                       )),
-              //                     ],
-              //                   ),
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //           SizedBox(height: 5),
-              //           Container(
-              //               decoration: BoxDecoration(
-              //                 // color: Colors.green
-              //               ),
-              //               child: Column(
-              //                 children: [
-              //                   Padding(
-              //                     padding: const EdgeInsets.all(0),
-              //                     child: Row(
-              //                       children: [
-              //                         Expanded(
-              //                           child: Text(
-              //                             'Jenis Produk',
-              //                             style: TextStyle(fontSize: 16),
-              //                           ),
-              //                         ),
-              //                         Expanded(
-              //                           child: Text(
-              //                             'Paypal',
-              //                             style: TextStyle(fontSize: 16),
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ),
-              //                   Padding(
-              //                     padding: const EdgeInsets.all(0),
-              //                     child: Row(
-              //                       children: [
-              //                         Expanded(
-              //                           child: Text(
-              //                             'Email',
-              //                             style: TextStyle(fontSize: 16),
-              //                           ),
-              //                         ),
-              //                         Expanded(
-              //                           child: Text(
-              //                             'Shilanadila123@gmail.com',
-              //                             style: TextStyle(fontSize: 14),
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ),
-              //                   Padding(
-              //                     padding: const EdgeInsets.all(0),
-              //                     child: Row(
-              //                       children: [
-              //                         Expanded(
-              //                           child: Text(
-              //                             'Jumlah',
-              //                             style: TextStyle(fontSize: 16),
-              //                           ),
-              //                         ),
-              //                         Expanded(
-              //                           child: Text(
-              //                             '\$10',
-              //                             style: TextStyle(fontSize: 16),
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ),
-              //                   Padding(
-              //                     padding: const EdgeInsets.all(0),
-              //                     child: Row(
-              //                       children: [
-              //                         Expanded(
-              //                           child: Text(
-              //                             'Total Pembayaran',
-              //                             style: TextStyle(fontSize: 16),
-              //                           ),
-              //                         ),
-              //                         Expanded(
-              //                           child: Text(
-              //                             'Rp40.000',
-              //                             style: TextStyle(fontSize: 16),
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ),
-              //                 ],
-              //               )
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // )
             ],
           ),
         ),

@@ -12,7 +12,6 @@ class _ProfilWidgetState extends State<ProfilWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
     );
   }
 }
