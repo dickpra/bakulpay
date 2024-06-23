@@ -1,6 +1,6 @@
 class model_history {
   final int id;
-  final int userId;
+  final dynamic userId;
   final String idPembayaran;
   final String tanggal;
   final String rekClient;
@@ -42,7 +42,7 @@ class model_history {
   factory model_history.fromJson(Map<String, dynamic> json) {
     return model_history(
       id: json['id'] ?? 0,
-      userId: json['user_id'] ?? 0,
+      userId: json['user_id'] ?? '',
       idPembayaran: json['id_pembayaran'] ?? '',
       tanggal: json['tanggal'] ?? '',
       rekClient: json['rek_client'] ?? '',

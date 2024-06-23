@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
+import 'package:intl/intl.dart';
 
 class transaksi extends StatefulWidget {
   const transaksi({super.key});
@@ -21,6 +21,7 @@ class _transaksiState extends State<transaksi> {
   PayController filterController = Get.put(PayController());
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   String filter = '';
+  final currencyFormat = NumberFormat.decimalPattern('en_US');
 
   @override
   void initState() {
@@ -95,7 +96,7 @@ class _transaksiState extends State<transaksi> {
                     onTap: () {
                       Get.to(DataTransaksiPage(payController.historyItems.elementAt(index)));
                     },
-                    child: Listdata(payController.historyItems, index),
+                    child: Listdata(payController.historyItems, index, currencyFormat),
                   );
                 } else {
                   return Center(
@@ -330,7 +331,8 @@ class _transaksiState extends State<transaksi> {
 
 }
 
-Container Listdata(List<model_history> data, index) {
+Container Listdata(List<model_history> data, index, NumberFormat currencyFormat) {
+
   return Container(
 
     decoration: BoxDecoration(
@@ -379,7 +381,8 @@ Container Listdata(List<model_history> data, index) {
                     radius: 36,
                     child: Image(image: AssetImage('assets/images/payp.png'),),
                   ),
-                ),if(data[index].product == 'Perfect Money')
+                ),
+                if(data[index].product == 'Perfect Money')
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -543,9 +546,9 @@ Container Listdata(List<model_history> data, index) {
                 ),
                 SizedBox(height: 5),
                 if(data[index].type == 'Top-Up' || data[index].type == 'TopUp' || data[index].type == 'Top Up')
-                Text('Rp.${data[index].totalPembayaran}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                Text('Rp.${currencyFormat.format(int.parse(data[index].totalPembayaran))}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
                 if(data[index].type == 'Withdraw')
-                  Text('\$${data[index].totalPembayaran}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                  Text('\$${(data[index].totalPembayaran)}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
               ],
             ),
           ],

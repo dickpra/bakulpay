@@ -73,8 +73,8 @@ class _OnboardingScreenState extends State<OnboardingScreen3> {
                 style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(55), // NEW
-                primary: Colors.orangeAccent,
+                minimumSize: const Size.fromHeight(55),
+                backgroundColor: Colors.orangeAccent,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),

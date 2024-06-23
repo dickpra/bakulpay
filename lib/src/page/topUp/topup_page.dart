@@ -119,7 +119,14 @@ class _TopupState extends State<Topup> {
                           // color: Colors.blue,
                         ),
                       ),
-                      keyboardType: title=="Paypal"?TextInputType.emailAddress:title=="Pay Owner"?TextInputType.emailAddress:title=="Skrill"?TextInputType.emailAddress:TextInputType.number,
+                      keyboardType:
+                      title=="Paypal"?TextInputType.emailAddress:
+                      title=="Pay Owner"?TextInputType.emailAddress:
+                      title=="Skrill"?TextInputType.emailAddress:
+                      title=="USDT"?TextInputType.text:
+                      title=="BUSD"?TextInputType.text:
+                      title=="USDC"?TextInputType.text
+                          :TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
 
                       obscureText: false,
@@ -141,7 +148,7 @@ class _TopupState extends State<Topup> {
                       Expanded(child: Divider()),
                     ],
                   ),
-                  if(title.contains('USDT') || title.contains('BUSD') || title.contains('usdt') || title.contains('busd'))
+                  if(title.contains('USDT') || title.contains('BUSD') || title.contains('usdt') || title.contains('busd')||title.contains('USDC')||title.contains('usdc'))
                     Container(
                       child: Column(
                         children: [
@@ -150,6 +157,7 @@ class _TopupState extends State<Topup> {
                               Expanded(child: Divider()),
                             ],
                           ),
+                          ///Blockchain
                           Obx(() {
                             final data = payController.jsonDataRate;
                             var topUpData = data
@@ -253,8 +261,8 @@ class _TopupState extends State<Topup> {
                           return 'Masukkan Jumlah!';
                         }
                         final double? amount = double.tryParse(value);
-                        if (amount! <= 4.9) {
-                          return 'Jumlah Harus lebih dari \$5';
+                        if (amount! <= 0.9) {
+                          return 'Jumlah Harus lebih dari \$1';
                         }
                         return null;
                       },
@@ -273,7 +281,7 @@ class _TopupState extends State<Topup> {
                     alignment: Alignment.bottomCenter,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: CupertinoColors.activeBlue, // warna latar belakang
+                        backgroundColor: CupertinoColors.activeBlue, // warna latar belakang
                       ),
                       onPressed: () {
                         _confirmWithdraw(context);
@@ -493,7 +501,7 @@ class Topup2 extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: CupertinoColors.activeBlue, // warna latar belakang
+                          backgroundColor: CupertinoColors.activeBlue, // warna latar belakang
                         ),
                         onPressed: () {
                           _confirmWithdraw(context);
@@ -583,7 +591,7 @@ class TopupPerfectMoney extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: CupertinoColors.activeBlue, // warna latar belakang
+                        backgroundColor: CupertinoColors.activeBlue, // warna latar belakang
                       ),
                       onPressed: () {
 
@@ -662,7 +670,7 @@ class TopupPayOwner extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: CupertinoColors.activeBlue, // warna latar belakang
+                        backgroundColor: CupertinoColors.activeBlue, // warna latar belakang
                       ),
                       onPressed: () {
 

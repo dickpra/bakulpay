@@ -287,62 +287,72 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
 
                 ///Chain
                 if(widget.data.namaBlockchain != 'null')
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Rekening ${widget.data.product}'),
+                    SizedBox(height: 5,),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        IconButton(
-                          iconSize: 15,
-                          color: Colors.blue,
-                          onPressed: () {
-                            Clipboard.setData(ClipboardData(text: kodebank));
-                          },
-                          icon: Icon(Icons.copy),
-                        ),
-                        Obx(() {
-                          var data = payController.jsonDataRate;
-                          var topUpData = data
-                              .where((item) => item.namaBank == widget.data.product)
-                              .where((item) => item.type == 'Withdraw')
-                              .toList();
-
-                          if (topUpData.isEmpty) {
-                            return ElevatedButton(onPressed: (){
-                              print(topUpData);
-                            }, child: Icon(Icons.telegram_sharp));
-                          } else {
-                            for (var rateModel in topUpData) {
-                              var blockchainData = rateModel
-                                  .blockchainData ?? [];
-                              for (var blockchainItem in blockchainData) {
-
-                                var namaBlockchain = blockchainItem.namaBlockchain;
-                                var rekeningWallet = blockchainItem.rekeningWallet;
-                                var type = blockchainItem.type;
-
-                                if(namaBlockchain == widget.data.namaBlockchain){
-                                  kodebank = blockchainItem.rekeningWallet.toString();
+                        Expanded(child: Text('Rekening ${widget.data.product} ')),
+                        Expanded(child: Text('${widget.data.namaBlockchain}')),
+                      ],
+                    ),
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: Obx(() {
+                            var data = payController.jsonDataRate;
+                            var topUpData = data
+                                .where((item) => item.namaBank == widget.data.product)
+                                .where((item) => item.type == 'Withdraw')
+                                .toList();
+                          
+                            if (topUpData.isEmpty) {
+                              return ElevatedButton(onPressed: (){
+                                print(topUpData);
+                              }, child: Icon(Icons.telegram_sharp));
+                            } else {
+                              for (var rateModel in topUpData) {
+                                var blockchainData = rateModel
+                                    .blockchainData ?? [];
+                                for (var blockchainItem in blockchainData) {
+                          
+                                  var namaBlockchain = blockchainItem.namaBlockchain;
+                                  var rekeningWallet = blockchainItem.rekeningWallet;
+                                  var type = blockchainItem.type;
+                          
+                                  if(namaBlockchain == widget.data.namaBlockchain){
+                                    kodebank = blockchainItem.rekeningWallet.toString();
+                                  }
                                 }
                               }
-                            }
-
-                            return Column(
-                              children: [
-                                Text(
-                                  kodebank,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blueAccent,
-                                    fontSize: 16,
+                          
+                              return Column(
+                                children: [
+                                  Text(
+                                    kodebank,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueAccent,
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
-                          }
-                        }),
+                                ],
+                              );
+                            }
+                          }),
+                        ),
+                        Expanded(
+                          child: IconButton(
+                            iconSize: 15,
+                            color: Colors.blue,
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(text: kodebank));
+                            },
+                            icon: Icon(Icons.copy),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -372,10 +382,10 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                   alignment: Alignment.topLeft,
                   child: Padding(
                     padding: const EdgeInsets.all(5),
-                    child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Nama Pengirim'),
+                    child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Tx Hash'),
                   ),
                 ),
-                Form(key: _formKey,child: textForm(namaPengirim, 'Masukkan Nama Pengirim', [FilteringTextInputFormatter.deny(RegExp(' '))], TextInputType.text, 'Masukkan Nama Pengirim', '', false)),
+                Form(key: _formKey,child: textForm(namaPengirim, 'Masukkan Tx Hash', [FilteringTextInputFormatter.deny(RegExp(' '))], TextInputType.text, 'Masukkan Nama Pengirim', '', false)),
                 SizedBox(height: 20),
                 Align(
                   alignment: Alignment.topLeft,

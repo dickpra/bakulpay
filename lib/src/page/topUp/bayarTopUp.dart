@@ -154,6 +154,20 @@ class _BuatPesananState extends State<BuatPesanan> {
                         Expanded(child: Divider(color: Colors.grey,)),
                       ],
                     ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.all(3),
+                        child: Text(
+                            'TopUp',
+                            style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black87)),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(child: Divider(color: Colors.grey,)),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -249,7 +263,10 @@ class _BuatPesananState extends State<BuatPesanan> {
                               for (var item in topUpData){
                                 iconBank = item.icons;
                               }
-                              return Image.network(iconBank);
+                              return SizedBox(
+                                width: 150,
+                                  height: 150,
+                                  child: Image.network(iconBank));
                             }
                           }),
                           SizedBox(width: 10,),

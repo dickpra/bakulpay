@@ -48,15 +48,15 @@ class _HomeDashboardState extends State<HomeDashboard> {
               children: [
                 // profilDashboard(user: widget.user.displayName),
                 ProfilDashboard(),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Promo'),
-                  ),
-                ),
-                PromoBanner(),
-                SizedBox(height: 20),
+                // Align(
+                //   alignment: Alignment.topLeft,
+                //   child: Padding(
+                //     padding: EdgeInsets.symmetric(horizontal: 16.0),
+                //     child: Text(style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),'Promo'),
+                //   ),
+                // ),
+                // PromoBanner(),
+                // SizedBox(height: 20),
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -73,8 +73,25 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   ),
                 ),
                 Container(
-                  // height: 180,
+                  color: Colors.white,
+                  // height: 250,
+                  height: MediaQuery.of(context).size.width,
+                  // width: MediaQuery.of(context).size.width,
                   child: NewsPage(),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: CupertinoColors.activeBlue, // warna latar belakang
+                    ),
+                    onPressed: () {
+                      Get.to(NewsPage());
+                    },
+                    child: Text(style: TextStyle(
+                        color: Colors.white
+                    ),'Selanjutnya'),
+                  ),
                 ),
               ],
             ),

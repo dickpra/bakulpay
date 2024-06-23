@@ -1,5 +1,7 @@
 
-const BASE_URL = 'https://bakulpay.jjtech.my.id/api';
+// const BASE_URL = 'https://bakulpay.jjtech.my.id/api';
+
+const BASE_URL = 'https://moechang.ketukan.com/api';
 
 const URL_MOCK = 'https://651e567844a3a8aa4768226c.mockapi.io';
 
