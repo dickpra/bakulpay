@@ -173,18 +173,20 @@ class _TopupState extends State<Topup> {
                               for (var rateModel in topUpData) {
                                 var blockchainData = rateModel.blockchainData ?? [];
                                 for (var blockchainItem in blockchainData) {
-                                  var namaBlockchain = blockchainItem.namaBlockchain;
-                                  var rekeningWallet = blockchainItem.rekeningWallet;
-                                  var type = blockchainItem.type;
+                                  if (blockchainItem.type == 'Top Up'){
+                                    var namaBlockchain = blockchainItem.namaBlockchain;
+                                    var rekeningWallet = blockchainItem.rekeningWallet;
+                                    var type = blockchainItem.type;
+                                    // Menambahkan namaBlockchain ke dalam chainList
+                                    chainList.add(namaBlockchain!);
 
-                                  // Menambahkan namaBlockchain ke dalam chainList
-                                  chainList.add(namaBlockchain!);
+                                    // Lakukan sesuatu dengan informasi yang diakses
+                                    print('Nama Blockchain: $namaBlockchain');
+                                    print('Rekening Wallet: $rekeningWallet');
+                                    print('Type: $type');
+                                    print('---');
+                                  }
 
-                                  // Lakukan sesuatu dengan informasi yang diakses
-                                  print('Nama Blockchain: $namaBlockchain');
-                                  print('Rekening Wallet: $rekeningWallet');
-                                  print('Type: $type');
-                                  print('---');
                                 }
                               }
                               return DropdownButtonFormField<String>(
@@ -210,8 +212,7 @@ class _TopupState extends State<Topup> {
                                       ],
                                     ),
                                   ),
-                                )
-                                    .toList(),
+                                ).toList(),
                               );
                             }
                           },),

@@ -375,21 +375,23 @@ class _pembayaranWdState extends State<pembayaranWd> {
                                                           var blockchainData = rateModel
                                                               .blockchainData ?? [];
                                                           for (var blockchainItem in blockchainData) {
+                                                            if (blockchainItem.type == 'Withdraw'){
+                                                              var namaBlockchain = blockchainItem.namaBlockchain;
+                                                              var rekeningWallet = blockchainItem.rekeningWallet;
+                                                              var type = blockchainItem.type;
 
-                                                            var namaBlockchain = blockchainItem.namaBlockchain;
-                                                            var rekeningWallet = blockchainItem.rekeningWallet;
-                                                            var type = blockchainItem.type;
+                                                              if(namaBlockchain == widget.blockChain){
+                                                                biayaTransaksi = blockchainItem.biayaTransaksi.toString();
+                                                              }
 
-                                                            if(namaBlockchain == widget.blockChain){
-                                                              biayaTransaksi = blockchainItem.biayaTransaksi.toString();
+                                                              // Lakukan sesuatu dengan informasi yang diakses
+                                                              print('Nama Blockchain: $namaBlockchain');
+                                                              print('Rekening Wallet: $rekeningWallet');
+                                                              print('Type: $type');
+
+                                                              print('---');
                                                             }
 
-                                                            // Lakukan sesuatu dengan informasi yang diakses
-                                                            print('Nama Blockchain: $namaBlockchain');
-                                                            print('Rekening Wallet: $rekeningWallet');
-                                                            print('Type: $type');
-
-                                                            print('---');
                                                           }
                                                         }
 

@@ -350,18 +350,18 @@ class _WithdrawPageState extends State<WithdrawPage> {
                               for (var rateModel in topUpData) {
                                 var blockchainData = rateModel.blockchainData ?? [];
                                 for (var blockchainItem in blockchainData) {
-                                  var namaBlockchain = blockchainItem.namaBlockchain;
-                                  var rekeningWallet = blockchainItem.rekeningWallet;
-                                  var type = blockchainItem.type;
+                                  if (blockchainItem.type == 'Withdraw'){
+                                    var namaBlockchain = blockchainItem.namaBlockchain;
+                                    var rekeningWallet = blockchainItem.rekeningWallet;
+                                    var type = blockchainItem.type;
+                                    chainList.add(namaBlockchain!);
+                                    // Lakukan sesuatu dengan informasi yang diakses
+                                    // print('Nama Blockchain: $namaBlockchain');
+                                    print('Rekening Wallet: $rekeningWallet');
+                                    print('Type: $type');
+                                    print('---');
+                                  }
 
-                                  // Menambahkan namaBlockchain ke dalam chainList
-                                  chainList.add(namaBlockchain!);
-
-                                  // Lakukan sesuatu dengan informasi yang diakses
-                                  print('Nama Blockchain: $namaBlockchain');
-                                  print('Rekening Wallet: $rekeningWallet');
-                                  print('Type: $type');
-                                  print('---');
                                 }
                               }
                               return DropdownButtonFormField<String>(
