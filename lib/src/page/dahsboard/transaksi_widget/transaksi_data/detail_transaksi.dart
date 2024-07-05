@@ -238,8 +238,11 @@ class DataTransaksiPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10,),
                         Row(
+                          children: [
+                            Expanded(child: Divider()),
+                          ],
+                        ),                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(child: Text('Total Diterima',style: TextStyle(
@@ -795,7 +798,12 @@ class DataTransaksiPage extends StatelessWidget {
                                 ),
                             ],
                           ),
-                          SizedBox(height: 10,),
+                          // SizedBox(height: 10,),
+                          Row(
+                            children: [
+                              Expanded(child: Divider()),
+                            ],
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -937,7 +945,7 @@ class DataTransaksiPage extends StatelessWidget {
                                   alignment: Alignment.topLeft,
                                   child: Padding(
                                     padding: EdgeInsets.all(3),
-                                    child: Text('Bukti Pembayaran Admiin', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                    child: Text('Bukti Pembayaran Admin', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
                                   ),
                                 ),
                                 Image.network(

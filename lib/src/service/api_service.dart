@@ -111,6 +111,38 @@ class ApiService extends GetConnect with BaseController {
     }
   }
 
+  Future kirimBayarApi(String nama, File foto) async {
+    var idbayar = payController.responPembayaran.value;
+    dynamic body = ({
+      "nama": nama,
+    });
+    String? res;
+    // var token = await getToken();
+    final response = await BaseClient()
+        .post(BASE_URL, '/payment/top_up/$idbayar', body, '',)
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        res = '{"success":"${apiError["success"]}","message":"${apiError["message"]}"}';
+        // Get.rawSnackbar(message: apiError["message"]);
+      } else if (error is UnAuthorizedException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      } else {
+        handleError(error);
+      }
+    });
+    print(body);
+    if (response != null) {
+      final jsonDecoded = jsonDecode(response);
+      return jsonDecoded;
+    } else {
+      // final jsonDecoded = jsonDecode(res ?? "");
+      // return jsonDecoded;
+      return null;
+    }
+  }
+
   Future kirimWDapi (dynamic data) async{
     final response = await BaseClient()
         .post(BASE_URL, '/withdraw', data , "")
@@ -157,6 +189,7 @@ class ApiService extends GetConnect with BaseController {
       // print('Response status: ${kirimIsi.statusCode}');
       return kirimIsi;
     } else {
+      // print('Response error: ${response}');
       return null;
     }
 

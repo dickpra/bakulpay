@@ -21,6 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:get/get.dart';
 
+import '../../topUp/bayarmidtranst.dart';
+
 class HomeDashboard extends StatefulWidget {
   const HomeDashboard({super.key});
 
@@ -79,6 +81,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   // width: MediaQuery.of(context).size.width,
                   child: NewsPage(),
                 ),
+                ElevatedButton(onPressed: (){
+                  // Get.to(MidtransBayar());
+                },
+                    child: Text('tes bayar anoo')),
                 // Align(
                 //   alignment: Alignment.bottomCenter,
                 //   child: ElevatedButton(

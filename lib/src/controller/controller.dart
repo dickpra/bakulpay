@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:bakulpay/src/model/blockchain_model.dart';
 import 'package:bakulpay/src/model/history_model.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/bayarWd.dart';
+import 'package:bakulpay/src/page/topUp/bayarmidtranst.dart';
 import 'package:bakulpay/src/router/constant.dart';
 import 'package:bakulpay/src/service/preference.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class PayController extends GetxController {
   final jsonChainBusd = <blockchain_model>[].obs;
 
   final  responPembayaran =''.obs;
+  final  responSnaptoken =''.obs;
   final  responPembayaranWD =''.obs;
 
   final isPaypalSelected = false.obs;
@@ -213,6 +215,83 @@ class PayController extends GetxController {
       isLoading.value = false;
     }
   }
+  Future<void> KirimBayarTopup () async {
+    isLoading.value = true;
+    var response = await ApiService().kirimBuktiTopApi;
+
+    print('peler $response');
+
+    if (response != null) {
+
+      // isidata.value = waitingModel.fromJson(data);
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.setString("Token", response.data!.token!);
+      Get.offAllNamed(dashboard);
+      //   Get.snackbar(
+      //     backgroundColor: Colors.blue,
+      //       'Informasi', // Judul SnackBar
+      //       'Berhasil Memesan!', // Isi SnackBar
+      //       snackPosition: SnackPosition.BOTTOM, // Posisi SnackBar
+      //       duration: Duration(seconds: 3), // Durasi tampilan SnackBar
+      // onTap: (snack) {
+      // // Aksi yang diambil ketika SnackBar ditekan
+      // print('SnackBar ditekan');
+      // },);
+      GetAllSync();
+      Get.dialog(
+        SafeArea(
+          child: Scaffold(
+            body: Center(
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Pembayaran Berhasil',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Icon(
+                        Icons.check_circle_outline,
+                        size: 130,
+                        color: Colors.green,
+                      ),
+                      SizedBox(height: 10),
+                      TextButton(
+                        onPressed: () {
+                          Get.back();
+                        }, child: Text(
+                        'OK',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      isLoading.value = false;
+    } else {
+      isLoading.value = false;
+    }
+  }
 
   Future<void> KirimBuktiWd(String nama, File bukti) async {
     isLoading.value = true;
@@ -302,15 +381,19 @@ class PayController extends GetxController {
     if (response != null) {
 
       var stringdata = response['id_pembayaran'].toString();
+      var snaptoken = response['snap_token'].toString();
+      responSnaptoken.value = snaptoken;
       responPembayaran.value = stringdata;
 
       // isidata.value = waitingModel.fromJson(data);
       // final prefs = await SharedPreferences.getInstance();
       // prefs.setString("Token", response.data!.token!);
       // Get.offAllNamed(dashboardSalesRoute);
-      Get.to(() => BuatPesanan(data: data));
+      // Get.to(() => BuatPesanan(data: data));
+      Get.to(MidtransBayar());
       isLoading.value = false;
     } else {
+      print(response);
       isLoading.value = false;
     }
   }

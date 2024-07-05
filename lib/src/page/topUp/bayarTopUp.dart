@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/model/model_topup.dart';
 import 'package:bakulpay/src/model/pembayaran_model.dart';
 import 'package:bakulpay/src/page/dahsboard/dashboard.dart';
+import 'package:bakulpay/src/page/topUp/bayarmidtranst.dart';
 import 'package:bakulpay/src/setting/env.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:bakulpay/src/page/dahsboard/wd_widget/pembayaran_wd.dart';
@@ -15,6 +17,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:dotted_border/dotted_border.dart';
+
 class BuatPesanan extends StatefulWidget {
   final model_topup data;
 
@@ -78,6 +81,7 @@ class _BuatPesananState extends State<BuatPesanan> {
   }
 
   final now = DateTime.now();
+
 
   @override
   Widget build(BuildContext context) {
@@ -496,6 +500,10 @@ class _BuatPesananState extends State<BuatPesanan> {
                         );
                       }, child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Lihat Bukti')),
                     SizedBox(height: 20),
+                    ElevatedButton(onPressed: (){
+                      // Get.to(MidtransBayar());
+                    },
+                        child: Text('tes bayar anoo')),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: ElevatedButton(
@@ -538,6 +546,7 @@ class _BuatPesananState extends State<BuatPesanan> {
                         ),
                       ),
                     ),
+
                   ],
                 ),
               ),
@@ -942,44 +951,45 @@ class _BuatPesananState extends State<BuatPesanan> {
         ),
       ),
     );
+
   }
-  Future<void> _sendData() async {
-    var id = payController.responPembayaran;
-    try {
-
-      String apiUrl = '$BASE_URL/payment/top_up/$id'; // Ganti dengan URL API yang sesuai
-      var uri = Uri.parse(apiUrl);
-
-      var request = http.MultipartRequest('POST', uri)
-        ..fields['nama'] = namaPengirim.text
-        ..files.add(http.MultipartFile.fromBytes(
-          'bukti_pembayaran',
-          _image!.readAsBytesSync(),
-          filename: 'image.jpg',
-        ));
-
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      );
-
-      var response = await http.Response.fromStream(await request.send());
-
-      Navigator.pop(context); // Tutup dialog loading
-
-      if (response.statusCode == 200) {
-        print('Data berhasil dikirim: ${response.body}');
-      } else {
-        print('Gagal mengirim data. Response: ${response.body}');
-      }
-    } catch (e) {
-      print('Terjadi error: $e');
-    }
-  }
+  // Future<void> _sendData() async {
+  //   var id = payController.responPembayaran;
+  //   try {
+  //
+  //     String apiUrl = '$BASE_URL/payment/top_up/$id'; // Ganti dengan URL API yang sesuai
+  //     var uri = Uri.parse(apiUrl);
+  //
+  //     var request = http.MultipartRequest('POST', uri)
+  //       ..fields['nama'] = namaPengirim.text
+  //       ..files.add(http.MultipartFile.fromBytes(
+  //         'bukti_pembayaran',
+  //         _image!.readAsBytesSync(),
+  //         filename: 'image.jpg',
+  //       ));
+  //
+  //     showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return Center(
+  //           child: CircularProgressIndicator(),
+  //         );
+  //       },
+  //     );
+  //
+  //     var response = await http.Response.fromStream(await request.send());
+  //
+  //     Navigator.pop(context); // Tutup dialog loading
+  //
+  //     if (response.statusCode == 200) {
+  //       print('Data berhasil dikirim: ${response.body}');
+  //     } else {
+  //       print('Gagal mengirim data. Response: ${response.body}');
+  //     }
+  //   } catch (e) {
+  //     print('Terjadi error: $e');
+  //   }
+  // }
 
   void kirimData(){
     Map<String, dynamic> data = {

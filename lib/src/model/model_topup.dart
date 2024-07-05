@@ -7,6 +7,7 @@ class model_topup {
   dynamic totalPembayaran;
   dynamic namaBank;
   dynamic namaBlockchain;
+  dynamic biayatransaksi;
 
   model_topup(
       {this.userId,
@@ -16,7 +17,9 @@ class model_topup {
         this.jumlah,
         this.totalPembayaran,
         this.namaBank,
-        this.namaBlockchain});
+        this.namaBlockchain,
+        this.biayatransaksi
+      });
 
   model_topup.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -27,6 +30,7 @@ class model_topup {
     totalPembayaran = json['total_pembayaran'];
     namaBank = json['nama_bank'];
     namaBlockchain = json['nama_blockchain'];
+    biayatransaksi = json['biaya_transaksi'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +43,7 @@ class model_topup {
     data['total_pembayaran'] = this.totalPembayaran;
     data['nama_bank'] = this.namaBank;
     data['nama_blockchain'] = this.namaBlockchain;
+    data['biaya_transaksi'] = this.biayatransaksi;
     return data;
   }
 }

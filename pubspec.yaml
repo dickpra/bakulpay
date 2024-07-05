@@ -60,6 +60,8 @@ dev_dependencies:
   infinite_scroll_pagination: ^4.0.0
   pull_to_refresh: ^2.0.0
   url_launcher: ^6.3.0
+#  webview_flutter: ^4.5.0
+  flutter_inappwebview: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
