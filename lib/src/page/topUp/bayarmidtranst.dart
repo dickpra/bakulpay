@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import '../../controller/controller.dart';
+import 'bayarTopUp.dart';
 
 class MidtransBayar extends StatefulWidget {
   @override
@@ -91,16 +92,20 @@ class _MidtransBayarState extends State<MidtransBayar> {
                     String status = args[0];
                     String result = jsonEncode(args[1]); // Encode the JSON object to String
                     // Handle different statuses here
-                    if (status == 'ok' || status == 'error') {
-                      // Navigate back to home
+                    if (status == 'ok') {
+                      print('status ok selesai');
                       // Get.offAllNamed(dashboard);
+                      Get.to(BuatPesanan);
                       print("testing status pembayaran $status");
                     } else if (status == 'close') {
-                      Navigator.pop(context);
+                      print('status close');
+                      // Navigator.pop(context);
 
                     } else if (status == 'pending') {
                       print('status pending');
                       Get.offAllNamed(dashboard);
+                    }else if( status == 'error'){
+
                     }
                   },
                 );
