@@ -536,8 +536,16 @@ Container Listdata(List<model_history> data, index, NumberFormat currencyFormat)
                   children: [
                     Text('${data[index].type}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
                     // SizedBox(height: 5),
-                    Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),'${data[index].product}'),
-                    Text(style: TextStyle(fontSize: 13,fontWeight: FontWeight.normal,color: Colors.grey),'${data[index].rekClient}'),
+                    Text(style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,)
+                        ,'${data[index].product}'),
+                    Container(
+                      width: 150,
+                      child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 13,fontWeight: FontWeight.normal,
+                          color: Colors.grey),'${data[index].rekClient}'),
+                    ),
                   ],
                 ),
 

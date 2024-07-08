@@ -1,4 +1,5 @@
 import 'package:bakulpay/src/controller/controller.dart';
+import 'package:bakulpay/src/page/dahsboard/aboutme/aboutme.dart';
 import 'package:bakulpay/src/page/dahsboard/home_widget/home.dart';
 import 'package:bakulpay/src/page/tester_page/testGetx.dart';
 import 'package:bakulpay/src/page/tester_page/testpage.dart';
@@ -22,8 +23,16 @@ class _profilWidgetState extends State<profilWidget> {
   PayController payController = Get.put(PayController());
 
   final Uri _url = Uri.parse('https://wa.me/6285850220309');
+  final Uri _url2 = Uri.parse('https://wa.me/6283833744725');
   Future<void> _launchURL() async {
     if (await launchUrl(_url)) {
+      throw Exception('Could not launch');
+    } else {
+      // throw 'Could not launch $url';
+    }
+  }
+  Future<void> _launchURL2() async {
+    if (await launchUrl(_url2)) {
       throw Exception('Could not launch');
     } else {
       // throw 'Could not launch $url';
@@ -34,6 +43,13 @@ class _profilWidgetState extends State<profilWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        // icon: Icon(Icons.ice_skating),
+        title: Text('Profil', style: TextStyle(
+            fontSize: 20,fontWeight: FontWeight.bold
+        )),
+      ),
       body: Column(
         children: [
           Padding(
@@ -164,7 +180,9 @@ class _profilWidgetState extends State<profilWidget> {
                         ),)
                       ],
                     ),),
-                    TextButton(onPressed: (){}, child: Row(
+                    TextButton(onPressed: (){
+                      Get.to(AboutMePage());
+                    }, child: Row(
                       children: [
                         Icon(Icons.info_outline, color: Color(0xff7AA4F5),size: 30,),
                         SizedBox(width: 10),

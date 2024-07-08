@@ -81,10 +81,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   // width: MediaQuery.of(context).size.width,
                   child: NewsPage(),
                 ),
-                ElevatedButton(onPressed: (){
-                  // Get.to(MidtransBayar());
-                },
-                    child: Text('tes bayar anoo')),
+                // ElevatedButton(onPressed: (){
+                //   // Get.to(MidtransBayar());
+                // },
+                //     child: Text('tes bayar anoo')),
                 // Align(
                 //   alignment: Alignment.bottomCenter,
                 //   child: ElevatedButton(
