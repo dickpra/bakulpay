@@ -472,7 +472,8 @@ Container Listdata(List<model_history> data, index, NumberFormat currencyFormat)
                     radius: 36,
                     child: Image(image: AssetImage('assets/images/payeer.png'),),
                   ),
-                ),if(data[index].product == 'USDT')
+                ),
+                if(data[index].product.contains('USDT') )
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -491,7 +492,7 @@ Container Listdata(List<model_history> data, index, NumberFormat currencyFormat)
                     child: Image(image: AssetImage('assets/images/usdt.png'),),
                   ),
                 ),
-                if(data[index].product == 'BUSD')
+                if(data[index].product.contains('BUSD'))
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -510,7 +511,7 @@ Container Listdata(List<model_history> data, index, NumberFormat currencyFormat)
                     child: Image(image: AssetImage('assets/images/busd-logo.png'),),
                   ),
                 ),
-                if(data[index].product == 'USDC')
+                if(data[index].product.contains('USDC') )
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),

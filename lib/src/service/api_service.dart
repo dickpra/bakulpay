@@ -111,6 +111,41 @@ class ApiService extends GetConnect with BaseController {
     }
   }
 
+  Future kirimBuktiTopApiMidtrans() async {
+    var idbayar = payController.responPembayaran.value;
+    var snaptoken = payController.responSnaptoken.value;
+    var idPgn = payController.respsonIdPengguna.value;
+    dynamic body = ({
+      "user_id": idPgn,
+      "snap_token": snaptoken,
+    });
+    String? res;
+    // var token = await getToken();
+    final response = await BaseClient()
+        .post(BASE_URL, '/payment/top_up/$idbayar', body, '',)
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        res = '{"success":"${apiError["success"]}","message":"${apiError["message"]}"}';
+        // Get.rawSnackbar(message: apiError["message"]);
+      } else if (error is UnAuthorizedException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      } else {
+        handleError(error);
+      }
+    });
+    print(body);
+    if (response != null) {
+      final jsonDecoded = jsonDecode(response);
+      return jsonDecoded;
+    } else {
+      // final jsonDecoded = jsonDecode(res ?? "");
+      // return jsonDecoded;
+      return null;
+    }
+  }
+
   Future kirimBayarApi(String nama, File foto) async {
     var idbayar = payController.responPembayaran.value;
     dynamic body = ({
@@ -304,55 +339,40 @@ class ApiService extends GetConnect with BaseController {
     return newItems;
   }
 
-  Future<Iterable<model_history>> GetTransaksi() async{
+  Future<Iterable<model_history>> GetTransaksi() async {
     var idPgn = payController.respsonIdPengguna.value;
     var page = payController.page;
     var token = await getToken();
-    final response = await BaseClient()
-        .get(BASE_URL, '/history/$idPgn/?page=$page&limit=10', '$token')
-        .catchError((error) {
-      if (error is BadRequestException) {
-        var apiError = json.decode(error.message!);
-        // Get.rawSnackbar(message: apiError["message"]);
-      }else if (error is ApiNotRespondingException) {
-        var apiError = json.decode(error.message!);
-        Get.rawSnackbar(message: apiError["message"]);
-      }else if (error is FetchDataException) {
-        var apiError = json.decode(error.message!);
-        Get.rawSnackbar(message: apiError["message"]);
-      }else {
-        handleError(error);
+    try {
+      final response = await BaseClient()
+          .get(BASE_URL, '/history/$idPgn/?page=$page&limit=10', '$token');
+
+      // Cetak respons JSON untuk debugging
+      print("Respons: $response");
+
+      final jsonData = jsonDecode(response);
+
+      // Cetak hasil parsing JSON untuk debugging
+      print("Parsed JSON: $jsonData");
+
+      if (jsonData['success'] == true) {
+        final List<dynamic> responseData = jsonData['data']['data'];
+
+        // Mengonversi List<dynamic> menjadi Iterable<model_history>
+        final Iterable<model_history> waitingModels = responseData.map((data) => model_history.fromJson(data));
+        print("Iterable: $waitingModels");
+        return waitingModels;
+      } else {
+        // Tangani kasus di mana 'success' adalah false
+        throw Exception("Gagal mengambil data transaksi: ${jsonData['message']}");
       }
-    });
-
-    print("mmmmmmmmmm $response");
-
-
-    final jsonData = jsonDecode(response);
-    print("peleeer ${jsonData['success']}");
-    if (jsonData['success'] == true) {
-      final List<dynamic> responseData = jsonData['data']['data'];
-      // print('responseData $responseData');
-      // List<dynamic> transactions = [];
-      // transactions.addAll(jsonData['data']['withdraws']);
-      // transactions.addAll(jsonData['data']['topups']);
-      // final List<dynamic> responseData = jsonData;
-
-      // Mengonversi List<dynamic> menjadi Iterable<waitingModel>
-      final Iterable<model_history> waitingModels = responseData.map((data) => model_history.fromJson(data));
-      print("Itersble$waitingModels");
-      return waitingModels;
-      if(jsonData['success'] == true){
-
-      }
-      return response;
-    } else {
-      // var peler = response['data'].toString();
-      // print(' dasasdaadasdasdsa asdas dsa asdsa  as sa $peler');
-      return jsonData['success'];
+    } catch (error) {
+      // Tangani kesalahan jaringan atau parsing JSON
+      print("Kesalahan: $error");
+      rethrow; // Rethrow kesalahan setelah mencetak log
     }
-
   }
+
 
   Future<Iterable<model_history>> getHistoryApi() async{
     var idPgn = payController.respsonIdPengguna.value;

@@ -2222,70 +2222,70 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
         ),
 
         // SizedBox(height: 20),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(child: Divider()),
-                ],
-              ),
-              Align(
-                  alignment: Alignment.topLeft,
-                  child: Text('Metode Pencairan')),
-              Obx(() {
-                final data = payController.jsonPembayaran;
-                // print('daasdasdasdsa $data');
-                if (data.isEmpty) {
-                  return Center(
-                    child:  Text('Belum Ada Metode Pembayaran'),
-                  );
-                } else {
-                  return DropdownButtonFormField<String>(
-                    hint: Row(
-                      children: [
-                        Text('Pilih Metode Pencairan'),
-                      ],
-                    ),
-                    value: selectedPaymentMethod, // Gunakan selectedPaymentMethod dari payController
-                    onChanged: (newValue) {
-                      selectedPaymentMethod = newValue;
-                    },
-                    items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
-                          (paymentModel) {
-                        // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
-                        String value = paymentModel.namaBank.toString();
-
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Row(
-                            children: [
-                              // Sesuaikan dengan struktur objek model Anda
-                              Image.network(
-                                paymentModel.icons,
-                                height: 30,
-                                width: 30,
-                              ),
-                              SizedBox(width: 10),
-                              Text(value),
-                            ],
-                          ),
-                        );
-                      },
-                    ).toList(),
-                  );
-                }
-              },
-              ),
-              Row(
-                children: [
-                  Expanded(child: Divider()),
-                ],
-              ),
-            ],
-          ),
-        ),
+        // Container(
+        //   padding: EdgeInsets.symmetric(horizontal: 20),
+        //   child: Column(
+        //     children: [
+        //       Row(
+        //         children: [
+        //           Expanded(child: Divider()),
+        //         ],
+        //       ),
+        //       Align(
+        //           alignment: Alignment.topLeft,
+        //           child: Text('Metode Pencairan')),
+        //       Obx(() {
+        //         final data = payController.jsonPembayaran;
+        //         // print('daasdasdasdsa $data');
+        //         if (data.isEmpty) {
+        //           return Center(
+        //             child:  Text('Belum Ada Metode Pembayaran'),
+        //           );
+        //         } else {
+        //           return DropdownButtonFormField<String>(
+        //             hint: Row(
+        //               children: [
+        //                 Text('Pilih Metode Pencairan'),
+        //               ],
+        //             ),
+        //             value: selectedPaymentMethod, // Gunakan selectedPaymentMethod dari payController
+        //             onChanged: (newValue) {
+        //               selectedPaymentMethod = newValue;
+        //             },
+        //             items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
+        //                   (paymentModel) {
+        //                 // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
+        //                 String value = paymentModel.namaBank.toString();
+        //
+        //                 return DropdownMenuItem<String>(
+        //                   value: value,
+        //                   child: Row(
+        //                     children: [
+        //                       // Sesuaikan dengan struktur objek model Anda
+        //                       Image.network(
+        //                         paymentModel.icons,
+        //                         height: 30,
+        //                         width: 30,
+        //                       ),
+        //                       SizedBox(width: 10),
+        //                       Text(value),
+        //                     ],
+        //                   ),
+        //                 );
+        //               },
+        //             ).toList(),
+        //           );
+        //         }
+        //       },
+        //       ),
+        //       Row(
+        //         children: [
+        //           Expanded(child: Divider()),
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // ),
         SizedBox(height: 20),
 
         Align(
@@ -2303,32 +2303,33 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
               print(selectedPaymentMethod.toString());
               print(rateTopup);
               print(widget.iconNetwork);
-              if(selectedPaymentMethod != null){
-
-                kirimData();
-              }else{
-                showDialog(context: context,builder: (context) {
-                  return AlertDialog(
-                    title: Center(child: Text('Bank Harus Dipilih')),
-                    // content: Text('Bank Harus Dipilih'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: Text('Ok'),
-                        onPressed: () {
-                          Navigator.of(context).pop(true);
-                        },
-                      ),
-                    ],
-                  );
-                },);
-              }
+              kirimDataChain();
+              // if(selectedPaymentMethod != null){
+              //
+              //   kirimData();
+              // }else{
+              //   showDialog(context: context,builder: (context) {
+              //     return AlertDialog(
+              //       title: Center(child: Text('Bank Harus Dipilih')),
+              //       // content: Text('Bank Harus Dipilih'),
+              //       actions: <Widget>[
+              //         TextButton(
+              //           child: Text('Ok'),
+              //           onPressed: () {
+              //             Navigator.of(context).pop(true);
+              //           },
+              //         ),
+              //       ],
+              //     );
+              //   },);
+              // }
             },
             child:
             Obx(() =>
             payController.isLoading.value ? CircularProgressIndicator():
             Text(style: TextStyle(
                 color: Colors.white
-            ),'Selanjutnya'),
+            ),'Bayar Sekarang'),
             ),
           ),
         ),
@@ -2702,70 +2703,70 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
             ),
 
             // SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(child: Divider()),
-                    ],
-                  ),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Text('Metode Pembayaran')),
-                  Obx(() {
-                    final data = payController.jsonPembayaran;
-                    // print('daasdasdasdsa $data');
-                    if (data.isEmpty) {
-                      return Center(
-                        child:  Text('Belum Ada Metode Pembayaran'),
-                      );
-                    } else {
-                      return DropdownButtonFormField<String>(
-                        hint: Row(
-                          children: [
-                            Text('Pilih'),
-                          ],
-                        ),
-                        value: selectedPaymentMethod, // Gunakan selectedPaymentMethod dari payController
-                        onChanged: (newValue) {
-                          selectedPaymentMethod = newValue;
-                        },
-                        items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
-                              (paymentModel) {
-                            // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
-                            String value = paymentModel.namaBank.toString();
-
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Row(
-                                children: [
-                                  // Sesuaikan dengan struktur objek model Anda
-                                  Image.network(
-                                    paymentModel.icons,
-                                    height: 30,
-                                    width: 30,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(value),
-                                ],
-                              ),
-                            );
-                          },
-                        ).toList(),
-                      );
-                    }
-                  },
-                  ),
-                  Row(
-                    children: [
-                      Expanded(child: Divider()),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   padding: EdgeInsets.symmetric(horizontal: 20),
+            //   child: Column(
+            //     children: [
+            //       Row(
+            //         children: [
+            //           Expanded(child: Divider()),
+            //         ],
+            //       ),
+            //       Align(
+            //           alignment: Alignment.topLeft,
+            //           child: Text('Metode Pembayaran')),
+            //       Obx(() {
+            //         final data = payController.jsonPembayaran;
+            //         // print('daasdasdasdsa $data');
+            //         if (data.isEmpty) {
+            //           return Center(
+            //             child:  Text('Belum Ada Metode Pembayaran'),
+            //           );
+            //         } else {
+            //           return DropdownButtonFormField<String>(
+            //             hint: Row(
+            //               children: [
+            //                 Text('Pilih'),
+            //               ],
+            //             ),
+            //             value: selectedPaymentMethod, // Gunakan selectedPaymentMethod dari payController
+            //             onChanged: (newValue) {
+            //               selectedPaymentMethod = newValue;
+            //             },
+            //             items: payController.jsonPembayaran.map<DropdownMenuItem<String>>(
+            //                   (paymentModel) {
+            //                 // Jika paymentModel memiliki property 'name', ganti dengan properti yang sesuai
+            //                 String value = paymentModel.namaBank.toString();
+            //
+            //                 return DropdownMenuItem<String>(
+            //                   value: value,
+            //                   child: Row(
+            //                     children: [
+            //                       // Sesuaikan dengan struktur objek model Anda
+            //                       Image.network(
+            //                         paymentModel.icons,
+            //                         height: 30,
+            //                         width: 30,
+            //                       ),
+            //                       SizedBox(width: 10),
+            //                       Text(value),
+            //                     ],
+            //                   ),
+            //                 );
+            //               },
+            //             ).toList(),
+            //           );
+            //         }
+            //       },
+            //       ),
+            //       Row(
+            //         children: [
+            //           Expanded(child: Divider()),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(height: 20),
 
             Align(
@@ -2784,25 +2785,26 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                   print(selectedPaymentMethod);
                   print(widget.rekProduk);
                   print(biayaTransaksi);
+                  kirimData();
                   // print('kontol$biayaTransaksi');
-                  if(selectedPaymentMethod != null){
-                    kirimData();
-                  }else{
-                    showDialog(context: context,builder: (context) {
-                      return AlertDialog(
-                        title: Center(child: Text('Bank Harus Dipilih')),
-                        // content: Text('Bank Harus Dipilih'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Ok'),
-                            onPressed: () {
-                              Navigator.of(context).pop(true);
-                            },
-                          ),
-                        ],
-                      );
-                    },);
-                  }
+                  // if(selectedPaymentMethod != null){
+                  //   kirimData();
+                  // }else{
+                  //   showDialog(context: context,builder: (context) {
+                  //     return AlertDialog(
+                  //       title: Center(child: Text('Bank Harus Dipilih')),
+                  //       // content: Text('Bank Harus Dipilih'),
+                  //       actions: <Widget>[
+                  //         TextButton(
+                  //           child: Text('Ok'),
+                  //           onPressed: () {
+                  //             Navigator.of(context).pop(true);
+                  //           },
+                  //         ),
+                  //       ],
+                  //     );
+                  //   },);
+                  // }
 
                 },
                 child:
@@ -2810,7 +2812,7 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
                 payController.isLoading.value ? CircularProgressIndicator():
                 Text(style: TextStyle(
                     color: Colors.white
-                ),'Selanjutnya'),
+                ),'Bayar Sekarang'),
                 ),
                 ),
               ),
@@ -2827,7 +2829,24 @@ class _PembayaranTopUpState extends State<PembayaranTopUp> {
         priceRate: rateTopup,
         jumlah: widget.amount,
         totalPembayaran: totalTagihan,
-        namaBank: selectedPaymentMethod,
+        // namaBank: selectedPaymentMethod,
+        namaBlockchain: widget.blockchain,
+        rekClient: widget.rekProduk,
+        biayatransaksi: biayaTransaksi,
+    );
+
+    // Mengirim data ke API
+    // print('datra ${data.biayatransaksi}');
+    payController.KirimTopup(data);
+  }
+  void kirimDataChain(){
+    model_topup data = model_topup(
+        userId: payController.respsonIdPengguna.value,
+        product: "${widget.produk}  ${widget.blockchain}",
+        priceRate: rateTopup,
+        jumlah: widget.amount,
+        totalPembayaran: totalTagihan,
+        // namaBank: selectedPaymentMethod,
         namaBlockchain: widget.blockchain,
         rekClient: widget.rekProduk,
         biayatransaksi: biayaTransaksi,

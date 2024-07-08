@@ -3,7 +3,9 @@
 
 // const BASE_URL = 'https://moechang.ketukan.com/api';
 
-const BASE_URL = 'http://192.168.248.154:8000/api';
+// const BASE_URL = 'http://192.168.248.154:8000/api';
+
+const BASE_URL = 'https://moneyi.ketukan.com/api';
 
 const URL_MOCK = 'https://651e567844a3a8aa4768226c.mockapi.io';
 

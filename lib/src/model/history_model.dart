@@ -13,6 +13,7 @@ class model_history {
   final String product;
   final dynamic namaBlockchain;
   final String priceRate;
+  final String snapToken;
   final String status;
   final String createdAt;
   final String updatedAt;
@@ -34,6 +35,7 @@ class model_history {
     required this.namaBlockchain,
     required this.priceRate,
     required this.status,
+    required this.snapToken,
     required this.createdAt,
     required this.updatedAt,
     required this.type,
@@ -56,6 +58,7 @@ class model_history {
       namaBlockchain: json['nama_blockchain'] ?? '',
       priceRate: json['price_rate'] ?? '',
       status: json['status'] ?? '',
+      snapToken: json['snap_token'] ?? '',
       createdAt: json['created_at'] ?? '',
       updatedAt: json['updated_at'] ?? '',
       type: json['type'] ?? '',

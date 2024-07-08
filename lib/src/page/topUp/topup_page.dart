@@ -108,7 +108,7 @@ class _TopupState extends State<Topup> {
                           fontSize: 15, fontWeight: FontWeight.bold
                       ),
                       decoration: InputDecoration(
-                        hintText: title=="Paypal"?"":title=="Pay Owner"?'':title=="Skrill"?'':"",
+                        hintText: title=="Paypal"?"Email":title=="Pay Owner"?'':title=="Skrill"?'':"",
                         // contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
                         // labelText: 'Masukkan Jumlah \$',
                         // border: OutlineInputBorder(

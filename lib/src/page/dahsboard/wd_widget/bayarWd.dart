@@ -415,7 +415,7 @@ class _BuatPesananWdState extends State<BuatPesananWd> {
                     child: Text(style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),'Tx Hash'),
                   ),
                 ),
-                Form(key: _formKey,child: textForm(namaPengirim, 'Masukkan Tx Hash', [FilteringTextInputFormatter.deny(RegExp(' '))], TextInputType.text, 'Masukkan Nama Pengirim', '', false)),
+                Form(key: _formKey,child: textForm(namaPengirim, 'Masukkan Nama Pengirim / Tx Hash', [FilteringTextInputFormatter.deny(RegExp(' '))], TextInputType.text, 'Masukkan Nama Pengirim', '', false)),
                 SizedBox(height: 20),
                 Align(
                   alignment: Alignment.topLeft,

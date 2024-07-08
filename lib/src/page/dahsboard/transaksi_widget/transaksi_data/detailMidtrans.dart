@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:bakulpay/src/page/dahsboard/home_widget/home.dart';
 import 'package:bakulpay/src/router/constant.dart';
@@ -5,20 +6,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import '../../controller/controller.dart';
-import '../../model/model_topup.dart';
-import 'bayarTopUp.dart';
+import '../../../../controller/controller.dart';
 
-class MidtransBayar extends StatefulWidget {
-  late final model_topup data;
-
-  MidtransBayar({required this.data});
+class DetailMidtrans extends StatefulWidget {
+  const DetailMidtrans({super.key, required this.data});
+  final String data;
 
   @override
-  State<MidtransBayar> createState() => _MidtransBayarState();
+  State<DetailMidtrans> createState() => _DetailMidtransState();
 }
 
-class _MidtransBayarState extends State<MidtransBayar> {
+class _DetailMidtransState extends State<DetailMidtrans> {
   final PayController payController = Get.put(PayController());
   InAppWebViewController? webViewController;
   final GlobalKey webViewKey = GlobalKey();
@@ -77,48 +75,42 @@ class _MidtransBayarState extends State<MidtransBayar> {
         ],
       ),
       body: SafeArea(
-        child: Obx(() {
-          if (payController.responSnaptoken.isEmpty) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            return InAppWebView(
-              key: webViewKey,
-              initialData: InAppWebViewInitialData(data: getHtmlExample(payController.responSnaptoken.value)),
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform: InAppWebViewOptions(
-                  javaScriptEnabled: true,
-                ),
-              ),
-              onWebViewCreated: (controller) {
-                webViewController = controller;
-                webViewController?.addJavaScriptHandler(
-                  handlerName: 'paymentHandler',
-                  callback: (args) {
-                    String status = args[0];
-                    String result = jsonEncode(args[1]); // Encode the JSON object to String
-                    // Handle different statuses here
-                    if (status == 'ok') {
-                      print('status ok selesai');
-                      // Get.offAllNamed(dashboard);
-                      // Get.to(BuatPesanan);
-                      payController.KirimBuktiTopupMidtrans();
-                      print("testing status pembayaran $status");
-                    } else if (status == 'close') {
-                      print('status close');
-                      Navigator.pop(context);
-                    } else if (status == 'pending') {
-                      print('status pending');
-                      Get.offAllNamed(dashboard);
-                      payController.KirimBuktiTopupMidtrans();
-                    }else if( status == 'error'){
+        child: InAppWebView(
+          key: webViewKey,
+          initialData: InAppWebViewInitialData(data: getHtmlExample(widget.data)),
+          initialOptions: InAppWebViewGroupOptions(
+            crossPlatform: InAppWebViewOptions(
+              javaScriptEnabled: true,
+            ),
+          ),
+          onWebViewCreated: (controller) {
+            webViewController = controller;
+            webViewController?.addJavaScriptHandler(
+              handlerName: 'paymentHandler',
+              callback: (args) {
+                String status = args[0];
+                String result = jsonEncode(args[1]); // Encode the JSON object to String
+                // Handle different statuses here
+                if (status == 'ok') {
+                  print('status ok selesai');
+                  // Get.offAllNamed(dashboard);
+                  // Get.to(BuatPesanan);
+                  Navigator.pop(context);
+                  // payController.KirimBuktiTopupMidtrans();
+                  print("testing status pembayaran $status");
+                } else if (status == 'close') {
+                  print('status close');
+                  Navigator.pop(context);
+                } else if (status == 'pending') {
+                  print('status pending');
+                  Navigator.pop(context);
+                }else if( status == 'error'){
 
-                    }
-                  },
-                );
+                }
               },
             );
-          }
-        }),
+          },
+        ),
       ),
     );
   }

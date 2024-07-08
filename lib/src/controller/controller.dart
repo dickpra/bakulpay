@@ -215,6 +215,74 @@ class PayController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future<void> KirimBuktiTopupMidtrans () async {
+    isLoading.value = true;
+    var response = await ApiService().kirimBuktiTopApiMidtrans();
+
+    print('peler $response');
+
+    if (response != null) {
+
+      Get.offAllNamed(dashboard);
+
+      GetAllSync();
+      // Get.dialog(
+      //   SafeArea(
+      //     child: Scaffold(
+      //       body: Center(
+      //         child: Align(
+      //           alignment: Alignment.center,
+      //           child: Container(
+      //             padding: EdgeInsets.all(16),
+      //             decoration: BoxDecoration(
+      //               color: Colors.white,
+      //               borderRadius: BorderRadius.circular(10),
+      //             ),
+      //             child: Column(
+      //               mainAxisSize: MainAxisSize.min,
+      //               children: [
+      //                 Text(
+      //                   'Pembayaran Berhasil',
+      //                   style: TextStyle(
+      //                     fontWeight: FontWeight.bold,
+      //                     fontSize: 20,
+      //                   ),
+      //                 ),
+      //                 SizedBox(height: 10),
+      //                 Icon(
+      //                   Icons.check_circle_outline,
+      //                   size: 130,
+      //                   color: Colors.green,
+      //                 ),
+      //                 SizedBox(height: 10),
+      //                 TextButton(
+      //                   onPressed: () {
+      //                     Get.back();
+      //                   }, child: Text(
+      //                   'OK',
+      //                   style: TextStyle(
+      //                     fontWeight: FontWeight.bold,
+      //                     fontSize: 30,
+      //                   ),
+      //                 ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // );
+
+      isLoading.value = false;
+    } else {
+      isLoading.value = false;
+    }
+  }
+
+
   Future<void> KirimBayarTopup () async {
     isLoading.value = true;
     var response = await ApiService().kirimBuktiTopApi;
@@ -390,7 +458,7 @@ class PayController extends GetxController {
       // prefs.setString("Token", response.data!.token!);
       // Get.offAllNamed(dashboardSalesRoute);
       // Get.to(() => BuatPesanan(data: data));
-      Get.to(MidtransBayar());
+      Get.to(MidtransBayar(data: data));
       isLoading.value = false;
     } else {
       print(response);

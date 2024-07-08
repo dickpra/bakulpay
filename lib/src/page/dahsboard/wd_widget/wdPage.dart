@@ -306,8 +306,8 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                 return 'Masukkan Jumlah!';
                               }
                               final double? amount = double.tryParse(value);
-                              if (amount! <= 4.9) {
-                                return 'Jumlah Harus lebih dari \$5';
+                              if (amount! <= 0.9) {
+                                return 'Jumlah Harus lebih dari \$1';
                               }
                               return null;
                             },
