@@ -9,6 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../../pin_page/atur_pin.dart';
+import '../../profil/aboutme.dart';
 
 
 class profilWidget extends StatefulWidget {
@@ -164,7 +167,9 @@ class _profilWidgetState extends State<profilWidget> {
                         ),)
                       ],
                     ),),
-                    TextButton(onPressed: (){}, child: Row(
+                    TextButton(onPressed: (){
+                      Get.to(AboutMePage());
+                    }, child: Row(
                       children: [
                         Icon(Icons.info_outline, color: Color(0xff7AA4F5),size: 30,),
                         SizedBox(width: 10),
@@ -173,6 +178,19 @@ class _profilWidgetState extends State<profilWidget> {
                         ),)
                       ],
                     ),),
+                    TextButton(
+                      onPressed: (){
+                        Get.to(PinEntryGanti());
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.contact_phone_outlined, color: Color(0xff7AA4F5),size: 30,),
+                          SizedBox(width: 10),
+                          Text('Atur PIN', style: TextStyle(
+                              fontSize: 16, color: Colors.black
+                          ),)
+                        ],
+                      ),),
                     TextButton(onPressed: (){
                       showDialog<bool>(
                         context: context,
@@ -195,6 +213,7 @@ class _profilWidgetState extends State<profilWidget> {
                                   removeUserFormLogin();
                                   Get.toNamed(root);
                                   showAccessToken();
+                                  _deletePin();
                                   print(payController.jsonDataTransaksi);
                                 },
                               ),
@@ -325,4 +344,11 @@ class _profilWidgetState extends State<profilWidget> {
       ),
     );
   }
+}
+
+final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+
+Future _deletePin() async {
+  await _secureStorage.delete(key: 'user_pin');
+  // Navigate to PIN setup screen after deleting the PIN
 }

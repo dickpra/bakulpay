@@ -50,62 +50,76 @@ class _transaksiState extends State<transaksi> {
       ),
       body: GetBuilder<PayController>(
         builder: (_) {
-          return SmartRefresher(
-            controller: _refreshController,
-            enablePullUp: true,
-            enablePullDown: false,
-            footer: CustomFooter(
-              builder: (BuildContext context, LoadStatus? mode) {
-                Widget body;
-                if (mode == LoadStatus.loading) {
-                  // Menampilkan animasi loading ketika sedang loading
-                  body = CircularProgressIndicator();
-                } else {
-                  // Menampilkan teks sesuai dengan status
-                  String text = "";
-                  if (mode == LoadStatus.failed) {
-                    text = "Failed to load";
-                  } else if (mode == LoadStatus.canLoading) {
-                    text = "Release to load more";
-                  } else if (mode == LoadStatus.noMore) {
-                    text = "No more data";
+          if (payController.historyItems.isEmpty){
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/warningTX.png'),
+                  SizedBox(height: 20,),
+                  Text('Belum ada transaksi',style: TextStyle(
+                  ),)
+                ],
+              ), // Replace with the path to your warning image
+            );
+          }else{
+            return SmartRefresher(
+              controller: _refreshController,
+              enablePullUp: true,
+              enablePullDown: false,
+              footer: CustomFooter(
+                builder: (BuildContext context, LoadStatus? mode) {
+                  Widget body;
+                  if (mode == LoadStatus.loading) {
+                    // Menampilkan animasi loading ketika sedang loading
+                    body = CircularProgressIndicator();
+                  } else {
+                    // Menampilkan teks sesuai dengan status
+                    String text = "";
+                    if (mode == LoadStatus.failed) {
+                      text = "Failed to load";
+                    } else if (mode == LoadStatus.canLoading) {
+                      text = "Release to load more";
+                    } else if (mode == LoadStatus.noMore) {
+                      text = "No more data";
+                    }
+                    body = Text(text, style: TextStyle(color: Colors.grey));
                   }
-                  body = Text(text, style: TextStyle(color: Colors.grey));
-                }
-                return Container(
-                  height: 55.0,
-                  child: Center(child: body),
-                );
-              },
-            ),
-            onRefresh: () {
-              payController.getHistoryrefresh();
-              _refreshController.loadComplete();
-            },
-            onLoading: () async {
-              await Future.delayed(const Duration(seconds: 1));
-              payController.getDataTransak();
-              _refreshController.loadComplete();
-            },
-            child: ListView.builder(
-              controller: payController.scrollController,
-              itemCount: payController.historyItems.length + (payController.isLoadinghistory ? 1 : 0),
-              itemBuilder: (context, index) {
-                if (index < payController.historyItems.length) {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(DataTransaksiPage(payController.historyItems.elementAt(index)));
-                    },
-                    child: Listdata(payController.historyItems, index, currencyFormat),
+                  return Container(
+                    height: 55.0,
+                    child: Center(child: body),
                   );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
+                },
+              ),
+              onRefresh: () {
+                payController.getHistoryrefresh();
+                _refreshController.loadComplete();
               },
-            ),
-          );
+              onLoading: () async {
+                await Future.delayed(const Duration(seconds: 1));
+                payController.getDataTransak();
+                _refreshController.loadComplete();
+              },
+              child: ListView.builder(
+                controller: payController.scrollController,
+                itemCount: payController.historyItems.length + (payController.isLoadinghistory ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index < payController.historyItems.length) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(DataTransaksiPage(payController.historyItems.elementAt(index)));
+                      },
+                      child: Listdata(payController.historyItems, index, currencyFormat),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            );
+          }
         },
       ),
 

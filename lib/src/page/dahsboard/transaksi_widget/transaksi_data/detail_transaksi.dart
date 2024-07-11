@@ -381,7 +381,7 @@ class DataTransaksiPage extends StatelessWidget {
                                 alignment: Alignment.topLeft,
                                 child: Padding(
                                   padding: EdgeInsets.all(3),
-                                  child: Text('Bukti Pembayaran Admiin', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                  child: Text('Bukti Pembayaran Admin', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
                                 ),
                               ),
                               Image.network(
@@ -937,7 +937,7 @@ class DataTransaksiPage extends StatelessWidget {
                                   alignment: Alignment.topLeft,
                                   child: Padding(
                                     padding: EdgeInsets.all(3),
-                                    child: Text('Bukti Pembayaran Admiin', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
+                                    child: Text('Bukti Pembayaran Admin', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,)),
                                   ),
                                 ),
                                 Image.network(

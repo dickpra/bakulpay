@@ -14,10 +14,24 @@ import 'package:bakulpay/src/service/api_service.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import '../pin_page/atur_pin.dart';import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class LoginController extends GetxController {
   final isLoading = false.obs;
   final login = login_model().obs;
   final payController = Get.put(PayController());
+
+  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+
+  void _cekpin() async{
+    String? storedPin = await _secureStorage.read(key: 'user_pin');
+    if (storedPin != null) {
+      Get.off(PinEntryScreen());
+    } else {
+      Get.off(PinSetupScreen()) ;
+    }
+  }
 
   Future<void> registerUserApp(BuildContext context,String name, String username, String email, String phone,String passsword, String confirm_pass, File fotoProfil) async {
     isLoading.value = true;
@@ -116,7 +130,8 @@ class LoginController extends GetxController {
         sharedPreferences.setString('UserEmail', emailUser);
         sharedPreferences.setString('UserNohp', nohpUser);
         // payController.clearJsonDataTransaksi();
-        Get.offAllNamed(dashboard);
+        // Get.offAllNamed(dashboard);
+        Get.to(PinSetupScreen());
       }else{
         // Get.defaultDialog(
         //   title: 'email / password salah',
@@ -183,8 +198,8 @@ class LoginController extends GetxController {
         sharedPreferences.setString('UserEmail', emailUser);
         sharedPreferences.setString('UserNohp', nohpUser);
         // payController.clearJsonDataTransaksi();
-        Get.offAllNamed(dashboard);
-
+        // Get.offAllNamed(dashboard);
+        Get.to(PinSetupScreen());
       }else{
         Get.to(BakulPaySignUpPage(email: email, nama: nama, statusLoginGoolge: true,));
       }
