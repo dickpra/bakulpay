@@ -167,6 +167,19 @@ class _profilWidgetState extends State<profilWidget> {
                         ),)
                       ],
                     ),),
+                    TextButton(
+                      onPressed: (){
+                        Get.to(PinEntryGanti());
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.lock, color: Color(0xff7AA4F5),size: 30,),
+                          SizedBox(width: 10),
+                          Text('Atur PIN', style: TextStyle(
+                              fontSize: 16, color: Colors.black
+                          ),)
+                        ],
+                      ),),
                     TextButton(onPressed: (){
                       Get.to(AboutMePage());
                     }, child: Row(
@@ -178,19 +191,7 @@ class _profilWidgetState extends State<profilWidget> {
                         ),)
                       ],
                     ),),
-                    TextButton(
-                      onPressed: (){
-                        Get.to(PinEntryGanti());
-                      },
-                      child: Row(
-                        children: [
-                          Icon(Icons.contact_phone_outlined, color: Color(0xff7AA4F5),size: 30,),
-                          SizedBox(width: 10),
-                          Text('Atur PIN', style: TextStyle(
-                              fontSize: 16, color: Colors.black
-                          ),)
-                        ],
-                      ),),
+
                     TextButton(onPressed: (){
                       showDialog<bool>(
                         context: context,

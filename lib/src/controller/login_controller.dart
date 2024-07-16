@@ -174,7 +174,7 @@ class LoginController extends GetxController {
     isLoading.value = true;
     final response = await ApiService().loginApiGoogle(email);
 
-
+    print(response);
     if (response != null) {
       login.value = login_model.fromJson(response);
 

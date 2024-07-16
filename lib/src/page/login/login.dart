@@ -187,6 +187,7 @@ class _LoginState extends State<Login> {
                           //   ),
                           // );
                         } else {
+                          print(user);
                           print('Login gagal');
                         }
                       },

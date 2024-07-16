@@ -202,6 +202,7 @@ class ApiService extends GetConnect with BaseController {
         handleError(error);
       }
     });
+    print('login jancok $response');
     if (response != null) {
       var login = jsonDecode(response);
       return login;
