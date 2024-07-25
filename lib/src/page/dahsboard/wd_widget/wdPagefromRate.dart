@@ -200,9 +200,15 @@ class _WithdrawPageRateState extends State<WithdrawPageRate> {
                                 if (value!.isEmpty) {
                                   return 'Masukkan Jumlah!';
                                 }
+                                String trimmedValue = value.replaceFirst(RegExp(r'^0+'), '');
+
+                                // Check if the value is empty after trimming leading zeros
+                                if (trimmedValue.isEmpty) {
+                                  return 'Tidak bisa hanya nol!';
+                                }
                                 final double? amount = double.tryParse(value);
-                                if (amount! <= 4.9) {
-                                  return 'Jumlah Harus lebih dari \$5';
+                                if (amount! <= 0.9) {
+                                  return 'Jumlah Harus lebih dari \$1';
                                 }
                                 return null;
                               },

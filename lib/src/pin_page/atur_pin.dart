@@ -197,7 +197,7 @@ class _PinEntryScreenState extends State<PinEntryScreen> {
     String? storedPin = await _secureStorage.read(key: 'user_pin');
 
     if (enteredPin == storedPin) {
-      Get.offAndToNamed('/dashboard');  // Ganti dengan rute halaman dashboard Anda
+      Get.offAndToNamed(dashboard);  // Ganti dengan rute halaman dashboard Anda
     } else {
       showDialog(
         context: context,
@@ -396,7 +396,7 @@ class _PinEntryScreenVerifikasiState extends State<PinEntryScreenVerifikasi> {
     String? storedPin = await _secureStorage.read(key: 'user_pin');
 
     if (enteredPin == storedPin) {
-      Get.offAndToNamed('/dashboard');  // Ganti dengan rute halaman dashboard Anda
+      Get.offAndToNamed(dashboard);  // Ganti dengan rute halaman dashboard Anda
     } else {
       showDialog(
         context: context,

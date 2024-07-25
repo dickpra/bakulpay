@@ -5,8 +5,8 @@ class AboutMePage extends StatelessWidget {
   final Uri _url = Uri.parse('https://wa.me/6283833744725');
 
   Future<void> _launchURL() async {
-    if (await canLaunch(_url.toString())) {
-      await launch(_url.toString());
+    if (await launchUrl(_url)) {
+      throw Exception('Could not launch');
     } else {
       throw 'Could not launch $_url';
     }
