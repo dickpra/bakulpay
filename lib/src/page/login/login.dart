@@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class UserController {
   bool isGoogleLogin = true;
@@ -178,14 +179,16 @@ class _LoginState extends State<Login> {
                         if (user != null) {
                           print(user.photoURL);
                           print(user.displayName);
+                          print(user.uid);
 
-                          loginController.loginGoogle(user.email.toString(),user.displayName.toString(),user.photoURL.toString());
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => DashBoard(),
-                          //   ),
-                          // );
+                          // _registerToLaravel(user);
+
+                          loginController.loginGoogle2(
+                              user.email!,
+                              user.displayName!,
+                              user.uid!,
+                              user.photoURL!,
+                              user.phoneNumber.toString());
                         } else {
                           print(user);
                           print('Login gagal');
@@ -250,6 +253,36 @@ class _LoginState extends State<Login> {
         )
     );
   }
+
+  Future _registerToLaravel(User user) async {
+    final response = await http.post(
+      Uri.parse('http://192.168.236.154:8000/api/register_google'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+
+      body: jsonEncode(<String, String>{
+        "email": "jembus@gmail.com",
+        "name": "asshole",
+        "uid": "12345678",
+        "photo": "https://lh3.googleusercontent.com/a/ACg8ocIEM-1IYzP0Fp3VTi0YfEToQWTW5Kdo8NfUTXEzEzqt=s96-c",
+        "noHp": "12049das192840234"
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      var token = data['success'];
+      print(token);
+
+      // Simpan token ke SharedPreferences atau GetStorage untuk digunakan nanti
+      // Get.offAll(DashboardPage(token: token));
+    } else {
+      print(user.email);
+      print('Registration failed with status code: ${response.statusCode}');
+    }
+  }
+
 
   Widget formLogin(BuildContext context) {
     return Container(

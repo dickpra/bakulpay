@@ -128,8 +128,8 @@ class _TopupState extends State<Topup> {
                       title=="USDC"?TextInputType.text
                           :TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-
                       obscureText: false,
+
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your email';

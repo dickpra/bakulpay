@@ -104,14 +104,10 @@ class LoginController extends GetxController {
     isLoading.value = true;
     final response = await ApiService().loginApi(email, password);
 
-
     if (response != null) {
       login.value = login_model.fromJson(response);
 
-
-
       print('respon login $response');
-
 
       if (response['success'] == true){
         final jsonResponse = response;
@@ -213,4 +209,86 @@ class LoginController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future<void> loginGoogle2(String email, String nama,uid , potoprofil, noHp) async {
+    isLoading.value = true;
+    final response = await ApiService().loginApiGoogle2(email,nama,uid, potoprofil, noHp);
+
+    print(response);
+    if (response != null) {
+      // login.value = login_model.fromJson(response);
+
+      print('respon login $response');
+
+      if (response['success'] == true){
+        final jsonResponse = response;
+        final accessToken = jsonResponse['data']['access_token'];
+        final Name = jsonResponse['data']['name'];
+        final idUser = jsonResponse['data']['user_id'].toString();
+        final photoUser = jsonResponse['data']['photo'].toString();
+        final emailUser = jsonResponse['data']['email'].toString();
+        final nohpUser = jsonResponse['data']['noHp'].toString();
+        final sharedPreferences = await SharedPreferences.getInstance();
+
+        sharedPreferences.setString('authToken', accessToken);
+        sharedPreferences.setString('NickUser', Name);
+        sharedPreferences.setString('UserId', idUser);
+        sharedPreferences.setString('UserPhoto', photoUser);
+        sharedPreferences.setString('UserEmail', emailUser);
+        sharedPreferences.setString('UserNohp', nohpUser);
+        // payController.clearJsonDataTransaksi();
+        // Get.offAllNamed(dashboard);
+        Get.to(PinSetupScreen());
+      }else{
+        // await registerGoogle(email,nama,uid, potoprofil, noHp);
+      }
+
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.setString("Token", response.data!.token!);
+      // Get.offAllNamed(DashBoard(user: User));
+      // Get.offAllNamed(dashboard);
+      isLoading.value = false;
+    }else {
+      // print(nama);
+      registerGoogle(email,nama,uid, potoprofil, noHp);
+      isLoading.value = false;
+    }
+  }
+
+
+
+  Future<void> registerGoogle(String email,String nama,String uid,String potoprofil,String noHp) async {
+    isLoading.value = true;
+    final response = await ApiService().registerApiGoogle(email, nama, uid, potoprofil, noHp);
+    print('registerkontol $response');
+    if (response != null){
+      print(response);
+      print(email);
+      print(nama);
+      print(uid);
+      print(noHp);
+      loginGoogle2(email, nama, uid, potoprofil, noHp);
+      final jsonResponse = response;
+      final accessToken = jsonResponse['data']['access_token'];
+      final Name = jsonResponse['data']['name'];
+      final idUser = jsonResponse['data']['user_id'].toString();
+      final photoUser = jsonResponse['data']['photo'].toString();
+      final emailUser = jsonResponse['data']['email'].toString();
+      final nohpUser = jsonResponse['data']['noHp'].toString();
+      final sharedPreferences = await SharedPreferences.getInstance();
+
+      sharedPreferences.setString('authToken', accessToken);
+      sharedPreferences.setString('NickUser', Name);
+      sharedPreferences.setString('UserId', idUser);
+      sharedPreferences.setString('UserPhoto', photoUser);
+      sharedPreferences.setString('UserEmail', emailUser);
+      sharedPreferences.setString('UserNohp', nohpUser);
+      // payController.clearJsonDataTransaksi();
+      // Get.offAllNamed(dashboard);
+      Get.to(PinSetupScreen());
+    } else {
+      // print('Registration failed with status code: ${response.statusCode}');
+    }
+  }
+
 }

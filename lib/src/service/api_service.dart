@@ -1,3 +1,4 @@
+import 'package:bakulpay/src/controller/login_controller.dart';
 import 'package:bakulpay/src/model/blockchain_model.dart';
 import 'package:bakulpay/src/model/history_model.dart';
 import 'package:bakulpay/src/service/preference.dart';
@@ -20,6 +21,7 @@ import 'package:get/get.dart';
 
 class ApiService extends GetConnect with BaseController {
   PayController payController = Get.put(PayController());
+  final loginController = Get.put(LoginController());
 
   Future kirimBuktiWdApi(String nama, File foto) async {
     var idbayar = payController.responPembayaranWD.value;
@@ -154,19 +156,16 @@ class ApiService extends GetConnect with BaseController {
     });
     if (response != null) {
       var kirimIsi = jsonDecode(response);
-      // print('Response status: ${kirimIsi.statusCode}');
       return kirimIsi;
     } else {
       return null;
     }
-
   }
 
   Future loginApi(String username, String password) async {
     dynamic body = ({"email": username, "password": password});
     final response = await BaseClient()
         .post(BASE_URL, '/login', body, "")
-    // .post(URL_TEST, '/login', body, "")
         .catchError((error) {
       if (error is BadRequestException) {
         var apiError = json.decode(error.message!);
@@ -182,6 +181,56 @@ class ApiService extends GetConnect with BaseController {
       var login = jsonDecode(response);
       return login;
     } else {
+      return null;
+    }
+  }
+
+  Future registerApiGoogle(String username, String name,String uid,String photo,String noHp) async {
+    dynamic body = ({
+      "email": username,
+      "name": name,
+      "uid": uid,
+      "photo": photo,
+      "noHp": noHp
+    });
+    final response = await BaseClient()
+        .post(BASE_URL, '/register_google', body, "")
+        .catchError((error) {
+      if (error is BadRequestException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      } else if (error is UnAuthorizedException) {
+        var apiError = json.decode(error.message!);
+        Get.rawSnackbar(message: apiError["message"]);
+      } else {
+        handleError(error);
+      }
+    });
+
+    if (response != null) {
+      var register = jsonDecode(response);
+      return register;
+    } else {
+      return null;
+    }
+  }
+
+  Future loginApiGoogle2(String username, name, uid, photo, noHp) async {
+    dynamic body = ({
+      "email": username,
+      "uid": uid,
+    });
+    final response = await BaseClient()
+        .post(BASE_URL, '/login_google', body, "")
+        .catchError((error) {
+
+    });
+    // print('login jancok $response');
+    if (response != null) {
+      var login = jsonDecode(response);
+      return login;
+    } else {
+      // await loginController.RegisterGoogle(username, name, uid, photo, noHp);
       return null;
     }
   }

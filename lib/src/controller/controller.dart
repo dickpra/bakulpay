@@ -84,7 +84,13 @@ class PayController extends GetxController {
       respsonEmail.value = emailUser.toString();
     }
     if (noHpUser != null) {
-      respsonNohp.value = noHpUser.toString();
+      var anoo = '';
+      if(noHpUser.contains("null")){
+        anoo = "No HP Kosong!";
+        respsonNohp.value = anoo.toString();
+      }else{
+        respsonNohp.value = noHpUser.toString();
+      }
     }
 
   }
