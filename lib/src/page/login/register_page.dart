@@ -73,19 +73,19 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
   @override
   Widget build(BuildContext context) {
 
-    return SafeArea(
-      child: Scaffold(
-        // appBar: AppBar(
-        //   centerTitle: true,
-        //   // backgroundColor: Colors.blue,
-        //   title: Text(
-        //     'Register Akun',
-        //     style: TextStyle(
-        //       color: Colors.black,
-        //     ),
-        //   ),
-        // ),
-        body: Padding(
+    return Scaffold(
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   // backgroundColor: Colors.blue,
+      //   title: Text(
+      //     'Register Akun',
+      //     style: TextStyle(
+      //       color: Colors.black,
+      //     ),
+      //   ),
+      // ),
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
@@ -113,7 +113,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                     child:
                     _image == null ?
                     InkWell(
-
+            
                       onTap: () { showDialog(context: context, builder: (BuildContext context){
                         return AlertDialog(
                           title:  Text('Pilih Foto'),
@@ -219,7 +219,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                     ),
                     keyboardType: TextInputType.text,
                     inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-
+            
                     obscureText: false,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -244,7 +244,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                     ),
                     keyboardType: TextInputType.text,
                     inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-
+            
                     obscureText: false,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -278,7 +278,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   ),
                   keyboardType: TextInputType.text,
                   inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-
+            
                   obscureText: false,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -314,7 +314,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   ),
                   keyboardType: TextInputType.emailAddress,
                   inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-
+            
                   obscureText: false,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -344,7 +344,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   ),
                   keyboardType: TextInputType.emailAddress,
                   inputFormatters: [FilteringTextInputFormatter.deny(RegExp(' '))],
-
+            
                   obscureText: false,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -381,7 +381,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   ),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-
+            
                   obscureText: false,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -475,7 +475,7 @@ class _BakulPaySignUpPageState extends State<BakulPaySignUpPage> {
                   },
                 ),
                 SizedBox(height: 20),
-
+            
                 // TextButton(
                 //   onPressed: () {
                 //

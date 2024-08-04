@@ -1,5 +1,6 @@
 import 'package:bakulpay/src/controller/controller.dart';
 import 'package:bakulpay/src/page/dahsboard/home_widget/home.dart';
+import 'package:bakulpay/src/page/dahsboard/profil_widget/update_profile.dart';
 import 'package:bakulpay/src/page/tester_page/testGetx.dart';
 import 'package:bakulpay/src/page/tester_page/testpage.dart';
 import 'package:bakulpay/src/page/tester_page/testpage2.dart';
@@ -88,6 +89,7 @@ class _profilWidgetState extends State<profilWidget> {
                     Align(
                       child: IconButton(
                         onPressed: () {
+                          Get.to(UpdateProfilePage( email: payController.respsonEmail.value, nama: payController.respsonNamaPgn.value, noHp: payController.respsonNohp.value, photoUser: payController.respsonphoto.value));
                           // Get.to(MyAppGetx());
                           showAccessToken();
                           // payController.clearJsonDataTransaksi();

@@ -321,6 +321,66 @@ class ApiService extends GetConnect with BaseController {
     return newItems;
   }
 
+//   Future<Iterable<model_history>> GetTransaksi() async {
+//   var idPgn = payController.respsonIdPengguna.value;
+//   var page = payController.page;
+//   var token = await getToken();
+//
+//   try {
+//     final response = await BaseClient()
+//         .get(BASE_URL, '/history/$idPgn/?page=$page&limit=10', '$token')
+//         .catchError((error) {
+//       if (error is BadRequestException) {
+//         var apiError = json.decode(error.message!);
+//         Get.rawSnackbar(message: apiError["message"]);
+//       } else if (error is ApiNotRespondingException) {
+//         var apiError = json.decode(error.message!);
+//         Get.rawSnackbar(message: apiError["message"]);
+//       } else if (error is FetchDataException) {
+//         var apiError = json.decode(error.message!);
+//         Get.rawSnackbar(message: apiError["message"]);
+//       } else {
+//         handleError(error);
+//       }
+//     });
+//
+//     if (response == null) {
+//       // Tangani kasus ketika respons null
+//       print('Response is null');
+//       return [];
+//     }
+//
+//     print("Response: $response");
+//
+//     var jsonData;
+//     try {
+//       jsonData = jsonDecode(response);
+//     } catch (e) {
+//       print('Error decoding response: $e');
+//       return [];
+//     }
+//
+//     if (jsonData == null || !jsonData.containsKey('success')) {
+//       print('Invalid JSON structure');
+//       return [];
+//     }
+//
+//     print("Decoded JSON: ${jsonData['success']}");
+//     if (jsonData['success'] == true) {
+//       final List<dynamic> responseData = jsonData['data']['data'];
+//       final Iterable<model_history> waitingModels = responseData.map((data) => model_history.fromJson(data));
+//       print("Iterable: $waitingModels");
+//       return waitingModels;
+//     } else {
+//       print('Request failed with success: false');
+//       return [];
+//     }
+//   } catch (e) {
+//     print('An error occurred: $e');
+//     return [];
+//   }
+// }
+
   Future<Iterable<model_history>> GetTransaksi() async{
     var idPgn = payController.respsonIdPengguna.value;
     var page = payController.page;
